@@ -1,0 +1,1 @@
+[ "$(compare -metric rmse "$1" "$2" null: 2>&1)" = "0 (0)" ] && echo "equal" || echo "not equal"

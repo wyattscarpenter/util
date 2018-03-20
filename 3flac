@@ -1,3 +1,4 @@
+#!/bin/bash
 #a bash script to make the flac gooder
 #removes embedded album art
 #re-encodes to the highest-compression subset flac

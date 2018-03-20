@@ -1,3 +1,4 @@
+#!/bin/bash
 # this script copies music files from the current dir to a different dir
 # and re-encodes non-mp3s to be mp3s on the way
 

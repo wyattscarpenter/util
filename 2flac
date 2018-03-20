@@ -1,3 +1,4 @@
+#!/bin/bash
 for i in *.aif ; do
     ffmpeg.exe -i "$i" -compression_level 8 -fflags +bitexact -vn "$(basename "${i/.aif}").flac"
 done

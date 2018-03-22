@@ -8,4 +8,4 @@ This collection will probably be the most useful to you if you add this folder t
 
 I consider these scripts too trivial to fall under copyright. However, I am not a lawyer, so if I do actually hold a copyright on these scripts, I release them into the public domain under CC0. See https://creativecommons.org/publicdomain/zero/1.0/ for more information.
 
-The name of this collection is a small joke, as "util" is generally regarded by programmers to be a terribly uninformative name for anything.
+The name of this collection is a small joke, as "util" is generally regarded by programmers to be a terribly uninformative name for anything. This collection is dedicated to Jeremy Bentham, the inventor of usefulness.

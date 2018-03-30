@@ -21,4 +21,4 @@ find . -type f -name "*.mp3" -exec cp -n -v {} ../../mp3s/{} \;
 #copy & convert non-mp3s
 #it is not necessary to explicitly filter out images here
 #but it does speed up the process a bit
-find . -type f -not -name "*.mp3" -not -name "*.png" -not -name "*.jp*" -not -name "*.db" -not -name "*.log" -not -name ".cue" -exec ffmpeg -n -i {} -vn -q:a 0 ../../mp3s/{}.mp3 \;
+find . -type f -not -name "*.mp3" -not -name "*.png" -not -name "*.jp*" -not -name "*.db" -not -name "*.log" -not -name "*.cue" -not -name "*.m3u*" -exec ffmpeg -n -i {} -vn -q:a 0 ../../mp3s/{}.mp3 \;

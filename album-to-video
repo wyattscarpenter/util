@@ -1,0 +1,3 @@
+#! /bin/bash
+for f in ./*.*; do echo "file '$f'" >> vidlist.txt; done
+ffmpeg -loop 1 -framerate 2 -i cover.jpg -f concat -i vidlist.txt -safe 0 -c:v libx264 -preset medium -tune stillimage -crf 18 -c:a copy -shortest -pix_fmt yuv420p output.mkv

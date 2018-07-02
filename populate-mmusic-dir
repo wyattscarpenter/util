@@ -17,9 +17,16 @@ mkdir ../../mmusic/
 find . -type d -exec mkdir ../../mmusic/{} \;
 
 #copy mp3s
-find . -type f \( -name "*.mp3" -or -name "*.m4a" \) -exec cp -n -v {} ../../mmusic/{} \;
+find . -type f \( -name "*.mp3" -or -name "*.m4a" \) \
+	-exec cp -n -v {} ../../mmusic/{} \;
 
 #copy & convert non-mp3s
-#it is not necessary to explicitly filter out images here
+#it is not necessary to explicitly filter out most of this here
 #but it does speed up the process a bit
-find . -type f -not -name "*.mp3" -not -name "*.m4a" -not -name "*.png" -not -name "*.jpg" -not -name "*.db" -not -name "*.log" -not -name ".cue" -exec ffmpeg -n -i {} -vn -q:a 0 ../../mmusic/{}.mp3 \;
+find . -type f \
+	-not -name "*.mp3" -not -name "*.m4a" \
+	-not -name "*.png" -not -name "*.jpg" -not -name "*.gif" \
+	-not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
+	-not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
+	-not -name "*.db" -not -name "*.ini" \
+	-exec ffmpeg -n -i {} -vn -q:a 0 ../../mmusic/{}.mp3 \;

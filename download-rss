@@ -1,2 +1,2 @@
- #!/bin/bash
- wget -q -O- "$1" | grep -o '<enclosure url="[^"]*' | grep -o '[^"]*$' | xargs wget -c #credit to leo on stack overflow https://stackoverflow.com/a/446217
+#!/bin/bash
+wget -q -O- "$1" | grep -o '<enclosure url="[^"]*' | grep -o '[^"]*$' | xargs wget -c #credit to leo on stack overflow https://stackoverflow.com/a/446217

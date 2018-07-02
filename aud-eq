@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ffmpeg -i "$1" -fflags +bitexact -vn -map_metadata -1 -loglevel warning tmp1.wav
+ffmpeg -i "$2" -fflags +bitexact -vn -map_metadata -1 -loglevel warning tmp2.wav
+cmp --silent tmp1.wav tmp2.wav && echo 'equal' || echo 'not equal'
+rm tmp1.wav tmp2.wav

@@ -1,5 +1,5 @@
 # this script copies music files from the current dir to a different dir
-# and re-encodes non-mp3s to be mp3s on the way
+# and re-encodes non-mp3/m4as to be mp3s
 
 # by default, this script does not clobber, in order to save time
 # if you'd like to override this behavior, remove the "-n"s from the script below
@@ -11,15 +11,15 @@
 
 #TODO: learn how bash params work and make this accept an output dir param?
 
-mkdir ../../mp3s/
+mkdir ../../mmusic/
 
 #copy directory structure
-find . -type d -exec mkdir ../../mp3s/{} \;
+find . -type d -exec mkdir ../../mmusic/{} \;
 
 #copy mp3s
-find . -type f -name "*.mp3" -exec cp -n -v {} ../../mp3s/{} \;
+find . -type f \( -name "*.mp3" -or -name "*.m4a" \) -exec cp -n -v {} ../../mmusic/{} \;
 
 #copy & convert non-mp3s
 #it is not necessary to explicitly filter out images here
 #but it does speed up the process a bit
-find . -type f -not -name "*.mp3" -not -name "*.png" -not -name "*.jp*" -not -name "*.db" -not -name "*.log" -not -name ".cue" -exec ffmpeg -n -i {} -vn -q:a 0 ../../mp3s/{}.mp3 \;
+find . -type f -not -name "*.mp3" -not -name "*.m4a" -not -name "*.png" -not -name "*.jpg" -not -name "*.db" -not -name "*.log" -not -name ".cue" -exec ffmpeg -n -i {} -vn -q:a 0 ../../mmusic/{}.mp3 \;

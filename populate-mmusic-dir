@@ -17,5 +17,6 @@ find . -type f \
 	-not -name "*.png" -not -name "*.jpg" -not -name "*.gif" \
 	-not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
 	-not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
-	-not -name "*.db" -not -name "*.ini" \
-	-exec mmusic-transfer "{}" "$mdir{}" \;
+	-not -name "*.db" -not -name "*.ini"  \
+	-print0 | \
+	xargs -0 -P 0 -I % mmusic-transfer "%" "$mdir%"

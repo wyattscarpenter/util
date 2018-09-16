@@ -2,30 +2,20 @@
 # and re-encodes non-mp3/m4as to be mp3s
 
 # by default, this script does not clobber, in order to save time
-# if you'd like to override this behavior, remove the "-n"s from the script below
-# but it would likely be more prudent to simply rm the mp3 dir beforehand
+# if you'd like to override this behavior, remove the "-n"s from mmusic-transfer
+# but it would likely be more prudent to simply rm the mmusic dir beforehand
 
 # this script might take an hour or two to run, on my computer and collection
 
 # this script does not copy images of any kind, to save space
 
 mdir=${1:-"../../mmusic"}/ # an extra slash is harmless but a missing one is bad
-mkdir $mdir
 
-#copy directory structure
-find . -type d -exec mkdir -p "$mdir{}" \;
-
-#copy mp3s
-find . -type f \( -name "*.mp3" -or -name "*.m4a" \) \
-	-exec cp -n -v {} "$mdir{}" \;
-
-#copy & convert non-mp3s
-#it is not necessary to explicitly filter out most of this here
-#but it does speed up the process a bit
+# it is not necessary to explicitly filter out these invalid files
+# but it does speed up the process a bit, probably
 find . -type f \
-	-not -name "*.mp3" -not -name "*.m4a" \
 	-not -name "*.png" -not -name "*.jpg" -not -name "*.gif" \
 	-not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
 	-not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
 	-not -name "*.db" -not -name "*.ini" \
-	-exec ffmpeg -n -i {} -vn -q:a 0 "$mdir{}".mp3 \;
+	-exec mmusic-transfer "{}" "$mdir{}" \;

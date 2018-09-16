@@ -1,0 +1,3 @@
+#!/bin/bash
+mkdir wisdir
+find . -type f | shuf -n 30 | while read line; do cp "$line" wisdir; done

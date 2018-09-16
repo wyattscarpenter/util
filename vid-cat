@@ -1,0 +1,4 @@
+#! /bin/bash
+for f in ./*.*; do echo "file '$f'" >> vidlist.tmp; done
+ffmpeg -safe 0 -f concat -i vidlist.tmp -c copy out.mkv
+rm vidlist.tmp

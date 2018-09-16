@@ -1,0 +1,1 @@
+bash -c 'img-eq %1 %2'

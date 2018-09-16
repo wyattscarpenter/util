@@ -1,0 +1,11 @@
+robocopy . "E:\music " *.mp3 /s /XO /purge
+robocopy . "E:\music " *.wma /s /XO /purge
+robocopy . "E:\music " *.m4a /s /XO /purge
+robocopy . "E:\music " *.aac /s /XO /purge
+robocopy . "E:\music " *.ogg /s /XO /purge
+robocopy . "E:\music " *.mod /s /XO /purge
+robocopy . "E:\music " *.mid /s /XO /purge
+robocopy . "E:\music " *.opus /s /XO /purge
+REM now we're going to copy the flacs
+REM so we might run out of space
+robocopy . "E:\music " *.flac /s /XO /purge

@@ -1,0 +1,2 @@
+REM splits audio into 20-minute chunks to optimize for listening to long audio on the particular phone I had when I wrote this script
+ffmpeg -i "%1" -f segment -segment_time 1200 -c copy -vn -metadata album="" "%%03d %1"

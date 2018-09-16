@@ -1,4 +1,4 @@
-# this script copies music files from the current dir to a different dir
+# this script copies music files from the current dir to a different dir (specified as an argument, defaults to "../../mmusic/", you probably want to pass in /e/mmusic/ if you're me)
 # and re-encodes non-mp3/m4as to be mp3s
 
 # by default, this script does not clobber, in order to save time
@@ -9,16 +9,15 @@
 
 # this script does not copy images of any kind, to save space
 
-#TODO: learn how bash params work and make this accept an output dir param?
-
-mkdir ../../mmusic/
+mdir=${1:-"../../mmusic"}/ # an extra slash is harmless but a missing one is bad
+mkdir $mdir
 
 #copy directory structure
-find . -type d -exec mkdir ../../mmusic/{} \;
+find . -type d -exec mkdir -p "$mdir{}" \;
 
 #copy mp3s
 find . -type f \( -name "*.mp3" -or -name "*.m4a" \) \
-	-exec cp -n -v {} ../../mmusic/{} \;
+	-exec cp -n -v {} "$mdir{}" \;
 
 #copy & convert non-mp3s
 #it is not necessary to explicitly filter out most of this here
@@ -29,4 +28,4 @@ find . -type f \
 	-not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
 	-not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
 	-not -name "*.db" -not -name "*.ini" \
-	-exec ffmpeg -n -i {} -vn -q:a 0 ../../mmusic/{}.mp3 \;
+	-exec ffmpeg -n -i {} -vn -q:a 0 "$mdir{}".mp3 \;

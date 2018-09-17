@@ -1,3 +1,4 @@
+#!/bin/bash
 # this script copies music files from the current dir to a different dir (specified as an argument, defaults to "../../mmusic/", you probably want to pass in /e/mmusic/ if you're me)
 # and re-encodes non-mp3/m4as to be mp3s
 
@@ -19,4 +20,4 @@ find . -type f \
 	-not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
 	-not -name "*.db" -not -name "*.ini"  \
 	-print0 | \
-	xargs -0 -P 0 -I % mmusic-transfer "%" "$mdir%"
+	xargs -0 -P 8 -I % mmusic-transfer "%" "$mdir%"

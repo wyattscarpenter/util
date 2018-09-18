@@ -1,11 +1,14 @@
 #!/bin/bash
 set -euo pipefail #strict mode
-#this script takes as arguments
-#1 the file to do a supercut of
-#2 a file of start and end times (one pair per line, seperated by whitespace)
-#the script will output a file called out.mkv
+# this script takes as arguments
+# 1 the file to do a supercut of
+# 2 a file of start and end times
+#  (one pair per line, seperated by whitespace,
+#  arbitrary comments permitted after end)
+# the script outputs a file called out.mkv
+#  (will clobber existing out.mkv)
 
-#note that this script is LOSSY, SLOW, and NOT ESPECIALLY WELL-TESTED
+# note that this script is LOSSY, SLOW, and NOT ESPECIALLY WELL-TESTED
 
 infile="$1"
 timefile="$2"
@@ -15,11 +18,11 @@ mkdir "$tmpdir"
 
 declare -i i
 i=0
-while read line; do
-    from=$(echo "$line" | cut -d' ' -f1)
-    to=$(echo "$line" | cut -d' ' -f2)
+while read -r from to comments; do
     ffmpeg -loglevel error -i "$infile" -ss "$from" -to "$to" "$tmpdir"/"$(printf '%08d' $i)"output.mkv < /dev/null #have to pipe dev null into ffmpeg so it doesn't eat stdin, for some reason.
     # encountered unexpected behavior when I tried to use input (fast) ss
+    # also encountered unexpected behavior when I tried to use -c:a copy or lossless video, or almost anything.
+    # one must always expect the unexpected.
     i+=1
 done < "$timefile"
 

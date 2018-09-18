@@ -1,0 +1,28 @@
+#!/bin/bash
+set -euo pipefail #strict mode
+#this script takes as arguments
+#1 the file to do a supercut of
+#2 a file of start and end times (one pair per line, seperated by whitespace)
+#the script will output a file called out.mkv
+
+#note that this script is LOSSY, SLOW, and NOT ESPECIALLY WELL-TESTED
+
+infile="$1"
+timefile="$2"
+tmpdir="tmp.supercut"
+
+mkdir "$tmpdir"
+
+declare -i i
+i=0
+while read line; do
+    from=$(echo "$line" | cut -d' ' -f1)
+    to=$(echo "$line" | cut -d' ' -f2)
+    ffmpeg -loglevel error -i "$infile" -ss "$from" -to "$to" "$tmpdir"/"$(printf '%08d' $i)"output.mkv < /dev/null #have to pipe dev null into ffmpeg so it doesn't eat stdin, for some reason.
+    # encountered unexpected behavior when I tried to use input (fast) ss
+    i+=1
+done < "$timefile"
+
+( cd "$tmpdir" ; vid-cat ; mv out.mkv .. )
+
+rm -r "$tmpdir"

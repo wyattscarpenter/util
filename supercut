@@ -5,27 +5,30 @@ set -euo pipefail #strict mode
 # 2 a file of start and end times
 #  (one pair per line, seperated by whitespace,
 #  arbitrary comments permitted after end)
+# 3 output file (out.mkv by default, clobbers)
 # the script outputs a file called out.mkv
-#  (will clobber existing out.mkv)
+#  (will clobber existing file of same name)
 
 # note that this script is LOSSY, SLOW, and NOT ESPECIALLY WELL-TESTED
 
 infile="$1"
 timefile="$2"
-tmpdir="tmp.supercut"
+outfile=${3:-out.mkv}
+tmpdir="supercut.tmp"
 
 mkdir "$tmpdir"
 
 declare -i i
 i=0
 while read -r from to comments; do
-    ffmpeg -loglevel error -i "$infile" -ss "$from" -to "$to" "$tmpdir"/"$(printf '%08d' $i)"output.mkv < /dev/null #have to pipe dev null into ffmpeg so it doesn't eat stdin, for some reason.
+    ffmpeg -loglevel error -i "$infile" -ss "$from" -to "$to" "$tmpdir"/"$(printf '%08d' $i)""$outfile" < /dev/null #have to pipe dev null into ffmpeg so it doesn't eat stdin, for some reason.
     # encountered unexpected behavior when I tried to use input (fast) ss
-    # also encountered unexpected behavior when I tried to use -c:a copy or lossless video, or almost anything.
+    # also encountered unexpected behavior when I tried to use -c:a copy
+    #   or lossless video, or almost anything.
     # one must always expect the unexpected.
     i+=1
 done < "$timefile"
 
-( cd "$tmpdir" ; vid-cat ; mv out.mkv .. )
+( cd "$tmpdir" ; vid-cat "$outfile" ; mv "$outfile" .. )
 
 rm -r "$tmpdir"

@@ -9,11 +9,9 @@ then
     [[ -d "$d" ]] || mkdir -p "$d"
     if [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ]
     then
-	echo "$2"
-	cp -n "$1" "$2"
+	cp -n "$1" "$2" && echo "$2"
     else
-	echo "$2.m4a"
-	ffmpeg -loglevel error -n -i "$1" -vn "$2.m4a"
+	ffmpeg -loglevel error -n -i "$1" -vn "$2.m4a" && echo "$2.m4a"
     fi
 fi
 

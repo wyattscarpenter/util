@@ -1,0 +1,1 @@
+xsel -b | tr -d "'" | tr '[:upper:]' '[:lower:]' | tr '\n' ' ' | sed -r 's/\W+/ /g' | xsel -bi

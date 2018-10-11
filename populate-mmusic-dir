@@ -1,5 +1,5 @@
 #!/bin/bash
-# this script copies music files from the current dir to a different dir (specified as an argument, defaults to "../../mmusic/", you probably want to pass in /e/mmusic/ if you're me)
+# this script copies music files from the current dir to a different dir (specified as an argument, defaults to "../../mmusic/", you probably want to pass in /mnt/e/mmusic/ if you're me)
 # and re-encodes non-mp3/m4as to be mp3s
 
 # by default, this script does not clobber, in order to save time

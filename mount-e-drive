@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo mount -t drvfs E: /mnt/e
+e=${1:=e}
+sudo mount -t drvfs "$e": /mnt/"$e"

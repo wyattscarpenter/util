@@ -1,0 +1,13 @@
+#/bin/bash
+#PCR: PERL CONTENT REPLACE
+#applies regexes... the way I think it should be done
+#apologies:
+#you must have perl installed to use this
+#typing eg pcr \n foo won't work, because the \ will escape in bash
+# and therefore be a regular n by the time it gets to the program
+#arguments:
+#$1 is what is to be found
+#$2 is what to replace $1 with
+#$3 is the file on which to perform the operation
+#outputs the modified file contents to stdout, you might want to pipe to sponge
+perl -0777 -pe "s/$1/$2/g" < "$3"

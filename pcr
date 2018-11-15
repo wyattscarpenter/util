@@ -1,5 +1,5 @@
 #/bin/bash
-#PCR: PERL CONTENT REPLACE
+#PCR: PERL COMPATIBLE REPLACE
 #applies regexes... the way I think it should be done
 #apologies:
 #you must have perl installed to use this
@@ -10,4 +10,4 @@
 #$2 is what to replace $1 with
 #$3 is the file on which to perform the operation
 #outputs the modified file contents to stdout, you might want to pipe to sponge
-perl -0777 -pe "s/$1/$2/g" < "$3"
+perl -0777 -pe "s/$1/$2/gis" < "$3"

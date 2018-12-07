@@ -2,10 +2,10 @@
 # this script called by the populate-mmusic-dir command
 # takes two arguments:
 # 1: the file we are transfering from
-# 2: the file we are transfering too (will end with the same extension as 1)
+# 2: the file we are transfering to (will end with the same extension as 1)
 if ! ([[ -f "$2" ]] || [[ -f "$2.m4a" ]])
 then
-    d="$(dirname "$2")"
+    d=`dirname "$2"`
     [[ -d "$d" ]] || mkdir -p "$d"
     if [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ]
     then

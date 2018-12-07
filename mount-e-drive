@@ -1,3 +1,4 @@
 #!/bin/bash
-e=${1:="e"}
-sudo mount -t drvfs "$e": /mnt/"$e"
+letter=${1:="e"}
+sudo mkdir /mnt/"$letter"
+sudo mount -t drvfs "$letter": /mnt/"$letter"

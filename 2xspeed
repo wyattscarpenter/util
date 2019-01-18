@@ -2,11 +2,11 @@
 
 #speed up audio/video by 2x
 # takes as arguments any number of files to speed up
-# outputs the write the sped files with the prefix 2x. to the same directory
+# outputs the write the sped files with the prefix 2xspeed. to the same directory
 # consider calling with * to hit everything in the working directory
 
 #this code is LOSSY and UNPARALLELIZED
 for i in "$@"; do
-    echo "2x.$i"
-    ffmpeg -loglevel error -i "$i" -filter:a "atempo=2.0" -filter:v "setpts=0.5*PTS" "2x.$i";
+    echo "2xspeed.$i"
+    ffmpeg -loglevel error -i "$i" -filter:a "atempo=2.0" -filter:v "setpts=0.5*PTS" "2xspeed.$i";
 done

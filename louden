@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#makes louder
+# takes as arguments any number of files to louden
+# outputs the loud files with the prefix loud. to working directory
+# consider calling with * to hit everything in the working directory
+
+#this code is LOSSY and UNPARALLELIZED
+for i in "$@"; do
+    echo "loud.$i"
+    ffmpeg -loglevel error -i "$i" -filter:a "volume=20" -c:v copy "loud.$i";
+done

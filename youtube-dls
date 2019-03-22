@@ -1,0 +1,4 @@
+#!/bin/bash
+# calls youtube-dl in parallel on any number of command line arguments (urls)
+# unclear how one might specify any options to youtube-dl here
+echo "$@" | xargs -P 0 -n 1 youtube-dl

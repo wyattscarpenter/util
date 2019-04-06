@@ -1,0 +1,1 @@
+bach -c "youtube-dls-exe %*"

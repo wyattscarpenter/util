@@ -1,1 +1,1 @@
-bach -c "youtube-dls-exe %*"
+bash -c "youtube-dls-exe %*"

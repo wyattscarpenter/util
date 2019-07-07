@@ -1,6 +1,7 @@
 #!/bin/bash
 # this script does my extremely specifc workflow for copying music to an SD card
 
-cd files/music
+cd ~/files/music
+pwd
 mount-e-drive
 populate-mmusic-dir "/mnt/e/mmusic/"

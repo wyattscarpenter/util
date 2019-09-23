@@ -1,3 +1,7 @@
-#! /bin/bash
-for f in ./*.*; do echo "file '$f'" >> vidlist.txt; done
-ffmpeg -loop 1 -framerate 2 -i cover.jpg -f concat -safe 0 -i vidlist.txt -c:v libx264 -preset medium -tune stillimage -crf 18 -c:a copy -shortest -pix_fmt yuv420p output.mkv
+#!/bin/bash
+set -euo pipefail #mostly this is to preserve vidlist for later inspection if we fail. remember to delete vidlist again yourself!
+for f in  ./*.flac ./*.m4a ./*.mp3; do [ -f "$f" ] && echo "file ${f@Q}" >> vidlist.txt; done
+#the check for -f in there is because if the glob is empty it will just return itself as a literal string. you can turn that off using shopt -s nullglob but this is more posix
+#${f@Q} is an esoteric thing that does escaped substitution. it's like a quoted substitituion. we need in in case the file name has a (single) quote character in it. man, the whole sh model of variables is bad. im past caring. i just accept it now.
+ffmpeg -i cover.jpg -f concat -safe 0 -i vidlist.txt -c copy output.mkv
+rm vidlist.txt

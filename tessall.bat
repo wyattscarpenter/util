@@ -1,0 +1,1 @@
+for %%i in (*) do echo "%%i" >> tess.txt & tesseract "%%i" - >> tess.txt

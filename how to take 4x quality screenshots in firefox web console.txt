@@ -1,0 +1,1 @@
+:screenshot --dpr 4 --fullpage

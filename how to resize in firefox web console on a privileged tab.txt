@@ -1,0 +1,1 @@
+window.resizeTo(3000,700);//horizontal, vertical

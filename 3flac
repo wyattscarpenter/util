@@ -1,4 +1,0 @@
-#!/bin/bash
-#a bash script to make the flac gooder
-#re-encodes to the highest-compression subset flac
-flac.exe -8 * -f

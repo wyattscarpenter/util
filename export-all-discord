@@ -1,0 +1,4 @@
+set -euox pipefail
+./DiscordChatExporter.Cli.exe guilds -t "$1" | while read line || [[ -n $line ]]; do echo "${line%% *}"; ./DiscordChatExporter.Cli.exe exportguild -g "${line%% *}" -o "dump/${line//[?<>\\:*|\"]/}" -t "$1"; done
+./DiscordChatExporter.Cli.exe exportdm -o "dump/dms" -t "$1"
+

@@ -1,4 +1,13 @@
-set -euox pipefail
-./DiscordChatExporter.Cli.exe guilds -t "$1" | while read line || [[ -n $line ]]; do echo "${line%% *}"; ./DiscordChatExporter.Cli.exe exportguild -g "${line%% *}" -o "dump/${line%% *}" -t "$1"; done
-./DiscordChatExporter.Cli.exe exportdm -o "dump/dms" -t "$1"
+# You invoke this with your token as the one and only command line argument.
+# This process will take some time. If it fails, then once you fix the problem you can try the "incremental" things at the bottom so as to not waste time repeating backups. Or you can just run it again, whatever.
 
+set -euox pipefail
+
+./DiscordChatExporter.Cli.exe exportdm -o "dump/dms" -t "$1"
+./DiscordChatExporter.Cli.exe guilds -t "$1" | while read line || [[ -n $line ]]; do echo "$line"; ./DiscordChatExporter.Cli.exe exportguild -g "${line%% *}" -o "dump/${line%% *}" -t "$1"; done
+
+#incremental:
+#(I believe servers ("guilds") export alphabetically, so just remove from this list up to the last server you completely backed up)
+#(these are NOT part of the script, you have to copy and paste them to the command line)
+# ./DiscordChatExporter.Cli.exe guilds -t "" > guilds.txt
+# while read line || [[ -n $line ]]; do echo "$line"; ./DiscordChatExporter.Cli.exe exportguild -g "${line%% *}" -o "dump/${line%% *}" -t ""; done < guilds.txt

@@ -1,0 +1,4 @@
+#!/bin/bash
+#invoked on any number of arguments, mixes together the audio to output.flac
+#sorry, I couldn't figure out how to makes this work for file names with spaces in
+ffmpeg `for arg in "$@"; do echo -n "-i "$arg" "; done` -filter_complex amix=inputs="$#":duration=longest output.flac

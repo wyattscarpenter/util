@@ -8,6 +8,6 @@ set -euox pipefail
 
 #incremental:
 #(I believe servers ("guilds") export alphabetically, so just remove from this list up to the last server you completely backed up)
-#(these are NOT part of the script, you have to copy and paste them to the command line)
+#(these are NOT part of the script, you have to copy and paste them to the command line, and paste in your token)
 # ./DiscordChatExporter.Cli.exe guilds -t "" > guilds.txt
 # while read line || [[ -n $line ]]; do echo "$line"; ./DiscordChatExporter.Cli.exe exportguild -g "${line%% *}" -o "dump/${line%% *}" -t ""; done < guilds.txt

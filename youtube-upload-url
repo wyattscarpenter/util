@@ -1,0 +1,6 @@
+# This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
+# Note that the video will be private, titled -, and have no description.
+# This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
+# if you don't have such files, follow the instructions on https://github.com/porjo/youtubeuploader .
+# This command assumes that youtubeuploader.exe is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader or ./youtubeuploader or what-have-you
+youtube-dl.exe  "$@" -o - | youtubeuploader.exe -filename -

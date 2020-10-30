@@ -1,0 +1,1 @@
+mkdir -p ~/trash; mv --backup=numbered "$@" ~/trash

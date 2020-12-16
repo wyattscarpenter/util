@@ -1,0 +1,5 @@
+#!/bin/bash
+#cuts the last approximately 10 minutes off the input file
+# sudo apt install ffmpeg
+echo $(($(ffprobe -i "$1" -show_format -v quiet | sed -n 's/duration=//p'| xargs printf %.0f)-600))
+ffmpeg -i "$1" -c copy -to $(($(ffprobe -i "$1" -show_format -v quiet | sed -n 's/duration=//p'| xargs printf %.0f)-600)) "wiscut.$1"

@@ -1,0 +1,5 @@
+#!/bin/bash
+#handles windows file paths in bash in lxss
+#from https://gist.github.com/aseering/a06219e74c7f96ccea5ec65d5b2483b5
+# call like "$(wp C:\Program Files\Windows NT)" (quotes necessary because bash lol) 
+echo "$@" | sed -e 's|\\|/|g' -e 's|^\([A-Za-z]\)\:/\(.*\)|/mnt/\L\1\E/\2|'

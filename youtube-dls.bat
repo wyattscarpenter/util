@@ -1,0 +1,1 @@
+bash -c "youtube-dls %*"

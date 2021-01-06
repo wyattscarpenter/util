@@ -1,0 +1,5 @@
+//Pretty sure I found this somewhere on the internet. Oddly, I couldn't get it to work all in one line so as to make a bookmarklet out of it.
+var css = document.createElement('style');
+css.appendChild(document.createTextNode(""));
+css.innerText += 'div#main.mainWithAdd{width:100% !important;min-width:1198px}'+'div.mapContainer{width:auto !important;height:auto !important}'+'div.mapContainer>div:nth-child(1){width:auto !important;height:auto !important}';
+document.head.appendChild(css);

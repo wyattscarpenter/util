@@ -1,0 +1,5 @@
+#! /bin/bash
+#usage: crop infile time1 time2 (outfile)
+#arguable crop is a bad name for this
+outfile=${4:-crop."$1"}
+ffmpeg -i "$1" -ss "$2" -to "$3" -c copy $outfile

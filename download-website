@@ -1,0 +1,3 @@
+#!/bin/bash
+#download the specified website
+wget --mirror --restrict-file-names=windows --convert-links --adjust-extension --page-requisites --no-parent "$1"

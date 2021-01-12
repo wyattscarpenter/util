@@ -1,0 +1,8 @@
+#/bin/bash
+shopt -s nocaseglob
+for x in {a..z}
+do
+  echo "$x"
+  mkdir -p "$x"
+  find . -maxdepth 1 -type f -iname "${x}*" -exec mv -i {} "$x/" \;
+done

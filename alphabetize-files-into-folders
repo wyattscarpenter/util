@@ -6,3 +6,4 @@ do
   mkdir -p "$x"
   find . -maxdepth 1 -type f -iname "${x}*" -exec mv -i {} "$x/" \;
 done
+rmdir {a..z}/ #clean up #may destroy any other single-letter empty dirs. Uh, seems like an acceptable edge case

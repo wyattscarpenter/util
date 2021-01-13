@@ -21,7 +21,7 @@ function tripleBlock(){
   document.querySelectorAll('[class^="blockedSystemMessage"]').forEach(element => element.remove())
 }
 
-var observer, observing, selector = '[class^="messagesWrapper-"]'; //'[class^="scrollerInner-"]'; //this also works, as per https://greasyfork.org/en/scripts/373445-discord-keyword-notification/discussions/60844
+var observer, observing, selector = '[class^="chat-"]'; //'[class^="scrollerInner-"]'; //this also works, as per https://greasyfork.org/en/scripts/373445-discord-keyword-notification/discussions/60844
 
 function init() {
   var observerInit = {childList: true, subtree: true};

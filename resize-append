@@ -1,3 +1,12 @@
 #!/bin/bash
-echo magick "${@:2}" -resize "$1" -append "$1.out.png"
-magick "${@:2}" -resize "$1" -append "$1.out.png"
+
+#automatically find widest width
+max_width=0
+for file in "$@"
+do
+  file_width=$(magick identify -format "%[w]" "$file")
+  max_width=$(( $max_width > $file_width ? $max_width : $file_width ))
+done
+
+echo magick "$@" -resize "$max_width" -append "$max_width"x.out.png
+magick "$@" -resize "$max_width" -append "$max_width"x.out.png

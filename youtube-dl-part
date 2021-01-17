@@ -1,1 +1,2 @@
-ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -to "$3" -c copy -copyts $(basename "$1").mp4
+b="$(basename $1)"
+ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -to "$3" -c copy -copyts "${b##*=}youtube-dl-part.mp4"

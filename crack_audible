@@ -1,0 +1,13 @@
+# Please only use this software legally in your country (such as personal use, where applicable)!
+# So, this is actually a pretty bad way to crack this encryption, because using a bash loop to repeatedly call ffmpeg (in sequence!) is prety slow, due to the associated overhead.
+# A native C program with a for loop and code to check the aax checksums would likely be much faster.
+# You could also just use, eg, https://audible-tools.github.io/
+# On my computer, this script tries ten keys a second. There are 4 bytes in a key, for 2^(4*8) = 4294967296 possibilities. 4294967296 / 10 / 60 / 60 / 24 / 2 = expected value of 2485 days before the key is found.
+# As such, the correct execution of this program remains theoretical
+key=0
+until ffmpeg -loglevel panic -activation_bytes $(printf '%08X' $key) -i "$1" -c copy "$1".m4a
+do
+  echo $(printf '%08x' $key)
+  ((key++))
+done
+echo $(printf '%08x' $key) >"aax key.txt"

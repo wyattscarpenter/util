@@ -1,5 +1,8 @@
-#! /bin/bash
-#usage: crop infile time1 time2 (outfile)
-#arguable crop is a bad name for this
-outfile=${4:-crop."$1"}
-ffmpeg -i "$1" -ss "$2" -to "$3" -c copy $outfile
+#!/bin/bash
+#usage: vid-excerpt infilename time-begin (time-end (outfilename (additional options for ffmpeg)))
+outfile=${4:-vid-excerpt."$1"}
+if [ "$#" -ge 3 ]; then
+  ffmpeg -ss "$2" -i "$1" -to "$3" -c copy -copyts ${@:5} "$outfile"
+else
+  ffmpeg -ss "$2" -i "$1" -c copy -copyts ${@:5} "$outfile"
+fi

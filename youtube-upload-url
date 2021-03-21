@@ -3,4 +3,5 @@
 # This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
 # if you don't have such files, follow the instructions on https://github.com/porjo/youtubeuploader .
 # This command assumes that youtubeuploader is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader.exe or ./youtubeuploader or what-have-you
-youtube-dl  "$@" -o - | youtubeuploader -filename -
+# echo -title "$(youtube-dl --skip-download --get-title "$1")" -description "$(youtube-dl --skip-download --get-description -o "%(date)s" "$1")"$'\n'"$1"
+#youtube-dl  "$@" -o - | youtubeuploader -filename - -title "$(youtube-dl --skip-download --get-title "$1")" -description "$(youtube-dl --skip-download --get-description "$1")"$'\n'"$1"

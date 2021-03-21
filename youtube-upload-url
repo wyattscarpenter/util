@@ -1,13 +1,14 @@
 # This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
-# Note that the video will be private, titled -, and have no description.
+# Note that the video will be private, and copy the title and description from the source.
+# You can also make a disclaimer.txt file that will be appended to all of your descriptions.
 # This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
 # if you don't have such files, follow the instructions on https://github.com/porjo/youtubeuploader .
 # This command assumes that youtubeuploader is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader.exe or ./youtubeuploader or what-have-you
 
 # kind of a pain to extract the date but it's worth it
-json=$(youtube-dl --skip-download https://www.youtube.com/watch?v=npHf5u6HRiM -j)
+json=$(youtube-dl --skip-download "$1" -j)
 dateetc=${json##*upload_date\"\:\ \"}
 date=${dateetc%%\"*}
 
-#echo -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date" "$(youtube-dl --skip-download --get-title "$1")" "$1" $'\n' "$(youtube-dl --skip-download --get-description "$1")"
-youtube-dl  "$@" -o - | youtubeuploader -filename - -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date" "$(youtube-dl --skip-download --get-title "$1")" "$1" $'\n' "$(youtube-dl --skip-download --get-description "$1")"
+echo -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date" "$(youtube-dl --skip-download --get-title "$1")" "$1"$'\n\n'"$(youtube-dl --skip-download --get-description "$1")"$'\n\n'"$(cat disclaimer.txt)"
+youtube-dl  "$@" -o - | youtubeuploader -filename - -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date" "$(youtube-dl --skip-download --get-title "$1")" "$1"$'\n\n'"$(youtube-dl --skip-download --get-description "$1")"$'\n\n'"$(cat disclaimer.txt)"

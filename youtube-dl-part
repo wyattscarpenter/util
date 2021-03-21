@@ -1,6 +1,6 @@
 b="$(basename $1)"
 if [ $# -eq 3 ]; then
-  ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -to "$3" -c copy -copyts "${b##*=}youtube-dl-part.mp4"
+  ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -to "$3" -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
 else
-    ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -c copy -copyts "${b##*=}youtube-dl-part.mp4"
+    ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
 fi

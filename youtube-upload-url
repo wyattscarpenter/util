@@ -9,6 +9,7 @@
 json=$(youtube-dl --skip-download "$1" -j)
 dateetc=${json##*upload_date\"\:\ \"}
 date=${dateetc%%\"*}
+nn=$'\n\n'
 
-echo -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date" "$(youtube-dl --skip-download --get-title "$1")" "$1"$'\n\n'"$(youtube-dl --skip-download --get-description "$1")"$'\n\n'"$(cat disclaimer.txt)"
-youtube-dl  "$@" -o - | youtubeuploader -filename - -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date" "$(youtube-dl --skip-download --get-title "$1")" "$1"$'\n\n'"$(youtube-dl --skip-download --get-description "$1")"$'\n\n'"$(cat disclaimer.txt)"
+echo -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date $(youtube-dl --skip-download --get-title "$1") "$1"$nn$(youtube-dl --skip-download --get-description "$1")$nn$(cat disclaimer.txt)"
+youtube-dl  "$@" -o - | youtubeuploader -filename - -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date $(youtube-dl --skip-download --get-title "$1") "$1"$nn$(youtube-dl --skip-download --get-description "$1")$nn$(cat disclaimer.txt)"

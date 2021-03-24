@@ -1,15 +1,21 @@
 # This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
 # Note that the video will be public, and copy the title and description from the source.
-# You can also make a disclaimer.txt file that will be appended to all of your descriptions.
+# You can also make a disclaimer.txt file that will be appended to all of your descriptions. 
+# If used, disclaimer.txt MUST end with whatever kind of whitespace you want to separate the disclaimer from the rest of the description, be it a newline, a space, or nothing.
 # This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
 # if you don't have such files, follow the instructions on https://github.com/porjo/youtubeuploader .
 # This command assumes that youtubeuploader is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader.exe or ./youtubeuploader or what-have-you
 
 # kind of a pain to extract the date but it's worth it
 json=$(youtube-dl --skip-download "$1" -j)
-dateetc=${json##*upload_date\"\:\ \"}
-date=${dateetc%%\"*}
-nn=$'\n\n'
+timestamp_etc=${json##*timestamp\"\:\ }
+timestamp=${timestamp_etc%%\,*}
+date_string=$(date -d @"$timestamp" -u "+%F %T UTC") #the time format is the same as %Y-%m-%d %H:%M:%S
 
-echo -privacy "public" -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date $(youtube-dl --skip-download --get-title "$1") "$1"$nn$(youtube-dl --skip-download --get-description "$1")$nn$(cat disclaimer.txt)"
-youtube-dl  "$@" -o - | youtubeuploader -filename - -privacy "public" -title "$(youtube-dl --skip-download --get-title "$1")" -description "$date $(youtube-dl --skip-download --get-title "$1") "$1"$nn$(youtube-dl --skip-download --get-description "$1")$nn$(cat disclaimer.txt)"
+title=$(youtube-dl --skip-download --get-title "$1")
+description=$(youtube-dl --skip-download --get-description "$1")
+
+nn=$'\n\n' #for use in formating description
+
+echo youtubeuploader -filename - -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
+youtube-dl  "$@" -o - | youtubeuploader -filename - -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"

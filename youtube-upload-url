@@ -1,5 +1,6 @@
 # This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
 # Note that the video will be public, and copy the title and description from the source.
+# This script will use a meta.json file for video details if one is provided.
 # You can also make a disclaimer.txt file that will be appended to all of your descriptions. 
 # If used, disclaimer.txt MUST end with whatever kind of whitespace you want to separate the disclaimer from the rest of the description, be it a newline, a space, or nothing.
 # This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
@@ -10,12 +11,12 @@
 json=$(youtube-dl --skip-download "$1" -j)
 timestamp_etc=${json##*timestamp\"\:\ }
 timestamp=${timestamp_etc%%\,*}
-date_string=$(date -d @"$timestamp" -u "+%F %T UTC") #the time format is the same as %Y-%m-%d %H:%M:%S
+date_string=$(date -d @"$timestamp" -u "+%F %T(UTC)") #the time format is the same as %Y-%m-%d %H:%M:%S
 
 title=$(youtube-dl --skip-download --get-title "$1")
 description=$(youtube-dl --skip-download --get-description "$1")
 
 nn=$'\n\n' #for use in formating description
 
-echo youtubeuploader -filename - -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
-youtube-dl  "$@" -o - | youtubeuploader -filename - -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
+echo youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
+youtube-dl  "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"

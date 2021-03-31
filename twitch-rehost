@@ -1,0 +1,11 @@
+# see youtube-upload-url in this util collection
+# this does that, but sets the video to publish only when the VOD should have definitely disappeared from twitch, after the maximum limit of 60 days.
+
+json=$(youtube-dl --skip-download "$1" -j)
+timestamp_etc=${json##*timestamp\"\:\ }
+timestamp=${timestamp_etc%%\,*}
+let timestamp+=5184000 #60*60*24*60 = 60 days (two months) in seconds.
+date_string=$(date -d @"$timestamp" -u --iso-8601=seconds) #the time format is eg 2021-05-24T23:54:54+00:00, which youtubeuploader accepts.
+echo "{\"privacyStatus\": \"private\", \"publishAt\": \"$date_string\"}" >meta.json
+youtube-upload-url "$1"
+mv meta.json prev.meta.json #don't want to contaminate future runs, but want to keep this around for immediate debugging purposes.

@@ -1,1 +1,1 @@
-bash -c "git %*"
+wsl git %*

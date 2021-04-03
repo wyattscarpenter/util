@@ -1,11 +1,7 @@
 #!/bin/bash
-if [ -f "$1" ]; then
-  if [ -f "$2" ]; then
-    command -v compare >/dev/null 2>&1 || { echo >&2 "img-eq requires imagemagick's compare but it's not installed.  Aborting."; exit 1; }
-    [ "$(compare -metric rmse "$1" "$2" null: 2>&1)" = "0 (0)" ] && echo "equal" || echo "not equal"
-  else
-    echo Not an extant file: "$2"
-  fi
-else
-  echo Not an extant file: "$1"  
-fi
+[ -f "$1" ] || echo Not an extant file: "$1" 
+[ -f "$2" ] || echo Not an extant file: "$2"
+[ -f "$1" ] && [ -f "$2" ] || ( echo "$0" must have two arguments, both must be image files that exist. Aborting. ; exit )
+
+command -v compare >/dev/null 2>&1 || { echo >&2 "img-eq requires imagemagick's compare but it's not installed.  Aborting."; exit 1; }
+[ "$(compare -metric rmse "$1" "$2" null: 2>&1)" = "0 (0)" ] && echo "equal" || echo "not equal"

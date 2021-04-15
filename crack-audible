@@ -4,7 +4,7 @@
 # You could also just use, eg, https://audible-tools.github.io/
 # On my computer, this script tries ten keys a second. There are 4 bytes in a key, for 2^(4*8) = 4294967296 possibilities. 4294967296 / 10 / 60 / 60 / 24 / 2 = expected value of 2485 days before the key is found.
 # As such, the correct execution of this program remains theoretical
-key=0
+key=0x0"$2" #lets you pass in a key to start at (for instance, your known key, your last attempt, or an offset you are parallelizing on) as optional second argument (takes hex string with no prefix, defaults to 0)
 until ffmpeg -loglevel panic -activation_bytes $(printf '%08X' $key) -i "$1" -c copy "$1".m4a
 do
   echo $(printf '%08x' $key)

@@ -8,7 +8,6 @@ if [ "$#" -ne 3 ]; then
 fi
 
 git filter-branch --env-filter '
-
 OLD_EMAIL="$1"
 CORRECT_NAME="$2"
 CORRECT_EMAIL="$3"

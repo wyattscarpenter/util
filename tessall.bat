@@ -1,1 +1,1 @@
-for %%i in (*) do echo "%%i" >> tess.txt & tesseract "%%i" - >> tess.txt
+for %%i in (*) do echo "%%i" >> tess.txt & tesseract "%%i" stdout --psm 1 >>tess.txt

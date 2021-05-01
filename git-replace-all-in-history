@@ -1,0 +1,1 @@
+git filter-branch --tree-filter "git ls-files -z | xargs -0 sed -i \"s/$1/$2/gi\"" --prune-empty #note that this is quite possibly operating system dependent and thus not foolproof for redacting files in all cases. sed i regex flag (here after g) is a GNU extension, for example. #Note also that the weird double quoting is required. 

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#shopt -s extglob
+
+#echo !(\!*)/
+
+#find -not -name "\!*" -type d -exec sh -c "cd '{}' && pwd" \;
+
+# find -regex '[^!]*' -type d -execdir bash -c 'cd "{}" && pwd;' \; 
+
+if [ "$#" -eq 0 ] ; then
+  find -regex '[^!]*' -type d -exec bash -c 'cd "{}" && pwd; for file in *.png; do the-best-of-all-possible-pngs "$file"; done' \; # no arguments, recurse through all folders
+else
+  for i in "$@"; do
+    pngcheck -q "$i" || { head -n 10 -z "$i" && echo && exit; }; #we want to see a certain amount of bytes to determine if we're looking at a jpeg instead... this seems pretty good
+  done
+fi
+
+savings=0
+
+
+  << 'comment1'
+
+do
+  difference=0
+  original_size=$(stat -c%s "$file")
+ # we print some bytes here to identify the most common error: that the png is in fact a JPEG
+
+  #apngopt "$@" "$file" "$file" #you can pass in options
+  new_size=$(stat -c%s "$file")
+  if [ "$new_size" -gt "$original_size" ] ; then
+    echo NEW SIZE "$new_size" IS GREATER THAN ORIGINAL SIZE "$original_size"! OH NO! WHOOPS!
+    exit
+  elif [ "$new_size" -lt "$original_size" ] ; then
+    difference=$((original_size - new_size))
+    echo SAVED "$difference"
+    savings=$((savings + difference))
+    echo TOTAL SAVINGS SO FAR "$savings"
+  else
+    echo "NO CHANGE"
+  fi
+
+done
+
+echo FINAL SAVINGS $savings
+
+comment1

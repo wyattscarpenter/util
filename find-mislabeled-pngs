@@ -1,0 +1,8 @@
+shopt -s extglob
+
+# rename s/\.PNG$/\.png/ *.PNG
+rename s/\.PNG$/\.temporary_extension/ *.PNG && rename s/\.temporary_extension$/\.png/ *.temporary_extension # trick for case insenstive filesystems like Windows'
+for file in !(*.png)
+do
+  pngcheck "$file" && { head -c 30 "$file" && exit; } # we print some bytes here to identify based on magic number
+done

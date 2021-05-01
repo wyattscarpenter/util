@@ -1,0 +1,11 @@
+for i in "$@"
+do
+  mkdir tmp-ocr-"$i"
+  cp "$i" tmp-ocr-"$i"
+  cd tmp-ocr-"$i"
+  split-pdf-into-images "$i"
+  tessall
+  cp tess.txt ../"$1".ocr.txt
+  cd ..
+  rm -r tmp-ocr-"$i"
+done

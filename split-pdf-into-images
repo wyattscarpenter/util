@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in "$@"
+do
+  convert -density 150 "$i" "$i"%03d.png
+done

@@ -1,8 +1,25 @@
-shopt -s extglob
+#!/bin/bash
 
+# note that below we'd like to do
 # rename s/\.PNG$/\.png/ *.PNG
-rename s/\.PNG$/\.temporary_extension/ *.PNG && rename s/\.temporary_extension$/\.png/ *.temporary_extension # trick for case insenstive filesystems like Windows'
-for file in !(*.png)
-do
-  pngcheck "$file" && { head -c 30 "$file" && exit; } # we print some bytes here to identify based on magic number
-done
+# but we have to use a trick for case insenstive filesystems like on Windows
+# rename s/\.PNG$/\.temporary_extension/ *.PNG && rename s/\.temporary_extension$/\.png/ *.temporary_extension
+# actually we no longer do this step as it was mysteriously failing, and not really what this script is about anyway. may make other script later
+
+echo $'\x89PNG' > ~/pngheader #there's probably a way to do it without this file but none of them seems to quite work for me, so we use this file
+
+if [ "$#" -eq 0 ] ; then
+  # no arguments, recurse through all folders 
+  find -regex '[^!]*' -type d -exec bash -c ' #multiline string, muhaha
+  shopt -s extglob
+  shopt -s nullglob
+  cd "{}" && pwd
+  for i in !(*.png|*.PNG)
+  do
+  test -f "$i" && cmp -s -n 4 "$i" ~/pngheader && echo "$i" && head -1 "$i"
+  done' \;
+else
+  for i in "$@"; do
+     test -f "$i" && cmp -s -n 4 "$i" ~/pngheader && echo "$i" && head -1 "$i"
+  done
+fi

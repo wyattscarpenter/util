@@ -1,5 +1,5 @@
-for i in *
+for i in "*"
 do
-  echo "$i" >> tess.txt
+  echo "$i"
   tesseract "$i" stdout --psm 1 >>tess.txt
 done

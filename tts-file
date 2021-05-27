@@ -1,0 +1,17 @@
+#!/bin/bash
+# this script allows you to call mozilla's tts on a file or files as arguments (it does not accept any other option arguments)
+# this is basically a hack to deal with the fact that they don't currently accept files as input (and also that command line arguments can only be a certain length, so we break on linebreaks)
+# pip install TTS
+for file in "$@"; do
+  mkdir "tmp.tts.$file"
+  cd "tmp.tts.$file"
+  index=0
+  while read l || [[ -n "$l" ]]; do # the bit after the || catches the last line if it isn't followed by a newline character.
+    #we don't process blank lines because they just result in a ZeroDivisionError: float division by zero. And no output for the line, anyway.
+    [[ ! -z "$l" ]] && tts.exe --text "$l" --out_path tmp.tts.$(printf '%08d' $index).wav #should replace this with a non-exe version some day
+    ((index++))
+  done <"../$file"
+  vid-cat ../"$file.tts.wav" #uses the vid-cat command from wyattscarpenter's util. It just concatenates the audio using ffmpeg
+  cd ..
+  rm -r "tmp.tts.$file"
+done

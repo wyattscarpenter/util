@@ -1,2 +1,5 @@
 #!/bin/bash
-pdf2txt "$1" | wc -w
+for i in "$@"; do
+  echo "$i"
+  pdf2txt "$i" | wc -w
+done

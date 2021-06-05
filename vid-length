@@ -1,0 +1,20 @@
+#! /bin/bash
+
+seconds=0
+for f in "$@"; do
+  duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$f")
+  echo $(date -ud "@$duration" +%T) $(basename "$f")
+  duration_seconds=${duration%\.*}
+  seconds=$((seconds + duration_seconds))
+done
+if [ "$#" -gt 1 ]; then
+    echo TOTAL: $(date -ud "@$seconds" +%T)
+fi
+
+if [ "$#" -eq 0 ]; then
+    echo USAGE: "$0 [videos...]"
+    echo
+    echo IMPLEMENTATION:
+    cat "$0"
+fi
+

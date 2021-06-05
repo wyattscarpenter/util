@@ -1,4 +1,8 @@
 #!/bin/bash
 for i in "$@"; do
-  cat "$i" | grep -Po '(?<=href=")[^"]*(?=")'
+  if [ -f "$i" ]; then
+    cat "$i" | grep -Po '(?<=href=")[^"]*(?=")'
+  else
+    wget -q -O- "$1" | grep -Po '(?<=href=")[^"]*(?=")'
+  fi
 done

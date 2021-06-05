@@ -2,15 +2,15 @@
 set -euo pipefail
 
 for i in "$@"; do
-  for url in `wget -q -O- "https://twitchrss.appspot.com/vod/$i" | grep -Po '(?<=href=")[^"]*(?=")'`; do
+  for url in `wget -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*(?=")'`; do
     #maintain a file for this user
     touch "$i".txt
     if grep -Fxq "$url" "$i".txt
     then
       echo already rehosted "$url"
     else
-      twitch-rehost "$url"
-      echo "$url" >>"$i".txt
+      #if we, say, exceed quota so twitch-rehost fails, we don't want to record success
+      twitch-rehost "$url" && echo "$url" >>"$i".txt
     fi
   done
 done

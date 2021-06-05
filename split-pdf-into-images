@@ -2,5 +2,5 @@
 
 for i in "$@"
 do
-  convert -density 150 "$i" "$i"%03d.png
+  convert -density 150 "$i" PNG32:"$i"%03d.png
 done

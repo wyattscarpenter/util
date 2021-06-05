@@ -1,0 +1,4 @@
+#!/bin/bash
+for i in "$@"; do
+  cat "$i" | grep -Po '(?<=href=")[^"]*(?=")'
+done

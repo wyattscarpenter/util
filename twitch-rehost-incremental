@@ -1,0 +1,16 @@
+#!/bin/bash
+set -euo pipefail
+
+for i in "$@"; do
+  for url in `wget -q -O- "https://twitchrss.appspot.com/vod/$i" | grep -Po '(?<=href=")[^"]*(?=")'`; do
+    #maintain a file for this user
+    touch "$i".txt
+    if grep -Fxq "$url" "$i".txt
+    then
+      echo already rehosted "$url"
+    else
+      twitch-rehost "$url"
+      echo "$url" >>"$i".txt
+    fi
+  done
+done

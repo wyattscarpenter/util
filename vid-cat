@@ -4,7 +4,8 @@ seconds=0
 for f in ./*.*; do
   echo "file '$f'" >>vidlist.tmp.txt;
   #that's taken care of. Now, for bookkeeping:
-  echo $(date -ud "@$seconds" +%T) $(basename "$f") >>vidlist.timestamps.txt;
+  filename=$(basename "$f")
+  echo $(date -ud "@$seconds" +%T) ${filename%\.*} >>vidlist.timestamps.txt;
   duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$f")
   duration_seconds=${duration%\.*}
   seconds=$((seconds + duration_seconds))

@@ -1,7 +1,22 @@
 #!/bin/bash
 set -euo pipefail #mostly this is to preserve vidlist for later inspection if we fail. remember to delete vidlist again yourself!
-for f in  ./*.flac ./*.m4a ./*.mp3 ./*.wav; do [ -f "$f" ] && echo "file ${f@Q}" >> vidlist.txt; done
+
+outfile=${1:-out.mkv}
+seconds=0
+
+for f in  ./*.flac ./*.m4a ./*.mp3 ./*.wav; do
+  if [ -f "$f" ]
+  then
+    echo "file ${f@Q}" >> vidlist.txt
+    #that's taken care of. Now, for bookkeeping:
+    filename=$(basename "$f")
+    echo $(date -ud "@$seconds" +%T) ${filename%\.*} >>vidlist.timestamps.txt;
+    duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$f")
+    duration_seconds=${duration%\.*}
+    seconds=$((seconds + duration_seconds))
+  fi
+done
 #the check for -f in there is because if the glob is empty it will just return itself as a literal string. you can turn that off using shopt -s nullglob but this is more posix
 #${f@Q} is an esoteric thing that does escaped substitution. it's like a quoted substitituion. we need in in case the file name has a (single) quote character in it. man, the whole sh model of variables is bad. im past caring. i just accept it now.
-ffmpeg -loop 1 -framerate .2 -i cover.jpg -f concat -safe 0 -i vidlist.txt -c copy -shortest output.mkv
+ffmpeg -loop 1 -framerate .2 -i cover.* -f concat -safe 0 -i vidlist.txt -c copy -shortest "$outfile"
 rm vidlist.txt

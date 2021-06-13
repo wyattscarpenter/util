@@ -1,6 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+if [ "$#" -eq 0 ]; then
+    echo USAGE: "$0 [videos...]"
+    echo
+    echo IMPLEMENTATION:
+    cat "$0"
+fi
+
 for i in "$@"; do
   for url in `wget -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*(?=")'`; do
     #maintain a file for this user

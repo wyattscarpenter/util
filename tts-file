@@ -8,7 +8,7 @@ for file in "$@"; do
   index=0
   while read l || [[ -n "$l" ]]; do # the bit after the || catches the last line if it isn't followed by a newline character.
     #we don't process blank lines because they just result in a ZeroDivisionError: float division by zero. And no output for the line, anyway.
-    [[ ! -z "$l" ]] && tts.exe --text "$l" --out_path tmp.tts.$(printf '%08d' $index).wav #should replace this with a non-exe version some day
+    [[ ! -z "$l" ]] && tts --text "$l" --out_path tmp.tts.$(printf '%08d' $index).wav
     ((index++))
   done <"../$file"
   vid-cat ../"$file.tts.wav" #uses the vid-cat command from wyattscarpenter's util. It just concatenates the audio using ffmpeg

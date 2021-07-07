@@ -11,3 +11,15 @@ This collection will probably be the most useful to you if you add this folder t
 I consider these scripts too trivial to fall under copyright. However, I am not a lawyer, so if I do actually hold a copyright on these scripts, I release them into the public domain under CC0. See https://creativecommons.org/publicdomain/zero/1.0/ for more information. Some of these scripts were written by other people, so I claim no ownership over those.
 
 The name of this collection is a small joke, as "util" is generally regarded by programmers to be a terribly uninformative name for anything. This collection is dedicated to Jeremy Bentham, the inventor of usefulness.
+
+Most scripts begin with some variation of the following header:
+
+```
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 [arguments...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+```
+
+It seems like EINVAL ("Invalid argument") is a useful return value for exit to pass in this case, and EINVAL is 22 on my system, but empirically other programs like whereis and printf return random error codes like 1 or 2. Also, I am extremely inconsistent in whether I have actually harmonized any of this stuff.
+
+Of course, some scripts take 0 arguments and operate on the current directory. This inconsistency bothers me as it's hard (for me) to remember, so I may fix it some day.

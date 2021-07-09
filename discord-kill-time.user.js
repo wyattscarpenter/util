@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Kill Time
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      1
+// @version      2
 // @author       wyattscarpenter
 // @description  Discord text formatting don't be annoying challenge
 // @match        *://discordapp.com/*
@@ -14,9 +14,9 @@
 //His userscript says it's GNU AGPLv3 so maybe that implies this one is also? I don't really know.
 
 function killTime(){ //should work for both compact and cozy. I forget what is for which.
-  document.querySelectorAll('[class^="latin24CompactTimeStamp"]').forEach(element => element.remove())
-  document.querySelectorAll('[class^="timestamp"]').forEach(element => element.replaceWith(": "))
-  document.querySelectorAll('[class^="separator"]').forEach(element => element.replaceWith(": "))
+  document.querySelectorAll('[class^="latin24CompactTimeStamp"]').forEach(element => element.style.userSelect = "none")
+  document.querySelectorAll('[class^="timestamp"]').forEach(element => element.style.userSelect = "none")
+  document.querySelectorAll('[class^="separator"]').forEach(element => element.style.userSelect = "none")
 }
 
 var observer, observing, selector = '[class^="chat-"]'; //'[class^="scrollerInner-"]'; //this also works, as per https://greasyfork.org/en/scripts/373445-discord-keyword-notification/discussions/60844

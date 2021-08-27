@@ -1,0 +1,9 @@
+#hmm
+#ffmpeg -i "$1" "tmp.cover.png"
+ffmpeg -i "$1" "tmp.cover.jpg"
+#raw, 426MB
+#png, -framerate .2 : 1.49 GB
+#jpg, -framerate .2 : 630  MB
+#jpg, -framerate .01: 441  MB
+
+ffmpeg -loop 1 -framerate .01 -i tmp.cover.jpg -i "$1" -c copy -shortest out."$1".mkv

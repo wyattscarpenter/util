@@ -1,6 +1,10 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 target-url starting-timestamp [ending-timestamp]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 b="$(basename $1)"
 if [ $# -eq 3 ]; then
-  ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -to "$3" -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
+  ffmpeg -ss "$2" -i $(youtube-dl --verbose  -g "$1") -to "$3" -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
 else
-    ffmpeg -ss "$2" -i $(youtube-dl -f mp4 -g "$1") -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
+    ffmpeg -ss "$2" -i $(youtube-dl --verbose -g "$1") -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
 fi

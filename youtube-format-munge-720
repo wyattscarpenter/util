@@ -1,0 +1,3 @@
+#you can scale DVDs to 720p for youtube.
+#I used to use truly lossless crf 0 for this but it's just not worth the space. All the things I use this on are already rips.
+ffmpeg -i "$1" -c:a copy -vf "scale=w=1280:h=720:force_original_aspect_ratio=increase" -c:v libx264 -crf 16 720p."$1".mkv

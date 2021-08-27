@@ -1,4 +1,5 @@
 #this command solves the extremely specific problem where you're using WSL and you need to make an exe also function as a command without an .exe filename extension
 #at the moment, this script is barely tested
+#whereis seems to inexplicably fail to return the actual file path some times...
 [ "$#" -eq 0 ] && echo USAGE: "$0 command" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
-for i in `whereis "$@"` ; do cp "$i".exe "$i" ; cp "$i" "${i/.exe}" ; done #covers both the case where you invoke unmark-exe on command or command.exe
+for i in `whereis "$@"` ; do echo "$i"; cp "$i".exe "$i" ; cp "$i" "${i/.exe}" ; done #covers both the case where you invoke unmark-exe on command or command.exe

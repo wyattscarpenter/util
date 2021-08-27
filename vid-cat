@@ -2,7 +2,7 @@
 outfile=${1:-out.mkv}
 seconds=0
 for f in ./*.*; do
-  echo "file '$f'" >>vidlist.tmp.txt;
+  echo file ${f@Q} >>vidlist.tmp.txt;
   #that's taken care of. Now, for bookkeeping:
   filename=$(basename "$f")
   echo $(date -ud "@$seconds" +%T) ${filename%\.*} >>vidlist.timestamps.txt;

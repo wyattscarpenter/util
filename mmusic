@@ -1,5 +1,5 @@
 #!/bin/bash
-# this script does my extremely specifc workflow for copying music to an SD card
+# this script does my extremely specific workflow for copying music to an SD card
 
 cd ~/files/music
 pwd

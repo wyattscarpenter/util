@@ -1,3 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+[ "$#" -eq 0 ] && echo USAGE: "$0 url" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 # This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
 # Note that the video will be public, and copy the title and description from the source.
 # This script will use a meta.json file for video details if one is provided.
@@ -16,7 +20,7 @@ date_string=$(TZ='America/Los_Angeles' date -d @"$timestamp" "+%F %T(UTC%-:::z)"
 title=$(youtube-dl --skip-download --get-title "$1")
 description=$(youtube-dl --skip-download --get-description "$1")
 
-nn=$'\n\n' #for use in formating description
+nn=$'\n\n' #for use in formatting description
 
 echo youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
 youtube-dl  "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"

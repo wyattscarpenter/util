@@ -4,7 +4,8 @@ set -euo pipefail
 [ "$#" -eq 0 ] && echo USAGE: "$0 [usernames...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
 
 for i in "$@"; do
-  for url in `wget -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*(?=")'`; do
+  echo contacting "https://twitchrss.appspot.com/vodonly/$i" ... 
+  for url in `wget -S -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*(?=")'`; do
     #maintain a file for this user
     touch "$i".txt
     if grep -Fxq "$url" "$i".txt

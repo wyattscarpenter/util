@@ -1,0 +1,17 @@
+#!/bin/bash
+#set -euo pipefail #this would cause the i++ line to fail the script
+
+[ "$#" -eq 0 ] && echo USAGE: "$0 [file name or text...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
+
+[[ -f "$1" ]] && "$0" "$(< $1)" #if we pass in a file... just, uh, use it as a command line argument...
+
+mkdir -p tmp-giffing-text
+i=0
+for word in $@ #yeah that's right, finally finding a use for bash's built-in argument whitespace thing!
+do
+  magick convert -background lightblue -fill blue -size 128x128 -gravity center label:"$word" tmp-giffing-text/$(printf "%08d" $i).miff
+  echo $i
+  ((i++))
+done
+magick convert -delay 50 -loop 0 -layers Optimize tmp-giffing-text/*  giffing-text.gif
+rm -r tmp-giffing-text

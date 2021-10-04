@@ -17,8 +17,10 @@ Most scripts begin with some variation of the following header:
 ```
 #!/bin/bash
 set -euo pipefail #bash strict mode
-[ "$#" -eq 0 ] && echo USAGE: "$0 [arguments...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 ```
+
+Which shall (hopefully) conform to the format given here: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html
 
 It seems like EINVAL ("Invalid argument") is a useful return value for exit to pass in this case, and EINVAL is 22 on my system, but empirically other programs like whereis and printf return random error codes like 1 or 2. Also, I am extremely inconsistent in whether I have actually harmonized any of this stuff.
 

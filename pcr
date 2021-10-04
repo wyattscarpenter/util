@@ -5,9 +5,11 @@
 #you must have perl installed to use this
 #typing eg pcr \n foo won't work, because the \ will escape in bash
 # and therefore be a regular n by the time it gets to the program
-#arguments:
-#$1 is what is to be found
-#$2 is what to replace $1 with
-#$3 is the file on which to perform the operation
+
 #outputs the modified file contents to stdout, you might want to pipe to sponge
+[ "$#" -ne 3 ] && echo USAGE: "$0 perl_regex_to_be_found replacement_for_the_previous file_from_which_to_read " && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 perl -0777 -pe "s/$1/$2/gis" < "$3"
+
+#here's an easy loop you can use:
+# for i in * ; do echo "$i" pcr '' '' "$i" | sponge "$i" ; done

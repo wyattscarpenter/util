@@ -5,6 +5,7 @@ set -euo pipefail
 # This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
 # Note that the video will be public, and copy the title and description from the source.
 # This script will use a meta.json file for video details if one is provided.
+# It will also use a cookies.txt file if given to download videos that require a login.
 # You can also make a disclaimer.txt file that will be appended to all of your descriptions. 
 # If used, disclaimer.txt MUST end with whatever kind of whitespace you want to separate the disclaimer from the rest of the description, be it a newline, a space, or nothing.
 # This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
@@ -12,15 +13,16 @@ set -euo pipefail
 # This command assumes that youtubeuploader is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader.exe or ./youtubeuploader or what-have-you
 
 # kind of a pain to extract the date but it's worth it
-json=$(youtube-dl --skip-download "$1" -j)
+json=$(youtube-dl --cookies cookies.txt --skip-download "$1" -j)
+echo json get
 timestamp_etc=${json##*timestamp\"\:\ }
 timestamp=${timestamp_etc%%\,*}
 date_string=$(TZ='America/Los_Angeles' date -d @"$timestamp" "+%F %T(UTC%-:::z)") #the time format is the same as %Y-%m-%d %H:%M:%S(timezone) #timezone is given as twitch headquarters
 
-title=$(youtube-dl --skip-download --get-title "$1")
-description=$(youtube-dl --skip-download --get-description "$1")
+title=$(youtube-dl --cookies cookies.txt --skip-download --get-title "$1")
+description=$(youtube-dl --cookies cookies.txt --skip-download --get-description "$1")
 
 nn=$'\n\n' #for use in formatting description
 
 echo youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
-youtube-dl  "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
+youtube-dl --cookies cookies.txt "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "$title" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"

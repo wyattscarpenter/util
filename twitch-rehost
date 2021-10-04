@@ -6,7 +6,7 @@ set -euo pipefail
 # see youtube-upload-url in this util collection
 # this does that, but sets the video to publish only when the VOD should have definitely disappeared from twitch, after the maximum limit of 60 days.
 for i in "$@"; do
-  json=$(youtube-dl --skip-download "$i" -j)
+  json=$(youtube-dl --cookies cookies.txt --skip-download "$i" -j)
   timestamp_etc=${json##*timestamp\"\:\ }
   timestamp=${timestamp_etc%%\,*}
   let timestamp+=5184000 #60*60*24*60 = 60 days (two months) in seconds.

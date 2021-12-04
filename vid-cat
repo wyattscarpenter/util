@@ -1,7 +1,11 @@
-#! /bin/bash
-outfile=${1:-out.mkv}
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -lt 2 ] && echo USAGE: "$0 outfilename infiles..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+# it would make more sense to me to have the outfile last, but it's way easier to implement this way
+outfile="$1"
+shift
 seconds=0
-for f in ./*.*; do
+for f in "$@"; do
   echo file ${f@Q} >>vidlist.tmp.txt;
   #that's taken care of. Now, for bookkeeping:
   filename=$(basename "$f")

@@ -1,4 +1,7 @@
 #!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 #invoked on any number of arguments, mixes together the audio to output.flac
-#sorry, I couldn't figure out how to makes this work for file names with spaces in
-ffmpeg `for arg in "$@"; do echo -n "-i "$arg" "; done` -filter_complex amix=inputs="$#":duration=longest output.flac
+#sorry, I couldn't figure out how to makes this work for file names with spaces in. The output of @Q mysteriously is not accepted
+ffmpeg `for arg in "$@"; do echo -n "-i $arg "; done` -filter_complex amix=inputs="$#":duration=longest output.flac

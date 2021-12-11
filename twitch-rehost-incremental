@@ -1,4 +1,14 @@
 #!/bin/bash
+
+# As far as I am aware, this is currently the best software in the world for rehosting twitch videos to youtube.
+# (Except, of course, for the built-in setting in Twitch to do the same thing.)
+# twitch-rehost-incremental some-username will automatically rehost the most recent some number of twitch VODs from a channel onto a youtube channel (this number is limited by various APIs out of my control), and will also not try to upload duplicates by tracking successfully rehosted video URLs in a text file.
+# However, it's also somewhat difficult to get this script working, so I should explain some things:
+# Firstly, this is a Bash script, so you will need to have a modern unix command line. If you're on Windows, you should figure out how to install WSL, or other unix command line recreations like Cygwin or MinGW.
+# Secondly, this script relies on several other scripts in the wyattscarpenter/util collection, so you'll need those. Luckily, you can just download the entire folder and put it on your PATH, as described in the readme. However, when this script calls other scripts that call other scripts, you may have to check those other scripts to figure out what they depend upon.
+# Thirdly, your experience using this script will probably be running it, encountering an error that something isn't found, figuring out how to get that thing, and repeating the process. Off the top of my head, you may have to do this six times: twitch-rehost, which is in wyattscarpenter/util; youtube-upload-url, which is in wyattscarpenter/util; youtube-dl, which is an external tool; youtubeuploader, which is an external tool; and client_secrets.json, which you'll have to get through some youtube/google website; and cookies.txt, which you'll have to use to see subscriber-only videos. Reading the comments in those other util scripts may help you in more precision with some of these. After all that, it should be smooth sailing!
+# Fourthly, you will want to make a new directory to run this script in, because there's going to be a lot of clutter associated with this tool: inputs of credential files, intermediate files containing some video data, and the outputs of rehosted video lists. (Note that, as long as the util folder is on your PATH, you shouldn't have to place this script file in the new directory; you'll just have to cd into it when you want to run a rehost job. If that confuses you, you should probably read a bit about unix command line basics before using this project.)
+
 set -euo pipefail
 
 [ "$#" -eq 0 ] && echo USAGE: "$0 [usernames...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments

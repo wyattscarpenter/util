@@ -1,0 +1,5 @@
+#!/bin/bash
+# calls youtube-dl in parallel on any number of command line arguments (urls)
+# unclear how one might specify any options to youtube-dl here
+[ "$#" -eq 0 ] && echo USAGE: "$0 [videos...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
+echo "$@" | xargs -P 0 -n 1 youtube-dl -f m4a #currently untested

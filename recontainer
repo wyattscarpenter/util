@@ -1,6 +1,5 @@
 #!/bin/bash
 set -euo pipefail #bash "strict mode"
-
 [ "$#" -lt 2 ] && echo USAGE: "$0 new_file_extention filenames..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 extension="$1"

@@ -1,14 +1,9 @@
 #!/bin/bash
-#a bash script to make the flac gooder
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 files_to_remove_embedded_art_from..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 #removes embedded album art
 #and is bit exact
-for i in *.flac ; do
-    ffmpeg -i "$i" -acodec copy -fflags +bitexact -vn "$(basename "${i/.flac}")..flac"
+for i in "$@" ; do
+  ffmpeg -i "$i" -acodec copy -fflags +bitexact -vn tmp.artless."$i"
+  mv tmp.artless."$i" "$i"
 done
-for i in *.mp3 ; do
-    ffmpeg -i "$i" -acodec copy -fflags +bitexact -vn "$(basename "${i/.mp3}")..mp3"
-done
-for i in *.m4a ; do
-    ffmpeg -i "$i" -acodec copy -fflags +bitexact -vn "$(basename "${i/.m4a}")..m4a"
-done
-rename -f "s/\.\././" *

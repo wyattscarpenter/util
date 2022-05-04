@@ -1,23 +1,28 @@
 #!/bin/bash
-# this script copies music files from the current dir to a different dir (specified as an argument, defaults to "../../mmusic/", you probably want to pass in /mnt/e/mmusic/ if you're me)
-# and re-encodes non-mp3/m4as to be mp3s
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 path_to_dir_to_populate_with_music paths_to_copy_and_convert_into_that_dir..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
-# by default, this script does not clobber, in order to save time
-# if you'd like to override this behavior, remove the "-n"s from mmusic-transfer
-# but it would likely be more prudent to simply rm the mmusic dir beforehand
+# This script copies music files from the current dir to a different dir (specified as an argument, I find "../../mmusic/" and "/mnt/e/mmusic/" quite useful sometimes)
+# and re-encodes non-mp3/m4as to be m4as using mmusic-transfer.
 
-# this script might take an hour or two to run, on my computer and collection
+# By default, this script does not clobber, in order to save time.
+# If you'd like to override this behavior, remove the "-n"s from mmusic-transfer.
+# However, it would likely be more prudent to simply rm the mmusic dir beforehand
 
-# this script does not copy images of any kind, to save space
+# This script might take an hour or two to run, on my computer and collection.
 
-mdir=${1:-"../../mmusic"}/ # an extra slash is harmless but a missing one is bad
+# This script does not copy images of any kind, to save space (but images embedded in the metadata of m4a/mp3s may be preserved).
 
-# it is not necessary to explicitly filter out these invalid files
-# but it does speed up the process a bit, probably
-find . -type f \
-	-not -name "*.png" -not -name "*.jpg" -not -name "*.gif" \
-	-not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
-	-not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
-	-not -name "*.db" -not -name "*.ini"  \
-	-print0 | \
-	xargs -0 -P 8 -I % mmusic-transfer "%" "$mdir%"
+mdir="$1"/ # an extra slash is harmless but a missing one is bad
+shift
+for i in "$@"; do
+# It is not necessary to explicitly filter out these invalid file types,
+# but it does speed up the process a bit, probably.
+  find "$i" -type f \
+    -not -name "*.png" -not -name "*.jpg" -not -name "*.gif" \
+    -not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
+    -not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
+    -not -name "*.db" -not -name "*.ini"  \
+    -print0 | \
+    xargs -0 -P 8 -I % mmusic-transfer "%" "$mdir%"
+done

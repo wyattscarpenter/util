@@ -1,17 +1,21 @@
 #!/bin/bash
-# this script called by the populate-mmusic-dir command
-# takes two arguments:
-# 1: the file we are transfering from
-# 2: the file we are transfering to (will end with the same extension as 1)
-if ! ([[ -f "$2" ]] || [[ -f "$2.m4a" ]])
+set -euo pipefail #bash strict mode
+[ "$#" -ne 2 ] && echo USAGE: "$0 from_file to_file" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+# This script is called by the populate-mmusic-dir command
+# This script takes two arguments:
+# 1: the file we are transferring from
+# 2: the file we are transferring to (as passed in, ends with the same file name and extension as 1, but living in a different file path)
+
+if ! ([[ -f "$2" ]] || [[ -f "$2.m4a" ]]) #if something's already there, don't bother to copy.
 then
-    d=`dirname "$2"`
-    [[ -d "$d" ]] || mkdir -p "$d"
-    if [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ]
-    then
-	cp -n "$1" "$2" && echo "$2"
-    else
-	ffmpeg -loglevel error -n -i "$1" -vn "$2.m4a" && echo "$2.m4a"
-    fi
+  d=`dirname "$2"`
+  [[ -d "$d" ]] || mkdir -p "$d"
+  if [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ] #if it's already mp3 or m4a, just copy; otherwise, convert to m4a 
+  then
+    cp -n "$1" "$2" && echo "$2"
+  else
+    ffmpeg -loglevel error -n -i "$1" -vn "$2.m4a" && echo "$2.m4a"
+  fi
 fi
 

@@ -30,6 +30,7 @@ try:
   if os.name == "nt": 
     for a in sys.argv[1:]:
       globlist = glob.glob(a)
+      dprint("glob", a, globlist)
       if globlist:
         files_to_rename_to_ocrs_of_themselves +=globlist
       else:
@@ -39,21 +40,19 @@ try:
 
   for i in files_to_rename_to_ocrs_of_themselves:
     print("filename: ", i)
-    if not i: continue
-    dprint(glob.glob(i))
     #  out = subprocess.run([], capture_output=True).stdout #this is how you do it in python 3.7 and later I guess
-
     output=subprocess.check_output(["tesseract", i, "stdout", "--psm", "1"]) #technically, I could also use outputbase instead of stdout to store this into a file instead of monkeying around with stdout, but that's also less clean, in a way.
-    dprint("raw: ", output)
+    dprint("raw:", output)
     output = output.decode("utf-8")
-    dprint("utf-8: ", output)
+    dprint("utf-8:", output)
     output = re.sub(r"\|", "I", output) #for some reason it often gets these wrong
     output = output.lower()
-    dprint("lowered: ", output)
+    dprint("lowered:", output)
     output = re.sub(r"[^\w\s]", "", output)
-    dprint("sub out non-word: ", output)
+    dprint("sub out non-word:", output)
     output = re.sub(r"\s+", " ", output).strip()
-    dprint("sub out spaces: ", output)
+    dprint("sub out spaces:", output)
+    if not output: continue #no recognizable text in the image, just don't do anything.
     dirname = os.path.dirname(i)
     ext = os.path.splitext(i)[1] #this is "split ext(ention)", not "split text", btw.
     output = output[0:255-len(ext)-1] #limit name to make operating system happy #the -1 is for good luck! or, possibly, the trailing nul that other systems (file explorer, perhaps) occasionally must slap on there.

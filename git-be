@@ -1,16 +1,22 @@
 #!/bin/bash
+set -euo pipefail #bash strict mode
+
+echo Current git identity:
+git whoami
+echo
+[ "$#" -eq 2 ] || [ "$#" -ge 1 ] && [ "$1" != "wyatt" ] || echo USAGE: "git be wyatt|[user.name user.email]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 # this script tells git you are me
 # or, if arguments are supplied,
 # you are someone else.
 
-if [ "$#" -ne 0 ] && [ "$#" -ne 2 ]; then
-  echo "Usage: be-wyatt [user.name user.email]" >&2
-  exit 1
-fi
+[ "$1" == "wyatt" ] && shift
 
 name=${1:-wyattscarpenter}
 email=${2:-wyattscarpenter@gmail.com}
 
 git config user.name "$name"
 git config user.email "$email"
+
+echo Now, the current git identity is:
+git whoami

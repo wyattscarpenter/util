@@ -2,10 +2,11 @@
 set -euo pipefail #bash strict mode
 
 echo Current git identity:
-git whoami
+git whoami || true # suppress error code to comply with strict mode
 echo
-[ "$#" -eq 2 ] || [ "$#" -ge 1 ] && [ "$1" != "wyatt" ] || echo USAGE: "git be wyatt|[user.name user.email]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
-
+if !([ "$#" -eq 1 ] && [ "$1" == "wyatt" ] || [ "$#" -eq 2 ]) ; then
+  echo USAGE: "git be wyatt|[user.name user.email]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+fi
 # this script tells git you are me
 # or, if arguments are supplied,
 # you are someone else.
@@ -14,7 +15,7 @@ echo
 
 name=${1:-wyattscarpenter}
 email=${2:-wyattscarpenter@gmail.com}
-
+echo Make the change.
 git config user.name "$name"
 git config user.email "$email"
 

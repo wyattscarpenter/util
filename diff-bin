@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -ne 2 ] && echo USAGE: "$0 file_1 file_2" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+diff <(xxd -p "$1") <(xxd -p "$2")

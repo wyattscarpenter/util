@@ -8,8 +8,9 @@
 mkdir -p tmp-giffing-text
 i=0
 for word in $@ #yeah that's right, finally finding a use for bash's built-in argument whitespace thing!
+#TODO: if I want to split this up into trigraphs, or whatever, I should probably pivot this entire program to python.
 do
-  magick convert -background lightblue -fill blue -size 128x128 -gravity center label:"$word" tmp-giffing-text/$(printf "%08d" $i).miff
+  magick convert -background white -fill black -font georgia -size 108x108 -gravity center label:"$word" tmp-giffing-text/$(printf "%08d" $i).miff
   echo $i
   ((i++))
 done

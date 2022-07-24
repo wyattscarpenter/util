@@ -2,9 +2,13 @@
 set -euo pipefail #bash strict mode
 [ "$#" -eq 0 ] && echo USAGE: "$0 target-url starting-timestamp [ending-timestamp]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
+#TODO: this script no longer works. If it doesn't work once I update the software it uses, then I'll have to actually get around to fixing this script.
+
+youtube-dl --rm-cache-dir #hopefully this fixes a rather bespoke error here...
 b="$(basename $1)"
+youtube-dl -g "$1" >url.tmp.txt #todo: this doesn't seem to fix the problem
 if [ $# -eq 3 ]; then
-  ffmpeg -ss "$2" -i $(youtube-dl --verbose  -g "$1") -to "$3" -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
+  ffmpeg -ss "$2" -i "`cat url.tmp.txt`" -to "$3" -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
 else
     ffmpeg -ss "$2" -i $(youtube-dl --verbose -g "$1") -c copy -copyts "${b##*=}.youtube-dl-part.mp4"
 fi

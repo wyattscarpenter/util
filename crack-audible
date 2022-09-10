@@ -1,13 +1,18 @@
+#!/bin/bash
+#set -euo pipefail #no bash strict mode, so the 0x0"$2" trick works
+[ "$#" -eq 0 ] || [ "$#" -gt 2 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 # Please only use this software legally in your country (such as personal use, where applicable)!
 # So, this is actually a pretty bad way to crack this encryption, because using a bash loop to repeatedly call ffmpeg (in sequence!) is prety slow, due to the associated overhead.
 # A native C program with a for loop and code to check the aax checksums would likely be much faster.
 # You could also just use, eg, https://audible-tools.github.io/
 # On my computer, this script tries ten keys a second. There are 4 bytes in a key, for 2^(4*8) = 4294967296 possibilities. 4294967296 / 10 / 60 / 60 / 24 / 2 = expected value of 2485 days before the key is found.
-# As such, the correct execution of this program remains theoretical
+# As such, the correct execution of this program has remained theoretical.
+
 key=0x0"$2" #lets you pass in a key to start at (for instance, your known key, your last attempt, or an offset you are parallelizing on) as optional second argument (takes hex string with no prefix, defaults to 0)
 until ffmpeg -loglevel panic -activation_bytes $(printf '%08X' $key) -i "$1" -c copy "$1".m4a
 do
-  echo $(printf '%08x' $key)
+  printf '%08x\r' $key #The \r is a carriage return, thus the line in the terminal overwrites itself, making a dynamic counter.
   ((key++))
 done
 echo $(printf '%08x' $key) >"aax key.txt"

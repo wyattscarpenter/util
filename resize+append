@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#automatically find biggest height
+max_height=0
+for file in "$@"
+do
+  file_height=$(magick identify -format "%[h]" "$file")
+  max_height=$(( $max_height > $file_height ? $max_height : $file_height ))
+done
+
+echo magick "$@" -resize "x$max_height" +append "$max_height"x.out.png
+magick "$@" -resize "x$max_height" +append "$max_height"x.out.png

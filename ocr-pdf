@@ -1,13 +1,14 @@
 #!/bin/bash
-set -euo pipefail
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 for i in "$@"
 do
-  mkdir tmp-ocr-"$i"
+  mkdir -p tmp-ocr-"$i"
   cp "$i" tmp-ocr-"$i"
   cd tmp-ocr-"$i"
   split-pdf-into-images "$i"
-  tessall
+  tessall *.png
   cp tess.txt ../"$1".ocr.txt
   cd ..
   rm -r tmp-ocr-"$i"

@@ -1,28 +1,23 @@
 #!/bin/bash
 set -euo pipefail #bash strict mode
-[ "$#" -eq 0 ] && echo USAGE: "$0 path_to_dir_to_populate_with_music paths_to_copy_and_convert_into_that_dir..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+[ "$#" -lt 2 ] && echo USAGE: "$0 path_to_dir_to_populate_with_music paths_to_copy_and_convert_into_that_dir..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
-# This script copies music files from the current dir to a different dir (specified as an argument, I find "../../mmusic/" and "/mnt/e/mmusic/" quite useful sometimes)
-# and re-encodes non-mp3/m4as to be m4as using mmusic-transfer.
-
-# By default, this script does not clobber, in order to save time.
-# If you'd like to override this behavior, remove the "-n"s from mmusic-transfer.
-# However, it would likely be more prudent to simply rm the mmusic dir beforehand
-
-# This script might take an hour or two to run, on my computer and collection.
-
-# This script does not copy images of any kind, to save space (but images embedded in the metadata of m4a/mp3s may be preserved).
+# This script copies music files from the current dir to a different dir (specified as an argument, I find "../../mmusic/" and "/mnt/e/mmusic/" quite useful sometimes) and re-encodes non-mp3/m4as to be m4as using mmusic-transfer.
+# By default, this script does not clobber, in order to save time. If you'd like to override this behavior, remove the "-n"s from mmusic-transfer. However, it would likely be more prudent to simply rm the mmusic dir beforehand.
+# This script does not copy images of any kind, to save space (but images embedded in the metadata of m4a/mp3s may be preserved, depending on the settings of mmusic-transfer).
 
 mdir="$1"/ # an extra slash is harmless but a missing one is bad
 shift
+
+#this is an extremely local function, as it uses the $i outside its scope.
+find_valid_files () { # you can pass additional arguments in here (hence, $*) ($1 also would have worked, at least for just one argument, ${1:-} if that argument was optional, I guess)
+  # It is not necessary to explicitly filter out these invalid file types, but it does speed up the process a bit & make our estimate more accurate.
+  find "$i" -type f -not -name "*.png" -not -name "*.jpg" -not -name "*.gif" -not -name "*.log" -not -name "*.cue" -not -name "*.m3u" -not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" -not -name "*.db" -not -name "*.ini" $*
+}
+
 for i in "$@"; do
-# It is not necessary to explicitly filter out these invalid file types,
-# but it does speed up the process a bit, probably.
-  find "$i" -type f \
-    -not -name "*.png" -not -name "*.jpg" -not -name "*.gif" \
-    -not -name "*.log" -not -name "*.cue" -not -name "*.m3u" \
-    -not -name "*.txt" -not -name "*.pdf" -not -name "*.doc" \
-    -not -name "*.db" -not -name "*.ini"  \
-    -print0 | \
+  filecount=`find_valid_files | wc -l`
+  echo "$filecount" files. Extremely rough estimate of time and total size of converted files, rounded to nearest integer GiB: $(("$filecount"/60)) minutes, $(("$filecount"* 2 / 1028)) GiB 
+  find_valid_files -print0 | \
     xargs -0 -P 8 -I % mmusic-transfer "%" "$mdir%"
 done

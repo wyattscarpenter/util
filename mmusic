@@ -4,4 +4,4 @@
 cd ~/files/music
 pwd
 mount-e-drive
-populate-mmusic-dir "/mnt/e/mmusic/"
+populate-mmusic-dir "/mnt/e/mmusic/" .

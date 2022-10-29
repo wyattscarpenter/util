@@ -7,15 +7,19 @@ set -euo pipefail #bash strict mode
 # 1: the file we are transferring from
 # 2: the file we are transferring to (as passed in, ends with the same file name and extension as 1, but living in a different file path)
 
+savetime=false #if you want to save time, you can set this to true, and if a file is mp3 or m4a already, we'll just copy. The trade-off here is space, as the re-encoding will encode to a lower bit-rate, thus saving space. This is especially true for mp3s, which are less efficient and thus need a higher bit-rate for the same audio quality (note that we do not in fact ensure that the same audio quality is achieved, when re-encoding in this script).
+
 if ! ([[ -f "$2" ]] || [[ -f "$2.m4a" ]]) #if something's already there, don't bother to copy.
 then
   d=`dirname "$2"`
   [[ -d "$d" ]] || mkdir -p "$d"
-  if [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ] #if it's already mp3 or m4a, just copy; otherwise, convert to m4a 
+  if "$savetime" && ( [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ] ) #if it's already mp3 or m4a, just copy; otherwise, convert to m4a 
   then
     cp -n "$1" "$2" && echo "$2"
   else
-    ffmpeg -loglevel error -n -i "$1" -vn "$2.m4a" && echo "$2.m4a"
+    #we use a bitrate of 86kbps here to save space, which sounds fine to me (I have experimented, the minimum for transparency for this codec for me is more than 64k but 86k at most) and saves about half of the space of the 128kbps default. YMMV, you can always remove this flag if you like.
+    #by the way, I only use the native library here because (1) I'm not going to go to the trouble of compiling my own ffmpeg with the special libfdk_aac library in and (2) I'm not sure my devices can even play AAC HE—slight testing suggests they cannot.
+    ffmpeg -loglevel error -n -i "$1" -vn -b:a 86k "$2.m4a" && echo "$2.m4a"
   fi
 fi
 

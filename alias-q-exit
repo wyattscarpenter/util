@@ -1,0 +1,2 @@
+#This script is NOT idempotent. But you only have to run it once, ever, to set up the line in the bashrc. Then forget about it!
+echo alias q=exit >>~/.bashrc

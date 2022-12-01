@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 files_to_add_and_commit... [-m message_string]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+#this script handles -m by assuming it's the second-to-last argument... perhaps there's some better trick I don't know, or maybe write a python script to juggle arguments more effectively.
+echo "${@: -2:1}" 
+if [[ "${@: -2:1}" == "-m" ]]; then
+  git add "${@:1:$#-2}" && git commit "$@"
+else
+  git add "$@" && git commit "$@"
+fi

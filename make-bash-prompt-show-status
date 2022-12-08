@@ -1,0 +1,3 @@
+#This script is idempotent due to the grep guard. But you only have to run it once, ever, to set up the line in the bashrc. Then forget about it!
+grep 'PS1="\[\e[0;31m\]\$?⏎$PS1"' ~/.bashrc || echo 'PS1="\[\e[0;31m\]\$?⏎$PS1"' >>~/.bashrc
+# the ⏎ doesn't display right in anything I have, but it's the unicode return symbol

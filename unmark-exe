@@ -1,5 +1,13 @@
-#this command solves the extremely specific problem where you're using WSL and you need to make an exe also function as a command without an .exe filename extension
-#at the moment, this script is barely tested
-#whereis seems to inexplicably fail to return the actual file path some times...
-[ "$#" -eq 0 ] && echo USAGE: "$0 command" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
-for i in `whereis "$@"` ; do echo "$i"; cp "$i".exe "$i" ; cp "$i" "${i/.exe}" ; done #covers both the case where you invoke unmark-exe on command or command.exe
+#!/bin/bash
+#This command solves the extremely specific problem where you're using WSL and you need to make an exe also function as a command without an .exe filename extension.
+[ "$#" -eq 0 ] && echo USAGE: "$0 command" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+#sudo -s
+for i in "$@"; do
+  file="$(whereis "$i" | cut -d ' ' -f2- -s)"
+  [ "$file" == "" ] && file="$(whereis "$i".exe | cut -d ' ' -f2- -s)" #This SHOULD cover both the case where you invoke unmark-exe on command or command.exe, but I haven't tested widely.
+  echo "$file"
+  if [ ! `cp "$file" "${file/.exe}"` ] ; then #Possibly due to setting up file ownership metadata properly on my wsl (), this does not work for me. So, instead...
+    mkdir -p ~/user/bin #you must add this to PATH. This script doesn't do it.
+    cp -p "$file" ~/user/bin/"$(basename "$file" .exe)"
+  fi
+done

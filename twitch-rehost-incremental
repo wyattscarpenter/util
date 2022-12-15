@@ -15,12 +15,13 @@ set -euo pipefail
 
 for i in "$@"; do
   echo Contacting "https://twitchrss.appspot.com/vodonly/$i" ...
-  #This pulls the current rss file from the service, and uses a grep regex to capture all the urls, keeping only those that appear before a <category>archive</category>, as that means they are VODs (ie this filters out the items containing '<category>highlight</category>' which are actually highlights not vods (https://github.com/lzeke0/TwitchRSS/issues/30)).
+  #This pulls the current rss file from the service, and uses a grep regex to capture all the urls, keeping only those that appear before a <category>archive</category>, as that means they are VODs (ie this filters out the items containing '<category>highlight</category>' which are actually highlights not vods (https://github.com/lzeke0/TwitchRSS/issues/30)) AND NOT before the string "404_processing", which indicates the item is missing a thumbnail and thus is currently live (which we don't want to scrape yet, as it is incomplete).
     #Code brittleness that would worry me more if this whole system wasn't jury-rigged to this particular rss service anyway:
-    # 1. The category element doesn't have to appear after the description, yet I require it to in the regex
+    # 1. The category element doesn't have to appear after the description, yet I require it to in the regex. (Same for the thumbnail.)
     # 2. (For some reason I use the href of the html link in the description and not the <link> element. Maybe I should change that in the future.)
+    # 3. There's no reason the 404 url has to stay the same. They've changed it before!
     #A solution would be to actually parse the rss, at which point I would not keep this program as a bash script!
-  for url in `wget -S -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*(?=")(?=.*<category>archive<\/category>)'`; do
+  for url in `wget -S -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*(?=")(?!.*404_processing)(?=.*<category>archive<\/category>)'`; do
     #maintain a file for this user
     touch "$i".txt
     if grep -Fxq "$url" "$i".txt

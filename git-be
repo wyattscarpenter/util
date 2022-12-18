@@ -1,23 +1,43 @@
 #!/bin/bash
 set -euo pipefail #bash strict mode
+# This script tells git you are me. Or, if arguments are supplied, that you are someone else.
+# The --folder flag makes this true, in your git "global" (user home dir) config for the current folder and any subdirectories using conditional includes https://git-scm.com/docs/git-config#_conditional_includes
 
 echo Current git identity:
 git whoami || true # suppress error code to comply with strict mode
+
+if [ "$1" == "--folder" ] || [ "$1" == "-folder" ] || [ "$1" == "--dir" ] || [ "$1" == "-dir" ] ; then
+  folder_mode=true
+  folder_config_or_nothing="--file `pwd`/.gitconfig"
+  shift
+fi
+
+#Make sure the user isn't passing folder in a disallowed place.
+# (We check $1 in case the user passes the flag twice and it's been shifted down.)
+#Note: if the user passes the flag folder twice, this can lead to odd errors. Shift may have consumed an argument but left $# unchanged, as it does.
+if ([ "$#" -ge 1 ] && ([ "$1" == "--folder" ] || [ "$1" == "-folder" ] || [ "$1" == "--dir" ] || [ "$1" == "-dir" ])) || ([ "$#" -ge 2 ] && ([ "$2" == "--folder" ] || [ "$2" == "-folder" ] || [ "$2" == "--dir" ] || [ "$2" == "-dir" ])) || ([ "$#" -ge 3 ] && ([ "$3" == "--folder" ] || [ "$3" == "-folder" ] || [ "$3" == "--dir" ] || [ "$3" == "-dir" ])) ; then
+  echo "git be: For simplicity's sake, the folder/dir flag must be passed as the first argument to git be, not any of the other positions."
+  echo "(If you were trying to set that flag literally to be your name or email, have you considered not being The Joker?)"
+  exit 22
+fi
+
 echo
 if !([ "$#" -eq 1 ] && [ "$1" == "wyatt" ] || [ "$#" -eq 2 ]) ; then
-  echo USAGE: "git be wyatt|[user.name user.email]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+  echo USAGE: "git be [[-]-folder|[-]-dir] wyatt|[user.name user.email]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 fi
-# this script tells git you are me
-# or, if arguments are supplied,
-# you are someone else.
 
+#Handle the wyatt case
 [ "$1" == "wyatt" ] && shift
-
 name=${1:-wyattscarpenter}
 email=${2:-wyattscarpenter@gmail.com}
+
 echo Make the change.
-git config user.name "$name"
-git config user.email "$email"
+
+if [ "$$folder_mode" = true ] ; then
+  git config --global includeIf.gitdir:`pwd`/.path `pwd`/.gitconfig #maybe this should be quoted differently somehow?
+fi
+git config $folder_config_or_nothing user.name "$name"
+git config $folder_config_or_nothing user.email "$email"
 
 echo Now, the current git identity is:
 git whoami

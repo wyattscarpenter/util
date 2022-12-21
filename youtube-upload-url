@@ -6,8 +6,7 @@ set -euo pipefail
 # Note that the video will be public, and copy the title and description from the source.
 # This script will use a meta.json file for video details if one is provided.
 # It will also use a cookies.txt file if given to download videos that require a login.
-# You can also make a disclaimer.txt file that will be appended to all of your descriptions. 
-# If used, disclaimer.txt MUST end with whatever kind of whitespace you want to separate the disclaimer from the rest of the description, be it a newline, a space, or nothing.
+# You can also make a disclaimer.txt file that will be appended to all of your descriptions.
 # This command MUST be run in from the directory that contains your client_secrets.json, and probably your request.token,
 # if you don't have such files, follow the instructions on https://github.com/porjo/youtubeuploader .
 # This command assumes that youtubeuploader is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader.exe or ./youtubeuploader or what-have-you
@@ -25,5 +24,5 @@ description=$(youtube-dl --cookies cookies.txt --skip-download --get-description
 nn=$'\n\n' #for use in formatting description
 
 #Note: the title has to be truncated if greater than youtube's limit of 100 characters.
-echo youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
-youtube-dl --cookies cookies.txt "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$(cat disclaimer.txt)$date_string $title $1$nn$description"
+echo youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$1 $title $date_string $description$nn$(cat disclaimer.txt)"
+youtube-dl --cookies cookies.txt "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$1 $title $date_string $description$nn$(cat disclaimer.txt)"

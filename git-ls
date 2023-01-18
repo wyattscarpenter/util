@@ -1,1 +1,8 @@
+echo "\e[7m[STATUS]\e[0m"
 git status
+echo
+echo "\e[7m[ORIGIN]\e[0m"
+git remote show origin | grep "up to date\|local out of date"
+echo
+echo "\e[7m[LOGHEAD]\e[0m"
+git log -n 1

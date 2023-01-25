@@ -1,3 +1,5 @@
+echo "\e[7m[WHOAMI]\e[0m"
+git whoami
 echo "\e[7m[STATUS]\e[0m"
 git status
 echo

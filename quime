@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 command..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+#Time and quine
+echo "$@"
+echo "`\time -f %e $@`" #it's %e simply because I prefer that format.

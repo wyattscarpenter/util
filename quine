@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 command..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+#This bash command will quine all its arguments; that is, it will print its argument string and then evaluate it (in bash) (it would probably work in plain sh as well).
+#If run with no arguments, this command would ideally "quine" (ie, print out) the file or command it is being run by (making it the cheating self-rep command) — but I couldn't figure out a way to make that possible, so it doesn't do that.
+
+echo "$@"
+echo "`$@`"

@@ -1,0 +1,4 @@
+#!/bin/bash
+#this is so you can run `rust script.rs` and/or shebang `#!/usr/bin/env rust`. I'm not sure how useful this is since it isn't standard, but thanks http://blog.joncairns.com/2015/10/a-single-command-to-compile-and-run-rust-programs/ for pointing out you can do this, anyway.
+name=$(basename $1 .rs)
+rustc $@ && ./$name && rm $name

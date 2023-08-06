@@ -1,0 +1,31 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+if [ "$#" -ne 2 ] || [ ! -f "$1" ] || [ -f "$2" ] ; then
+  echo USAGE: "$0 file_name sed_script" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments #also, in this case, for wrong arguments / mixed up order of arguments
+fi
+# $1: the file to operate on. A new file, "changed.$1", will be created by this process.
+# $2: the sed script. Something like "s/word1/word2/g; s/replacemealso/secondreplacementvalue/g" See https://www.gnu.org/software/sed/manual/html_node/sed-script-overview.html https://www.gnu.org/software/sed/manual/html_node/Multiple-commands-syntax.html and https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html
+
+tmpdir=tmp-docx-unzipped-"$1"
+unzip "$1" -d "$tmpdir"
+cd "$tmpdir"/
+sed --in-place -e "$2" word/comments.xml # oddly, rm word/comments.xml cripples the document so it won't display all of its pages. For some reason. So... don't do that.
+zip -r ../changed."$1" *
+cd ../
+rm -r "$tmpdir"
+
+: <<'HEREDOC'
+  OK, the shell script is over now. Here is a guide on how to do it manually, in case that knowledge is useful:
+  
+  This guide is me explaining how to convert comments in a docx to have proper author names attached instead of system user names (which are not very useful). It does, however, assume each system user has a unique user name. The process is probably similar for .odt. Also scripting this way means you can change any stuff about the comments.
+
+  This whole process is not very useful, because libreoffice is also slow at editing large documents like this :/, so there's no point having a local copy instead of just a google doc . Open Office is way better, though. Though also looks weird 🤔 not sure if it renders them right.
+
+  1. rename file to end with .zip
+  2. unzip it (you can't just open it with file explorer, because you're gonna have to edit a file)
+  3. Navigate to word/comments.xml
+  4. You can edit that file. Run a script on it, whatever. Or just delete it I guess.
+  5. Zip up again. (Do NOT commit the common mistake of making a zip file that contains a single folder with all the contents inside that. The contents must be directly under root, like in the original docx.)
+
+  And that's it!
+HEREDOC

@@ -1,0 +1,2 @@
+# This just aliases gits to git status
+git status

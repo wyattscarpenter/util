@@ -1,2 +1,2 @@
-# This just aliases git s to git status
+# This just aliases git st to git status
 git status

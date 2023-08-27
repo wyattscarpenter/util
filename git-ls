@@ -1,3 +1,6 @@
+echo "\e[7m[NOCHECKINS]\e[0m"
+  grep -Frin "no""checkin"
+echo
 echo "\e[7m[STATUS]\e[0m"
   git status
 echo

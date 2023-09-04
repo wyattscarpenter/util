@@ -1,0 +1,2 @@
+# Checks for the existence of the forbidden string
+git diff --staged -i --diff-filter=d -G "no""checkin"

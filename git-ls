@@ -1,6 +1,3 @@
-echo "\e[7m[NOCHECKINS]\e[0m"
-  grep -Frin "no""checkin"
-echo
 echo "\e[7m[STATUS]\e[0m"
   git status
 echo
@@ -15,4 +12,8 @@ echo
 echo "\e[7m[ORIGIN]\e[0m"
   git remote show origin | grep "URL\|up to date\|local out of date"
   git ls-remote #the point of this command is to show what the most recent commit is on the remote, but also log you in if you aren't already.
+echo
+echo "\e[7m[NO""CHECKINS]\e[0m"
+  export LC_ALL=C #this is just a funny hack to get grep to go faster. I'm not sure it actually does anything for the git-internal grep.
+  git "no""checkins"
 echo

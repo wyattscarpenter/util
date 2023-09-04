@@ -6,6 +6,8 @@ set -euo pipefail #bash strict mode
 echo Current git identity:
 git whoami || true # suppress error code to comply with strict mode
 
+folder_config_or_nothing=""
+
 if [ "$1" == "--folder" ] || [ "$1" == "-folder" ] || [ "$1" == "--dir" ] || [ "$1" == "-dir" ] ; then
   folder_mode=true
   folder_config_or_nothing="--file `pwd`/.gitconfig"

@@ -1,0 +1,2 @@
+# This just aliases git l to git log
+git log

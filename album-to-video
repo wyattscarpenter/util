@@ -1,13 +1,18 @@
 #!/bin/bash
-set -euo pipefail #mostly this is to preserve vidlist for later inspection if we fail. remember to delete vidlist again yourself!
+set -euo pipefail #bash strict mode #mostly this is to preserve vidlist for later inspection if we fail. remember to delete vidlist again yourself!
+[ "$#" -lt 3 ] && echo USAGE: "$0 output_file cover_image_file audio_files..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
-outfile=${1:-out.mkv}
+outfile="$1"
+cover="$2"
+shift 2
 seconds=0
+echo >vidlist.txt
+echo >vidlist.timestamps.txt
 
-for f in  ./*.flac ./*.m4a ./*.mp3 ./*.wav; do
-  if [ -f "$f" ]
+for f in "$@"; do #TODO: may need a `for f in "$a"` loop directly within this to glob correctly?
+  if [ -f "$f" ] #the -f (file) check in there is because if the glob is empty it will just return itself as a literal string. You could turn that behavior off using shopt -s nullglob, but this is more posix-y.
   then
-    echo "file ${f@Q}" >> vidlist.txt
+    echo "file ${f@Q}" >>vidlist.txt #${f@Q} is an esoteric thing that does escaped substitution. it's like a quoted substitituion. we need in in case the file name has a (single) quote character in it. man, the whole sh model of variables is bad. im past caring. i just accept it now.
     #that's taken care of. Now, for bookkeeping:
     filename=$(basename "$f")
     echo $(date -ud "@$seconds" +%T) ${filename%\.*} >>vidlist.timestamps.txt;
@@ -16,7 +21,6 @@ for f in  ./*.flac ./*.m4a ./*.mp3 ./*.wav; do
     seconds=$((seconds + duration_seconds))
   fi
 done
-#the check for -f in there is because if the glob is empty it will just return itself as a literal string. you can turn that off using shopt -s nullglob but this is more posix
-#${f@Q} is an esoteric thing that does escaped substitution. it's like a quoted substitituion. we need in in case the file name has a (single) quote character in it. man, the whole sh model of variables is bad. im past caring. i just accept it now.
-ffmpeg -loop 1 -framerate .2 -i cover.* -f concat -safe 0 -i vidlist.txt -c copy -shortest "$outfile"
+
+ffmpeg -loop 1 -framerate .2 -i "$cover" -f concat -safe 0 -i vidlist.txt -c copy -shortest "$outfile"
 rm vidlist.txt

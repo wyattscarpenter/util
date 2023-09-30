@@ -20,10 +20,12 @@ set -euo pipefail #bash strict mode
 [ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 ```
 
-Which shall (hopefully) conform to the format given here: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html
+The usage message from which shall (hopefully) conform to the POSIX Utility Argument Syntax format ( see here: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html )
 
 It seems like EINVAL ("Invalid argument") is a useful return value for exit to pass in this case, and EINVAL is 22 on my system, but empirically other programs like whereis and printf return random error codes like 1 or 2. Also, I am extremely inconsistent in whether I have actually harmonized any of this stuff.
 
 Of course, some scripts take 0 arguments and operate on the current directory. This inconsistency bothers me as it's hard (for me) to remember, so I may fix it some day.
 
 The way I currently think about it, if a script takes any arguments, it should have the header, and when run with no arguments should print out its help message. However, some scripts take no arguments and are best thought of as shortcuts invoking longer scripts. You must use the `text` command from this collection to see their interiors, as running them without arguments will just run them. There should be as few of those latter as possible, but some definitely still strike me as requiring that form factor (unless I just required the user to pass in a flag to confirm they know what they're doing? Hmm...). Also, some scripts are missing the header just because I haven't put it in yet haha.
+
+Some linting tools you can run on these files, at least the bash/sh scripts: shellcheck, checkbashisms (this latter one allowing you to achieve rarefied pure-sh status, which, uh maybe means your scripts will execute slightly faster sometimes. And can run on the systems of hypothetical people who don't have bash these days).

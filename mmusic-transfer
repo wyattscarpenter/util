@@ -9,11 +9,11 @@ set -euo pipefail #bash strict mode
 
 savetime=false #if you want to save time, you can set this to true, and if a file is mp3 or m4a already, we'll just copy. The trade-off here is space, as the re-encoding will encode to a lower bit-rate, thus saving space. This is especially true for mp3s, which are less efficient and thus need a higher bit-rate for the same audio quality (note that we do not in fact ensure that the same audio quality is achieved, when re-encoding in this script).
 
-if ! ([[ -f "$2" ]] || [[ -f "$2.m4a" ]]) #if something's already there, don't bother to copy.
+if ! ([[ -f "$2" ]] || [[ -f "$2.m4a" ]]) #if something's already in the destination folder, don't bother to copy over it.
 then
   d=`dirname "$2"`
   [[ -d "$d" ]] || mkdir -p "$d"
-  if "$savetime" && ( [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ] ) #if it's already mp3 or m4a, just copy; otherwise, convert to m4a 
+  if "$savetime" && ( [ "${1: -4}" = ".mp3" ] || [ "${1: -4}" = ".m4a" ] ) #if it's already mp3 or m4a, just copy; otherwise, convert to m4a
   then
     cp -n "$1" "$2" && echo "$2"
   else
@@ -22,4 +22,3 @@ then
     ffmpeg -loglevel error -n -i "$1" -vn -b:a 86k "$2.m4a" && echo "$2.m4a"
   fi
 fi
-

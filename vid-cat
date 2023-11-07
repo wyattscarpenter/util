@@ -5,11 +5,15 @@ set -euo pipefail #bash strict mode
 outfile="$1"
 shift
 seconds=0
+
+rm -f vidlist.tmp.txt vidlist.timestamps.txt # clear bookkeeping files if (-f) they exist
+
 for f in "$@"; do
+  if [ "$f" = "$outfile" ] ; then echo "The outfile '$outfile' is in the set of infiles. This is almost certainly an error so I'm terminating the program! Go delete that file!" && exit
+  fi
   echo file ${f@Q} >>vidlist.tmp.txt;
   #that's taken care of. Now, for bookkeeping:
-  filename=$(basename "$f")
-  echo $(date -ud "@$seconds" +%T) ${filename%\.*} >>vidlist.timestamps.txt;
+  echo $(date -ud "@$seconds" +%T) ${f%\.*} >>vidlist.timestamps.txt;
   duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$f")
   duration_seconds=${duration%\.*}
   seconds=$((seconds + duration_seconds))

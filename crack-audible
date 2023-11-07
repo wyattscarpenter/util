@@ -1,6 +1,6 @@
 #!/bin/bash
 #set -euo pipefail #no bash strict mode, so the 0x0"$2" trick works
-[ "$#" -eq 0 ] || [ "$#" -gt 2 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+[ "$#" -eq 0 ] || [ "$#" -gt 3 ] && echo USAGE: "$0 aax_file [key_to_start_trying_at (default:0) [key_to_stop_trying_at (default:0xFFFFFFFF)]]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 # Please only use this software legally in your country (such as personal use, where applicable)!
 # So, this is actually a pretty bad way to crack this encryption, because using a bash loop to repeatedly call ffmpeg (in sequence!) is prety slow, due to the associated overhead.
@@ -10,9 +10,12 @@
 # As such, the correct execution of this program has remained theoretical.
 
 key=0x0"$2" #lets you pass in a key to start at (for instance, your known key, your last attempt, or an offset you are parallelizing on) as optional second argument (takes hex string with no prefix, defaults to 0)
+maxnum=${3:-0xFFFFFFFF}
+
 until ffmpeg -loglevel panic -activation_bytes $(printf '%08X' $key) -i "$1" -c copy "$1".m4a
 do
   printf '%08x\r' $key #The \r is a carriage return, thus the line in the terminal overwrites itself, making a dynamic counter.
+  [[ $key -gt "$maxnum" ]] && echo "Key test value has exceeded the maximum, $maxnum; program is quitting unsuccessfully!" && exit 1
   ((key++))
 done
 echo $(printf '%08x' $key) >"aax key.txt"

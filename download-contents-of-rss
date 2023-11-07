@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -ne 1 ] && echo USAGE: "$0 url_or_perhaps_file_name_of_file" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+wget -q -O- "$1" | grep -o -E '<enclosure .*?url="[^"]*' - | grep -o '[^"]*$' - | xargs wget -c #credit to leo on stack overflow for the general form of this program https://stackoverflow.com/a/446217

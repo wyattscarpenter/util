@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail #bash strict mode
-[ "$#" -eq 0 ] && echo USAGE: "$0 target-url starting-timestamp [ending-timestamp]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+[ "$#" -lt 2 ] || [ "$#" -gt 3 ] && echo USAGE: "$0 target-url starting-timestamp [ending-timestamp]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 #TODO: this script no longer works. If it doesn't work once I update the software it uses, then I'll have to actually get around to fixing this script.
 

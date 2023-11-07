@@ -3,6 +3,8 @@
 
 """Do I repeat myself? Then I repeat myself! I am large; I contain the same thing multiple times.""" #riffing on a Walt Whitman line
 
+#TODO: test this change to argparse
+
 from collections import defaultdict
 import sys
 import os
@@ -16,6 +18,11 @@ debug = False #True
 def dprint(*args, **kwargs):
   if debug: eprint(*args, **kwargs)
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('files_to_search_for_repetitions', nargs='+')
+args = parser.parse_args()
+
 if len(sys.argv) < 1: # if run with no arguments, this code is self-documenting
   print("USAGE:", sys.argv[0], "files_to_search_for_repetitions...")
   print("IMPLEMENTATION:")
@@ -23,7 +30,7 @@ if len(sys.argv) < 1: # if run with no arguments, this code is self-documenting
   exit(22)
 
 #must manually glob on windows
-files_to_search_for_repetitions = []
+files_to_search_for_repetitions = args.files_to_search_for_repetitions
 if os.name == "nt":
   for a in sys.argv[1:]:
     globlist = glob.glob(a)
@@ -33,7 +40,8 @@ if os.name == "nt":
     else:
       raise FileNotFoundError(a+" is not a valid file name, nor does it expand to one using (glob) wildcarding.") #could make this just an eprint, if that turns out to be more convenient.
 else:
-  files_to_search_for_repetitions = sys.argv[1:]
+  #files_to_search_for_repetitions = sys.argv[1:]
+  pass
 
 d = defaultdict(list)
 

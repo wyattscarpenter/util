@@ -22,5 +22,6 @@ for f in "$@"; do #TODO: may need a `for f in "$a"` loop directly within this to
   fi
 done
 
+#TODO: Doesn't work with most versions of ffmpeg anymore??
 ffmpeg -loop 1 -framerate .2 -i "$cover" -f concat -safe 0 -i vidlist.txt -c copy -shortest "$outfile"
 rm vidlist.txt

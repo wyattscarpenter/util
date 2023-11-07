@@ -1,6 +1,22 @@
+#!/bin/bash
+# set -euo pipefail #bash strict mode
+[ "$#" -lt 1 ] && echo USAGE: "$0 infiles..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 #you can scale DVDs to 720p for youtube.
 #I used to use truly lossless crf 0 for this but it's just not worth the space. All the things I use this on are already rips.
-ffmpeg -i "$1" -c:a copy -vf "scale=w=1280:h=720:force_original_aspect_ratio=decrease" -c:v libx264 -crf 16 -preset fast 720d."$1".mkv
+
+mkdir -p output
+
+for i in "$@"; do
+  #For some reason these have a trailing carriage return on them? Whatever; we just strip that, instead of trying to find the needle in the ffprobe documentation haystack that lets us turn off this anti-feature.
+  width=`ffprobe -v error -select_streams v -show_entries stream=width -of csv=p=0:s=x "$i" | tr -d '\r'`
+  height=`ffprobe -v error -select_streams v -show_entries stream=height -of csv=p=0:s=x "$i" | tr -d '\r'`
+  echo $width×$height: $i
+  ffmpeg -i "$i" -c:a copy -vf "scale=w=1280:h=1050" -c:v libx264 -crf 16 -preset fast output/"$i".mp4
+done
+
+cd output
+vid-cat output.mp4 "$@"
 
 # Experiment on a video that is I guess wider than 16:9 (Video resolution: 702x576) (In fact, 16/9 = 1.77..., 4/3 = 1.33..., 702/576 = 1.21875, 5/4 = 1.25)
 # scale=w=1280:h=720:force_original_aspect_ratio=increase Video resolution: 1280x1050
@@ -8,3 +24,6 @@ ffmpeg -i "$1" -c:a copy -vf "scale=w=1280:h=720:force_original_aspect_ratio=dec
 # scale=w=1280:h=-2:force_original_aspect_ratio=increase Video resolution: 1280x1050
 # scale=w=1280:h=720:force_original_aspect_ratio=decreaseVideo resolution: 878x720
 #IDK what I would do if I needed to avoid FFMPEG (libx264) "height not divisible by 2" AND I didn't know which slot should have the -2 in it...
+
+# -f mp4 pipe:1 | youtubeuploader -filename -
+# -f concat -i vidlist.tmp.txt

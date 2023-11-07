@@ -1,7 +1,9 @@
 #!/bin/bash
 set -euo pipefail #bash strict mode
-[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
-
-#invoked on any number of arguments, mixes together the audio to output.flac
-#sorry, I couldn't figure out how to makes this work for file names with spaces in. The output of @Q mysteriously is not accepted
-ffmpeg `for arg in "$@"; do echo -n "-i $arg "; done` -filter_complex amix=inputs="$#":duration=longest output.flac
+[ "$#" -lt 2 ] && echo USAGE: "$0 output_file input_files..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+# Invoked on any number of arguments, mixes together the audio to output file. That is, the output file will be the result of playing all the input files simultaneously and recording them, as it were.
+# Currently, this command does no audio level normalization. The correct flag to do that is something like -af dynaudnorm
+# WARNING: will not work for input_file names with spaces. Sorry, I couldn't figure out how to make this work for file names with spaces in. The output of @Q mysteriously is not accepted
+output_file="$1"
+shift
+ffmpeg `for arg in "$@"; do echo -n "-i $arg "; done` -filter_complex amix=inputs="$#":duration=longest "$output_file"

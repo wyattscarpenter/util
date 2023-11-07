@@ -1,5 +1,6 @@
 #!/bin/bash
-#usage: vid-excerpt infilename time-begin (time-end (outfilename (additional options for ffmpeg)))
+set -euo pipefail #bash strict mode
+[ "$#" -lt 2 ] && echo USAGE: "$0 infilename time-begin [time-end [outfilename [additional options for ffmpeg...]]]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 outfile=${4:-vid-excerpt."$1"}
 if [ "$#" -ge 3 ]; then
   ffmpeg -ss "$2" -i "$1" -to "$3" -c copy -copyts ${@:5} "$outfile"

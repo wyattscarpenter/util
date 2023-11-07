@@ -4,9 +4,9 @@
 max_width=0
 for file in "$@"
 do
-  file_width=$(magick identify -format "%[w]" "$file")
+  file_width=$(identify -format "%[w]" "$file")
   max_width=$(( $max_width > $file_width ? $max_width : $file_width ))
 done
 
-echo magick "$@" -resize "$max_width" -append "$max_width"x.out.png
-magick "$@" -resize "$max_width" -append "$max_width"x.out.png
+echo convert "$@" -resize "$max_width" -append "$max_width"x.out.png
+convert "$@" -resize "$max_width" -append "$max_width"x.out.png

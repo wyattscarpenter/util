@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Kill Time
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      3
+// @version      4
 // @author       wyattscarpenter
 // @description  Discord text formatting don't be annoying challenge
 // @match        *://discordapp.com/*
@@ -20,10 +20,9 @@ function killTime(){ //should work for both compact and cozy.
   //Since I still want a copyable colon in cozy mode, we add one:
   //(We also change the class as a lazy way of preventing an infinite colon-adding loop.)
   document.querySelectorAll('[class^="headerText"]').forEach(element => {element.append(": "); element.className = "colonatedHeaderText";})
-  //TODO: In compact on firefox, there is an unfortunate space between the username and the :, caused by a "whitespace only text node" in there...
 }
 
-var observer, observing, selector = '[class^="chat-"]'; //'[class^="scrollerInner-"]'; //this also works, as per https://greasyfork.org/en/scripts/373445-discord-keyword-notification/discussions/60844
+var observer, observing, selector = '[class^="chatContainer"]'; //'[class^="scrollerInner"]'; //This selector also works.
 
 function init() {
   setInterval(function(e) {

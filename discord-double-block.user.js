@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Double Block
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      1
+// @version      2
 // @author       wyattscarpenter
 // @description  Removes "message blocked" message from blocked messages in discord.
 // @match        *://discordapp.com/*
@@ -21,7 +21,7 @@ function tripleBlock(){
   document.querySelectorAll('[class^="blockedSystemMessage"]').forEach(element => element.remove())
 }
 
-var observer, observing, selector = '[class^="chat-"]'; //'[class^="scrollerInner-"]'; //this also works, as per https://greasyfork.org/en/scripts/373445-discord-keyword-notification/discussions/60844
+var observer, observing, selector = '[class^="chatContainer"]'; //'[class^="scrollerInner"]'; //This selector also works.
 
 function init() {
   var observerInit = {childList: true, subtree: true};

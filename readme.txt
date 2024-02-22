@@ -2,6 +2,8 @@ This is a collection of small shell scripts I have found useful. Some of them ar
 
 Each script is documented by comments in the script itself.
 
+This collection pairs well with the wnix collection: https://github.com/wyattscarpenter/wnix/
+
 Some of these scripts have external dependencies; if the script gives you some error about some command not being found, you probably need to go install a dependency. Some common dependencies are imagemagick and ffmpeg.
 
 Most of these scripts were written for Bash on Windows. As far as I can tell, you used to be allowed to invoke an exe from Bash for Windows without its extension, but this was later changed so you have to supply the extension ("command" in the first case vs "command.exe" in the second case). If you have Bash for Windows and you have command.exe but the script is invoking command plain, then try invoking unmark-exe on the exe on the command line (this works if the exe is anywhere on your path). Alternatively, you can install the required software in Bash using apt or similar; however, the packages are often rather out of date (this became a problem for me with ffmpeg).

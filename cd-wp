@@ -1,0 +1,6 @@
+#!/bin/bash
+echo 'TODO: This script should just be an alias, I guess, because right now you have to source it, like with . cd-wp desired-path'
+echo "$@"
+#echo "$(wp ${@@Q})"
+echo cd "$(wp $@)"
+cd "$(wp $@)"

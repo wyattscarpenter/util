@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Kill Time
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      6
+// @version      7
 // @author       wyattscarpenter
 // @description  Discord text formatting don't be annoying challenge
 // @match        *://discordapp.com/*
@@ -19,7 +19,7 @@ function killTime(){ //should work for both compact and cozy.
   document.querySelectorAll('[class^="separator"]').forEach(element => element.remove()) //since separator location differs between cozy and compact, it's best just to not use it.
   //Since I still want a copyable colon in cozy mode, we add one:
   //(We also change the class as a lazy way of preventing an infinite colon-adding loop.)
-  document.querySelectorAll('[class^="headerText"]').forEach(element => {element.append(": "); element.className = "colonatedHeaderText";})
+  document.querySelectorAll('[class^="headerText"]').forEach(element => {element.firstChild.append(": "); element.className = "colonatedHeaderText";})
 }
 
 var observer = false, observing = false;

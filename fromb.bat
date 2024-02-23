@@ -1,1 +1,1 @@
-frombulate.py
+frombulate.py %*

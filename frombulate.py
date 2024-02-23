@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 from random import choice
 from time import sleep
 from sys import argv
@@ -44,17 +45,28 @@ if len(args) >=1: print("Using files (and arguments)", args)
 def cartesian_string_product(left: list[str], right: list[str]) -> list[str]:
   return [l + r for l in left for r in right]
 
-flag_prefixes = ['-', '--', '/'] #some people don't know this, but the slash is the DOS/cmd flag prefix.
-quiet_flag_words = ['q', 'quiet']
-fast_flag_words = ['f', 'fast']
-quiet_flags = cartesian_string_product(flag_prefixes, quiet_flag_words)
-fast_flags = cartesian_string_product(flag_prefixes, fast_flag_words)
+class Strlist: #probably not great for a lot of applications, but sure is convenient for this one!
+  def __init__(self, l: list[str]): self.l = l
+  def __mul__(self, o: Strlist): return Strlist(cartesian_string_product(self.l, o.l))
+  def __add__(self, o: Strlist): return Strlist(self.l + o.l)
+  def __contains__(self, item: str): return item in self.l
+
+flag_prefixes = Strlist(['-', '--', '/']) #some people don't know this, but the slash is the DOS/cmd flag prefix.
+quiet_flag_words = Strlist(['q', 'quiet'])
+fast_flag_words = Strlist(['f', 'fast'])
+quiet_flags = flag_prefixes*quiet_flag_words
+fast_flags = flag_prefixes*fast_flag_words
+flag_word_seps = Strlist(["", "-", "_", " "])
+fq_flags = flag_prefixes*fast_flag_words*flag_word_seps*quiet_flag_words + flag_prefixes*quiet_flag_words*flag_word_seps*fast_flag_words #this allows for -fq, among other things
 
 quiet = False
 fast = False
 
 for filename in args:
-  if filename.lower() in quiet_flags:
+  if filename.lower() in fq_flags:
+    fast = True
+    quiet = True
+  elif filename.lower() in quiet_flags:
     quiet = True
   elif filename.lower() in fast_flags:
     fast = True

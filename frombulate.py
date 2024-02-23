@@ -47,9 +47,9 @@ def cartesian_string_product(left: list[str], right: list[str]) -> list[str]:
 
 class Strlist: #probably not great for a lot of applications, but sure is convenient for this one!
   def __init__(self, l: list[str]): self.l = l
-  def __mul__(self, o: Strlist): return Strlist(cartesian_string_product(self.l, o.l))
-  def __add__(self, o: Strlist): return Strlist(self.l + o.l)
-  def __contains__(self, item: str): return item in self.l
+  def __mul__(self, o: Strlist) -> Strlist: return Strlist(cartesian_string_product(self.l, o.l))
+  def __add__(self, o: Strlist) -> Strlist: return Strlist(self.l + o.l)
+  def __contains__(self, item: str) -> bool: return item in self.l
 
 flag_prefixes = Strlist(['-', '--', '/']) #some people don't know this, but the slash is the DOS/cmd flag prefix.
 quiet_flag_words = Strlist(['q', 'quiet'])

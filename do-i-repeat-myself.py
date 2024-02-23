@@ -3,8 +3,6 @@
 
 """Do I repeat myself? Then I repeat myself! I am large; I contain the same thing multiple times.""" #riffing on a Walt Whitman line
 
-#TODO: test this change to argparse
-
 from collections import defaultdict
 import sys
 import os
@@ -20,14 +18,19 @@ def dprint(*args, **kwargs):
 
 import argparse
 parser = argparse.ArgumentParser()
+parser.add_argument('ACTION', help="""The ACTION specifies what the program should do, specifically. The options are:
+  REPORT: print a listing of repetitions to standard out.
+  KILL: rewrite the file without repetitions.
+  QUIET: simply return 1 if there are repetitions and 0 if there aren't, without
+  INTERACT: Unimplemented, possible interactive version.
+the action specifiers are case-insensitive and in fact only their first letter is used.""")
 parser.add_argument('files_to_search_for_repetitions', nargs='+')
-args = parser.parse_args()
+parser.add_argument('-sep', '--sep', help="The string to use as a separator in the search. Make sure to quote this properly in your shell when giving it as input! Defaults to a double-newline (\\n\\n, as it were) (I haven't settled on how to deal with python newline system handling yet", default='\n\n')
+parser.add_argument('-strategy', help="Presumably I will add several methods of detecting reps at some point", default='split')
+parser.add_argument('-ignore_filename_errors', help="normally, passing in an incorrect filename is an error, but said errors can be suppressed", default='naive')
 
-if len(sys.argv) < 1: # if run with no arguments, this code is self-documenting
-  print("USAGE:", sys.argv[0], "files_to_search_for_repetitions...")
-  print("IMPLEMENTATION:")
-  print(open(__file__).read())
-  exit(22)
+
+args = parser.parse_args()
 
 #must manually glob on windows
 files_to_search_for_repetitions = args.files_to_search_for_repetitions
@@ -39,17 +42,17 @@ if os.name == "nt":
       files_to_search_for_repetitions +=globlist
     else:
       raise FileNotFoundError(a+" is not a valid file name, nor does it expand to one using (glob) wildcarding.") #could make this just an eprint, if that turns out to be more convenient.
-else:
-  #files_to_search_for_repetitions = sys.argv[1:]
-  pass
 
 d = defaultdict(list)
+sep = args.sep
 
 for filename in files_to_search_for_repetitions:
   print("searching file: ", filename)
   line_number = 1
   with open(filename,"r", encoding="utf8") as file:
-    for l in file: #may skip last line of file if you don't have a trailing newline
+    chunks = file.read().split(sep)
+    #input(
+    for l in chunks: #may skip last line of file if you don't have a trailing newline
       d[l] += [filename+":"+str(line_number)]
       line_number += 1
 for l in d:

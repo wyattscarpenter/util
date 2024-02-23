@@ -1,0 +1,4 @@
+#Tired of example shell scripts with $ at the beginning of each line not letting you
+#TODO: This script currently doesn't work! Not even BASH_ALIASES['$']='' worked for this...
+#This script is idempotent due to the grep guard. But you only have to run it once, ever, to set up the line in the bashrc. Then forget about it!
+grep 'alias $=.' ~/.bashrc || echo 'alias $=.' >>~/.bashrc

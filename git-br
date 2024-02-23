@@ -1,2 +1,1 @@
-# This just aliases git br to git branch --verbose, so I can see branches faster.
-git branch --verbose
+git branch --verbose "$@"

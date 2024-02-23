@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Double Block
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      3
+// @version      4
 // @author       wyattscarpenter
 // @description  Removes "message blocked" message from blocked messages in discord.
 // @match        *://discordapp.com/*
@@ -21,17 +21,16 @@ function tripleBlock(){
   document.querySelectorAll('[class^="blockedSystemMessage"]').forEach(element => element.remove())
 }
 
-var observer, observing, selector = '[class^="scrollerInner"]';
-
+var observer = false, observing = false;
 function init() {
-  var observerInit = {childList: true, subtree: true};
   setInterval(function(e) {
-    if (!observing && (e = document.querySelector(selector))) {
+    if (!observing && document.querySelector('[class^="separator"]')) { //We delay running the function until the scollerInner is loaded, so as to avoid bogging down the page-load performance with Observing every change to the DOM before we need to.
       observing = true;
-      if (!observer) {observer = new MutationObserver(doubleBlock)};
-      observer.observe(e, observerInit);
+      if (!observer) {
+          observer = new MutationObserver(doubleBlock);
+      }
+      observer.observe(document.querySelector('html'), {childList: true, subtree: true}); //I don't really understand why we need to bind to html, but it seems to work that way and no other.
     }
-
   }, 500);
 }
 init();

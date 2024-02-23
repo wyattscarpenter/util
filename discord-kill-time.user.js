@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Kill Time
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      5
+// @version      6
 // @author       wyattscarpenter
 // @description  Discord text formatting don't be annoying challenge
 // @match        *://discordapp.com/*
@@ -22,16 +22,16 @@ function killTime(){ //should work for both compact and cozy.
   document.querySelectorAll('[class^="headerText"]').forEach(element => {element.append(": "); element.className = "colonatedHeaderText";})
 }
 
-var observer, observing, selector = '[class^="scrollerInner"]';
-
+var observer = false, observing = false;
 function init() {
   setInterval(function(e) {
-    if (!observing && (e = document.querySelector(selector))) {
+    if (!observing && document.querySelector('[class^="separator"]')) { //We delay running the function until this type of element is loaded, so as to avoid bogging down the page-load performance with Observing every change to the DOM before we need to.
       observing = true;
-      if (!observer) {observer = new MutationObserver(killTime)};
-      observer.observe(e, {childList: true, subtree: true});
+      if (!observer) {
+          observer = new MutationObserver(killTime);
+      }
+      observer.observe(document.querySelector('html'), {childList: true, subtree: true}); //I don't really understand why we need to bind to html, but it seems to work that way and no other.
     }
-
   }, 500);
 }
 init();

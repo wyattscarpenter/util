@@ -1,0 +1,3 @@
+# Tired of example shell scripts with $ at the beginning of each line ruining your ability to just run them? Well now you can! Unless they try to cd or something.
+# Note that this file doesn't have a shebang, because it should be supported natively by most shells, so the transition is seamless if we omit the shebang.
+"$@"

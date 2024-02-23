@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Kill Time
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      4
+// @version      5
 // @author       wyattscarpenter
 // @description  Discord text formatting don't be annoying challenge
 // @match        *://discordapp.com/*
@@ -22,7 +22,7 @@ function killTime(){ //should work for both compact and cozy.
   document.querySelectorAll('[class^="headerText"]').forEach(element => {element.append(": "); element.className = "colonatedHeaderText";})
 }
 
-var observer, observing, selector = '[class^="chatContainer"]'; //'[class^="scrollerInner"]'; //This selector also works.
+var observer, observing, selector = '[class^="scrollerInner"]';
 
 function init() {
   setInterval(function(e) {

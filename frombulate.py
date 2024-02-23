@@ -37,6 +37,8 @@ the_array = [
   "Caching",
   "Logging error",
   "███████████ | 100%",
+  "[###########] 100%",
+  "[***********] 256/256",
   "Surfing subways",
 ]
 args = argv[1:]
@@ -45,11 +47,8 @@ if len(args) >=1: print("Using files (and arguments)", args)
 def cartesian_string_product(left: list[str], right: list[str]) -> list[str]:
   return [l + r for l in left for r in right]
 
-class Strlist: #probably not great for a lot of applications, but sure is convenient for this one!
-  def __init__(self, l: list[str]): self.l = l
-  def __mul__(self, o: Strlist) -> Strlist: return Strlist(cartesian_string_product(self.l, o.l))
-  def __add__(self, o: Strlist) -> Strlist: return Strlist(self.l + o.l)
-  def __contains__(self, item: str) -> bool: return item in self.l
+class Strlist(list[str]): #probably not great for a lot of applications, but sure is convenient for this one!
+  def __mul__(self, o: Strlist) -> Strlist: return Strlist(cartesian_string_product(self, o)) # type: ignore[override] #mypy would prefer subtyping respect the  Liskov substitution principle, but I don't care about that.
 
 flag_prefixes = Strlist(['-', '--', '/']) #some people don't know this, but the slash is the DOS/cmd flag prefix.
 quiet_flag_words = Strlist(['q', 'quiet'])
@@ -73,12 +72,12 @@ for filename in args:
   else:
     try:
       with open(filename, encoding="utf-8") as f:
-        the_array += f.read().split('\n')
+        the_array += f.read().strip('\n').split('\n')
     except Exception as e:
       print(e)
 
 print("Frombulating... (Ctrl-C to cancel)")
 while True:
-  sleep(10 if not fast else .1)
+  sleep( 10 if not fast else choice([.01, .05, .1, .15, .2, .25, .3, .5]) )
   if not quiet:
     print(choice(the_array),"...",sep="")

@@ -14,6 +14,7 @@ alias q=exit
 PS1="\[\e[0;31m\]\$?⏎$PS1"
 
 # Make cd-wp a command you can always do (uses the wp command from util)
-cd-wp() {
-  cd "$(wp $@)"
+cdwp() {
+  cd `wp "$@"`
 }
+alias cd-wp=cdwp #fun fact, I guess cd-wp is an invalid function name according to dash shell. It doesn't complain about this alias though (which I think it also technically invalid).

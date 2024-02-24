@@ -1,5 +1,6 @@
 # This is utilrc, a file that sets up various aliases that I want, like bashrc. It's shell-agnostic to some extent. You should probably add . utilrc to your ~/.bashrc if you want to use this, or something.
 # Fun fact: the "rc" in all these "rc" files stands for "run commands".
+# My general philosophy for utilrc is to make anything that can be an independent bash program file an independent file, and only use this for things that can't be (because they have some side-effect for the current shell, like changing the working directory or changing the prompt for the session or quitting).
 
 # Aliases for mistyping "cd .."
 alias cd..='cd ..'
@@ -11,3 +12,8 @@ alias q=exit
 # Make bash command prompt always show the status returned by the previously-run command.
 # (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol.)
 PS1="\[\e[0;31m\]\$?⏎$PS1"
+
+# Make cd-wp a command you can always do (uses the wp command from util)
+cd-wp() {
+  cd "$(wp $@)"
+}

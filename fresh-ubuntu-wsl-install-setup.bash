@@ -14,13 +14,6 @@ else
   #Non-WSL Linux, no need to do anything
 fi
 
-
-#This lets you exit the shell with the pseudo-command "q"
-alias-q-exit
-#Make bash command prompt always show the status returned by the previously-run command
-make-bash-prompt-show-status
-echo >>~/.bashrc
-
 #Makes chmod/chown actually do something:
 #You need to be root to do these things, but it's not quite clear to me how it is to be done without interrupting itself.
 #sudo -s #this just entered a root shell and did nothing, so I guess I'll try tee

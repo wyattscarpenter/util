@@ -1,7 +1,9 @@
 #bashrc stuff
 echo >>~/.bashrc
 echo \#Stuff from the script collection Util: >>~/.bashrc
+echo . utilrc >>~/.bashrc
 
+#COULD: put this in utilrc, I guess. And, I suppose, do the checks "at runtime", which might simplify the code (perhaps at some small performance cost?)
 if grep -qi microsoft /proc/version; then
   echo \#When the script to modify this bashrc was run, I detected the existence of \"Microsoft\", case-insensitive, in the /proc/version, from which I deduce this is a WSL system. >>~/.bashrc
   if [ -d /mnt/wslg/ ] ; then

@@ -4,3 +4,4 @@
 #aliases for mistyping "cd .."
 alias cd..='cd ..'
 alias ..='cd ..'
+alias q=exit

@@ -1,2 +1,0 @@
-#This script is idempotent due to the grep guard. But you only have to run it once, ever, to set up the line in the bashrc. Then forget about it!
-grep "alias q=exit" ~/.bashrc || echo alias q=exit >>~/.bashrc

@@ -10,6 +10,8 @@ Most of these scripts were written for Bash on Windows. As far as I can tell, yo
 
 This collection will probably be the most useful to you if you add this folder to your PATH. The best way for you to do this is to google "how to add directory to path" and then do it yourself. You can also try using the script add-pwd-to-path, but this makes only a half-hearted attempt at doing the right thing.
 
+Once you have this collection on your path, you can then add . utilrc to your bashrc to get the customizations and aliases from utilrc. The fresh-ubuntu-wsl-install-setup.bash script will also do this for you, among other things.
+
 I consider (many of) these scripts too trivial to fall under copyright. However, I am not a lawyer, so if I do actually hold a copyright on these scripts, I release them into the public domain under CC0. See https://creativecommons.org/publicdomain/zero/1.0/ for more information. Some (almost none) of these scripts were written by other people, so I claim no ownership over those. See the comments for details about these; usually my scripts were just inspired (in the sense of art inspiring other art to use a similar structure or elements) by other scripts, and I note this appropriately, and they are still my original creations. However, sometimes I have just copied someone else's script wholesale, and have noted that appropriately.
 
 The name of this collection is a small joke, as "util" is generally regarded by programmers to be a terribly uninformative name for anything. This collection is dedicated to Jeremy Bentham, the inventor of usefulness.

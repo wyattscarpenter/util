@@ -1,1 +1,1 @@
-git diff --minimal --word-diff -U0 | grep '{+.*+}' | git commit -a -F -
+git diff --staged --minimal --word-diff -U0 | grep '{+.*+}' | git commit -F -

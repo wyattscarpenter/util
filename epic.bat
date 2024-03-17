@@ -8,7 +8,7 @@ legendary launch %1 && exit
 REM This is idempotent if your stored credentials are still valid. If you don't have valid credentials, it will open a web browser to a page for you to get them:
 legendary auth
 REM This updates the game listing in case legendary doesn't know about a game we just purchased:
-legendary list-game
+legendary list-games
 REM This is idempotent if your game is already installed:
 legendary install %1
 legendary launch %1

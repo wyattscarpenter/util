@@ -1,1 +1,1 @@
-git update-index --chmod=$@
+git update-index --chmod="$@"

@@ -1,1 +1,1 @@
-{ git status --short --porcelain | tr '\n' ' ' & git diff HEAD --minimal --word-diff -U0 | grep -E '{+.*+}|\[-.*-\]' ; } | git commit -a -F -
+{ git status --short --porcelain --untracked-files=no | tr '\n' ' ' & git diff HEAD --minimal --word-diff -U0 | grep -E '{+.*+}|\[-.*-\]' ; } | git commit -a -F -

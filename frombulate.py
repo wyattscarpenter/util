@@ -85,7 +85,8 @@ for filename in args:
       print(e)
 
 print("Frombulating... (Ctrl-C to cancel)")
+sleep(5)
 while True:
-  sleep( 10 if not fast else choice([.01, .05, .1, .15, .2, .25, .3, .5]) )
   if not quiet:
     print(choice(the_array),"...",sep="")
+  sleep( 10 if not fast else choice([.01, .05, .1, .15, .2, .25, .3, .5]) )

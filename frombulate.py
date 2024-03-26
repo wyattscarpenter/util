@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-from random import choice
-from time import sleep
-from sys import argv
 """Frombulate frombulates.
 
 It lets you feel the warm glow of multitasking productivity at all times, even times when you don't really have anything on.
@@ -10,6 +6,10 @@ It lets you feel the warm glow of multitasking productivity at all times, even t
 The CPU usage of this program should be especially low.
 
 You may supply additional newline-delimited utf-8 text files to this program (traditionally with the file extension 'fromb') as arguments on the command line. These will then be added to the frombulation array. I didn't see a need for this feature, but my friend requested it. The only file names that cannot be used are the quiet and fast option flags which may be passed to this program."""
+from __future__ import annotations
+from random import choice
+from time import sleep
+from sys import argv
 
 the_array = [
   "Installing",
@@ -57,12 +57,20 @@ quiet_flags = flag_prefixes*quiet_flag_words
 fast_flags = flag_prefixes*fast_flag_words
 flag_word_seps = Strlist(["", "-", "_", " "])
 fq_flags = flag_prefixes*fast_flag_words*flag_word_seps*quiet_flag_words + flag_prefixes*quiet_flag_words*flag_word_seps*fast_flag_words #this allows for -fq, among other things
+help_flags = flag_prefixes*Strlist(['h', 'help', '?', 'info', 'man'])
 
 quiet = False
 fast = False
 
 for filename in args:
-  if filename.lower() in fq_flags:
+  if filename.lower() in help_flags:
+    print(__doc__, "\n")
+    print("quiet_flags", quiet_flags, "Don't print output.", "\n")
+    print("fast_flags", fast_flags, "Go fast.", "\n")
+    print("fq_flags", fq_flags, "Do both.", "\n")
+    print("help_flags", help_flags, "Instead of doing anything else, print this message and then quit.", "\n")
+    exit()
+  elif filename.lower() in fq_flags:
     fast = True
     quiet = True
   elif filename.lower() in quiet_flags:

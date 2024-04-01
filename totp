@@ -1,0 +1,8 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -ne 1 ] && echo USAGE: "$0 key_in_base_32" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+# This program gives you a TOTP code, https://en.wikipedia.org/wiki/Time-based_one-time_password, valid for the current moment, when you pass it a TOTP key. This is not good security practice, because your computer is probably where you are running this script and also where you are keeping your passwords (hopefully in a password manager). Oh well! My mobile phone is broken this week.
+# The name of this command conflicts with https://github.com/WhyNotHugo/totp-cli, which is frankly a better implementation of this idea on almost every level. That takes different arguments, however.
+oathtool --version | head -n 1 || sudo apt install oathtool
+oathtool --totp -b "$1"

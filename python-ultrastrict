@@ -1,0 +1,10 @@
+echo This script checks for compliance with ultrastrict mode, a version of python I made up, that's like mypy --strict but stricter. The general idea is to disallow all features that let you cheat the type system, so that the types are entirely statically verified. Note that this script does not actually have a return code, and also that it's probably pretty easy to cheat it because it just uses regex.
+mypy --strict .
+ruff check --select F
+
+rg "\bcast\s*("
+rg "\btype:\s*ignore\b"
+rg "\b#\s*noqa\b"
+rg "\b@no_type_check\b"
+rg "\b@no_type_check_decorator\b"
+echo Possibly we should also check for TypeGuards but I don't know enough about them.

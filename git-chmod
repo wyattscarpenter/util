@@ -10,5 +10,12 @@ set -euo pipefail #bash strict mode
 # Similarly, you cannot chmod the executable bit on a directory in git. You can do it on unix, however, but it will basically render the directory opaque to you, which is basically never useful. So, don't do that. In fact, this script will stop you from doing so. (Planned feature, not yet implemented.)
 # Normally, git will track the mode of your files automatically. However, this script has two advantages. The first advantage, which is slight, is that the change to file mode will be automatically staged in git, so you don't have to `git add` the file. The other advantage is that if `git config core.fileMode` is false, git will not automatically track your local file modes, but this script will change them. That config is set to false on my system (at least, at the time when I wrote this script) and has been for some time, due to file modes on WSL being somewhat broken at some points in history.
 
-chmod "$@"
-git update-index --chmod="$@"
+echo
+echo "======================================== Local chmod actions ========================================"
+echo
+chmod --verbose "$@"
+echo
+echo "======================================== Git internal actions ========================================" #this command prints "actions" like "add 'foo'" and "chmod +x 'foo'", but I'm pretty sure these are merely analogous, or I wouldn't have had to write this whole git-chmod script (if git had a literal chmod command already, or if regular chmod always worked"
+echo
+git update-index --verbose --chmod="$@"
+echo

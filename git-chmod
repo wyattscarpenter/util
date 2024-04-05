@@ -1,1 +1,14 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -lt 2 ] && echo USAGE: "$0 (+|-)x files_to_chmod_x..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+# This command allows you to run `git chmod +x` or `git chmod -x` on a file or files to chmod them (CHange file MODe).
+# As usual, git will only track the executable bit of the file mode.
+# `git ls-tree HEAD` will tell you whether the files are non-executable, in which case they will be `100644`, or executable, in which case they will be `100755`.
+# `ls -al` will tell you the mode of the files on your filesystem (as opposed to the git account of your file modes).
+# Note that symlinks, which git also tracks, do not have independent executable bit information; it's just whatever the thing they link to has. Therefore, chmodding a symlink is an error. A harmless error.
+# Similarly, you cannot chmod the executable bit on a directory in git. You can do it on unix, however, but it will basically render the directory opaque to you, which is basically never useful. So, don't do that. In fact, this script will stop you from doing so. (Planned feature, not yet implemented.)
+# Normally, git will track the mode of your files automatically. However, this script has two advantages. The first advantage, which is slight, is that the change to file mode will be automatically staged in git, so you don't have to `git add` the file. The other advantage is that if `git config core.fileMode` is false, git will not automatically track your local file modes, but this script will change them. That config is set to false on my system (at least, at the time when I wrote this script) and has been for some time, due to file modes on WSL being somewhat broken at some points in history.
+
+chmod "$@"
 git update-index --chmod="$@"

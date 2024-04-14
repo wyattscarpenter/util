@@ -1,0 +1,2 @@
+ln -s "$@"
+git add "$@" #this will also git add the non-link file; if you don't want this, don't use this git-ln script!

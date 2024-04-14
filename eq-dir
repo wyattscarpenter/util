@@ -1,0 +1,12 @@
+#!/bin/bash
+[ "$#" -ne 2 ] && echo USAGE: "$0 . dir_2" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+shopt -s globstar dotglob
+
+if [ "$1" != '.' ] ; then
+  echo "The first argument of $0 must be the directory . ; this is an amusing implementation detail that is the result of several crippling limitations in unix shell, but whatever."
+fi
+
+for file_from_first_dir in "$"/**; do
+  f2 = "$dir2$file_from_first_dir"
+  if ![ -e f2] 
+# Actually... I'm tired of writing this program now... brb...

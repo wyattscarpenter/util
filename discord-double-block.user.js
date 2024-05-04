@@ -13,6 +13,8 @@
 //It seems to be quite finicky and I wouldn't have gotten it on my own.
 //His userscript says it's GNU AGPLv3 so maybe that implies this one is also? I don't really know.
 
+//TODO: This other guy's userscript works way better than mine (IDK why... I thought this was the first method I tried, and it didn't work, necessitating my complex system here...) so I should steal its bones to make my own, slightly different script. https://github.com/Multarix/Discord-Hide-Blocked-Messages
+
 function doubleBlock(){
   document.querySelectorAll('[class^="blockedMessageText"]').forEach(element => element.remove())
 }

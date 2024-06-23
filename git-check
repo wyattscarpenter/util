@@ -1,0 +1,3 @@
+#!/bin/bash
+# Thanks be to http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git
+git diff --staged --check && git diff --check $(git hash-object -t tree /dev/null) HEAD #TODO / Pet peeve unlocked: git will complain at you if you commit a file that has no new line at the end of the file; but it will not warn about this in git diff --check

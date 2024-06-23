@@ -1,1 +1,1 @@
-git.bat
+git %*

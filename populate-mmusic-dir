@@ -17,7 +17,7 @@ find_valid_files () { # you can pass additional arguments in here (hence, $*) ($
 
 for i in "$@"; do
   filecount=`find_valid_files | wc -l`
-  echo "$filecount" files. Extremely rough estimate of time and total size of converted files, rounded to nearest integer GiB: $(("$filecount"/60)) minutes, $(("$filecount"* 2 / 1028)) GiB 
+  echo "$filecount" files. Extremely rough estimate of time and total size of converted files, rounded to nearest integer GiB: $(("$filecount"/60)) minutes, $(("$filecount"* 2 / 1028)) GiB
   find_valid_files -print0 | \
     xargs -0 -P 8 -I % mmusic-transfer "%" "$mdir%"
 done

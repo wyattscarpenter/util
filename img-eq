@@ -1,5 +1,5 @@
 #!/bin/bash
-[ -f "$1" ] || echo Not an extant file: "$1" 
+[ -f "$1" ] || echo Not an extant file: "$1"
 [ -f "$2" ] || echo Not an extant file: "$2"
 [ -f "$1" ] && [ -f "$2" ] || ( echo "$0" must have two arguments, both must be image files that exist. Aborting. ; exit )
 

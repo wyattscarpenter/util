@@ -9,7 +9,7 @@
 echo $'\x89PNG' > ~/pngheader #there's probably a way to do it without this file but none of them seems to quite work for me, so we use this file
 
 if [ "$#" -eq 0 ] ; then
-  # no arguments, recurse through all folders 
+  # no arguments, recurse through all folders
   find -regex '[^!]*' -type d -exec bash -c ' #multiline string, muhaha
   shopt -s extglob
   shopt -s nullglob

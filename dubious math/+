@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -euo pipefail #no bash strict mode, because I'm pretty sure the arithmetic triggers a pipefail sometimes when I turn this on. 
+#set -euo pipefail #no bash strict mode, because I'm pretty sure the arithmetic triggers a pipefail sometimes when I turn this on.
 [ "$#" -eq 0 ] && echo USAGE: "$0 augend addends..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 acc=0
 for i in "$@"; do

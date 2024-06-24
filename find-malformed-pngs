@@ -1,5 +1,5 @@
 if [ "$#" -eq 0 ] ; then
-  # no arguments, recurse through all folders 
+  # no arguments, recurse through all folders
   find -regex '[^!]*' -type d -exec bash -c 'shopt -s nullglob; cd "{}" && pwd; for i in *.png; do pngcheck -q "$i" || { head -c 10 -z "$i" && echo && echo ; }; done' \; #we want to see a certain amount of bytes to determine if we're looking at a jpeg instead... this seems pretty good
 else
   for i in "$@"; do

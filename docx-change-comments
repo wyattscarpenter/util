@@ -16,7 +16,7 @@ rm -r "$tmpdir"
 
 : <<'HEREDOC'
   OK, the shell script is over now. Here is a guide on how to do it manually, in case that knowledge is useful:
-  
+
   This guide is me explaining how to convert comments in a docx to have proper author names attached instead of system user names (which are not very useful). It does, however, assume each system user has a unique user name. The process is probably similar for .odt. Also scripting this way means you can change any stuff about the comments.
 
   This whole process is not very useful, because libreoffice is also slow at editing large documents like this :/, so there's no point having a local copy instead of just a google doc . Open Office is way better, though. Though also looks weird 🤔 not sure if it renders them right.

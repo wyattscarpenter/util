@@ -24,10 +24,10 @@ try:
     print("IMPLEMENTATION:")
     print(open(__file__).read())
     exit(22)
-  
+
   #must manually glob on windows
   files_to_rename_to_ocrs_of_themselves = []
-  if os.name == "nt": 
+  if os.name == "nt":
     for a in sys.argv[1:]:
       globlist = glob.glob(a)
       dprint("glob", a, globlist)

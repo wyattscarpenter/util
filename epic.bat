@@ -4,7 +4,7 @@ REM This file would also be a valid bash script but it takes one argument, the g
 
 REM TODO: I'm not sure if we need/want any of the following Legendary commands: sync-saves; list-installed --check-updates; launch --offline; legendary -y egl-sync. This script should be my default workflow for readying a game, but I'm not sure which of those options are actually useful.
 
-REM Early out if the game is already ready and can just be launched. Note that legendary just launches a process and then immediately terminates, so the code I added in to track time can fire after the game launch. 
+REM Early out if the game is already ready and can just be launched. Note that legendary just launches a process and then immediately terminates, so the code I added in to track time can fire after the game launch.
 legendary launch --offline %1 && echo BEGINNING epic launch: %time%
 if errorlevel 1 (
   REM This if statement triggers only if there was an exit code greater than 0 (ie, there was an error). This is very basic knowledge but who actually knows cmd syntax? Not me! See also: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/if

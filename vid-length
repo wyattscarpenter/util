@@ -17,4 +17,3 @@ if [ "$#" -eq 0 ]; then
     echo IMPLEMENTATION:
     cat "$0"
 fi
-

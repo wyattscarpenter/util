@@ -1,0 +1,3 @@
+#!/bin/bash
+# Thanks to https://stackoverflow.com/questions/39540837/require-exactly-1-trailing-newline-in-a-file/39540892#39540892 for this general idea.
+find . -not \( -name .svn -prune -o -name .git -prune \) -type f -print0 | xargs -0 perl -pig -e 's/\n*$/\n/'

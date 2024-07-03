@@ -1,0 +1,4 @@
+# Not to be confused with git pull --force, which does something else completely different (and useless).
+git pull "$@" # This takes the arguments you've passed to the program. One flaw with this way of doing argument passing is that we also do that later, to git reset so I hope your arguments make sense to both git pull and git reset! We could resolve this situation by only passing to one (and maybe only passing $1 to the other), but I'm not sure which one is more useful to allow passing arguments to. Arguably if you need to pass any arguments in at all, you should not be using force-pull.
+echo Forcing the update to upstream...
+git reset --hard "${@:-@\{upstream\}}" # This takes the arguments you've passed to the program, or defaults to @{upstream} which is a git way to refer to the upstream (the default git pull pulls from.

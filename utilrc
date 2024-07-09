@@ -18,3 +18,8 @@ cdwp() {
   cd `wp "$@"`
 }
 alias cd-wp=cdwp #fun fact, I guess cd-wp is an invalid function name according to dash shell. It doesn't complain about this alias though (which I think it also technically invalid).
+
+mkcd() { #MaKe, and Change to, a Directory. See also https://stackoverflow.com/questions/52071348/how-to-create-folder-and-cd-into-it-with-one-command/52071437#52071437 for more information.
+  mkdir -p "$1"
+  cd "$1"
+}

@@ -1,18 +1,17 @@
 #!/bin/bash
 
 echo Trimming trailing whitespace...
-echo Note: this script DELIBERATELY treats CRLF line endings as erroneous, and corrects them to LF line endings. This should be fine for almost every application nowadays.
-echo 'This script will fail for any file that has a newline in its name, and also will mis-identify as textual (and thus, process, erroneously) files that contain the substring "text" in their file name.'
+echo '* Note: this script DELIBERATELY treats CRLF line endings as erroneous, and corrects them to LF line endings. This should be fine for almost every application nowadays.'
 
 # Thanks to https://stackoverflow.com/questions/149057/how-to-remove-trailing-whitespace-of-all-files-recursively#comment78251151_149081, which I modified.
 find . -size +0 -not \( -name .svn -prune -o -name .git -prune \) -type f -print0 |
-xargs -0 file -0 | grep -z text | cut -d: -f1 | #modified version of https://superuser.com/a/328482/ ; finds only text files (non-"binary" files)... and also any file that has the word "text" in its file name, so watch out for that...
-xargs -P 16 perl -pi -e 's/[^\S\n]+$//' # [^\S\n] is \s but without \n (the actual newline). Thanks to https://stackoverflow.com/a/3469155 for this.
+perl -0 -nle 'print if -T' | # thanks to https://superuser.com/a/328483/ ; finds only text files (non-"binary" files).
+xargs -0 -P 16 perl -pi -e 's/[^\S\n]+$//' # [^\S\n] is \s but without \n (the actual newline). Thanks to https://stackoverflow.com/a/3469155 for this.
 
 echo Enforcing the existence of exactly a single trailing newline...
-echo "This program is very slow, because it reads all the files into memory, even though it just has to read the last bytes and see if there are any \ns there. Well, that said, I'm tired of writing the program now, so whatever..."
+echo "* This program is very slow, because it reads all the files into memory, even though it just has to read the last bytes and see if there are any \ns there. Well, that said, I'm tired of writing the program now, so whatever..."
 
 # Thanks to https://stackoverflow.com/a/39540892 for this general idea.
 find . -size +0 -not \( -name .svn -prune -o -name .git -prune \) -type f -print0 |
-xargs -0 file | grep text | cut -d: -f1 | #modified version of https://superuser.com/a/328482/ ; finds only text files (non-"binary" files)... and also any file that has the word "text" in its file name, incidentally.
-xargs -P 16 perl -i -0777 -wpe 's/\n*$/\n/'
+perl -0 -nle 'print if -T' | # thanks to https://superuser.com/a/328483/ ; finds only text files (non-"binary" files).
+xargs -0 -P 16 perl -i -0777 -wpe 's/\n*$/\n/'

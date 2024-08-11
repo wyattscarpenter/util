@@ -23,6 +23,7 @@ for i in "$@"; do
     # 3. There's no reason the 404 url has to stay the same. They've changed it before!
     #A solution would be to actually parse the rss, at which point I would not keep this program as a bash script!
   for url in `wget -S -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*?(?="(?!.*404_processing)(?:(?!<category>highlight<\/category>).)*?(?=<category>archive<\/category>))'`; do
+    echo "$url"
     #maintain a file for this user
     touch "$i".txt
     if grep -Fxq "$url" "$i".txt

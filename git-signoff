@@ -1,3 +1,0 @@
-echo "Note: to reduce merge conflicts (somewhat) while rebasing, this script enables git rerere globally. If you dislike that for some reason, you can run git config --global rerere.enabled false or config --global --unset rerere.enabled afterwards. Also, please make a git issue to explain to me what the problem with rerere is, because I would like to know."
-git config --global rerere.enabled true
-git rebase --signoff --rebase-merges HEAD~$1

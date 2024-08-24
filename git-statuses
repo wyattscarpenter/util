@@ -1,2 +1,0 @@
-#!/bin/bash
-find . -name .git -execdir pwd \; -execdir git status -s \; -execdir grep "local out of date" <<<`git remote show origin` \; #TODO: (NOCHECKIN) this last thing doesn't work, oddly, unless you're in the folder itself, when it should work when you recurse to any depth.

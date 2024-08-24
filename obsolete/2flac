@@ -1,0 +1,3 @@
+# This 2flac script is pretty useless because the actual command is so easy to remember.
+# The also-obsolete script 3flac was even more useless, just being this command with a --force flag on. (The idea, I guess, being that if you had 2flac'd without the --best flag, this would re-encode your flacs to be even flaccier.)
+flac * --best "$@"

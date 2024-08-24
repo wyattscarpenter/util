@@ -7,12 +7,13 @@
 # The output of the program was impressive, except that I expected it to work because this is a very basic type of script... and also I subsequently had to edit the script to correct logic error lol. Still, cool stuff.
 
 import sys
+import os
 import random
 from typing import TextIO
 
 if len(sys.argv) < 2 and sys.stdin.isatty():
-    print(f"Usage: {sys.argv[0]} ipse-file-required-if-no-pipe-to-stdin further-ipse-files...")
-    print("Reads files (stdin counts as a file if the script is used in a pipeline), splits on \\n\\n, replaces backslash-only lines with blank lines, and picks one part randomly.")
+    print(f"Usage: {sys.argv[0]} ipse-files-and-or-dirs-required-if-no-pipe-to-stdin...")
+    print("Reads files (stdin counts as a file if the script is used in a pipeline), splits on \\n\\n, replaces backslash-only lines with blank lines, and picks one part randomly. If directories are passed in as arguments, all files (and directories) within those dirs will be recursively included.")
     sys.exit(22)
 
 def process_file(filelike: TextIO):
@@ -21,8 +22,12 @@ def process_file(filelike: TextIO):
 parts: list[str] = []
 if not sys.stdin.isatty():
     parts.extend(process_file(sys.stdin))
-for file_name in sys.argv[1:]:
-    with open(file_name) as f:
-        parts.extend(process_file(f))
+args: list[str] = sys.argv[1:]
+for arg in args:
+    if os.path.isdir(arg):
+      args += [ os.path.join(arg, entry) for entry in os.listdir(arg) ]
+    else:
+      with open(arg) as f:
+          parts.extend(process_file(f))
 
 print(random.choice(parts))

@@ -29,4 +29,4 @@ mkcd() { #MaKe, and Change to, a Directory. See also https://stackoverflow.com/q
   cd "$1"
 }
 
-ipse ~/.ipse # For fun, utilrc runs `ipse` (on shell startup), which is like `fortune`. It runs it on ~/.ipse, which I intend you to symlink to the actual ipse file you care about that lives somewhere else.
+ipse ~/.ipse # For fun, utilrc runs `ipse` (on shell startup), which is like `fortune`. It runs it on ~/.ipse, which I intend you to symlink to the actual ipse file you care about that lives somewhere else. (Notably, since ipse handles directories in a recursive manner, your .ipse file can be a directory of symlinks to other documents, or even a symlink to a directory of symlinks... etc...) You may also make .ipse an empty file to suppress this behavior.

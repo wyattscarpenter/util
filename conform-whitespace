@@ -13,4 +13,3 @@ echo "* This program is very slow, because it reads all the files into memory, e
 find . -size +0 -not \( -iname .svn -prune -o -iname .git -prune -o -iname '*.pdf' \) -type f -print0 |
 perl -0 -nle 'print if -T' | # thanks to https://superuser.com/a/328483/ ; finds only text files (non-"binary" files).
 xargs -0 -P 16 perl -i -0777 -wpe 's/\n*$/\n/' # Thanks to https://stackoverflow.com/a/39540892 for this general idea.
-

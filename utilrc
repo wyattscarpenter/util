@@ -1,6 +1,7 @@
-# This is utilrc, a file that sets up various aliases that I want, like bashrc. It's shell-agnostic to some extent. You should probably add . utilrc to your ~/.bashrc if you want to use this, or something.
+# This is utilrc, a file that sets up various aliases that I want, like bashrc. It's shell-agnostic to some extent. You should probably add . utilrc (sourcing utilrc) to your ~/.bashrc if you want to use this, or something.
 # Fun fact: the "rc" in all these "rc" files stands for "run commands".
 # My general philosophy for utilrc is to make anything that can be an independent bash program file an independent file, and only use this for things that can't be (because they have some side-effect for the current shell, like changing the working directory or changing the prompt for the session or quitting).
+# utilrc is not a dotfile because dotfiles are, generally, stupid. Don't hide the files. Make the files real.
 
 # Aliases for mistyping "cd .."
 alias cd..='cd ..'
@@ -23,3 +24,5 @@ mkcd() { #MaKe, and Change to, a Directory. See also https://stackoverflow.com/q
   mkdir -p "$1"
   cd "$1"
 }
+
+ipse ~/.ipse # For fun, utilrc runs `ipse` (on shell startup), which is like `fortune`. It runs it on ~/.ipse, which I intend you to symlink to the actual ipse file you care about that lives somewhere else.

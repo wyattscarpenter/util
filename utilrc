@@ -10,6 +10,10 @@ alias ..='cd ..'
 # Alias that lets you exit the shell with the pseudo-command "q"
 alias q=exit
 
+# la alias so that la will output color correctly. (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html for description of flags.)
+# This alias is borrowed (with modification), from the .bashrc on Ubuntu (and maybe other bashrcs; who can say).
+alias la='ls -Al'
+
 # Make bash command prompt always show the status returned by the previously-run command.
 # (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol.)
 PS1="\[\e[0;31m\]\$?⏎$PS1"

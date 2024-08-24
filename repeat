@@ -1,0 +1,5 @@
+# Implementation of zsh/functional-programming `repeat n (command)` function, in bash (or possibly sh?).
+# Somewhat lackluster.
+n="$1"
+shift
+for i in `seq "$n"`; do "$@"; done

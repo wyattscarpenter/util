@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+# This program parses an ipse file, or series of ipse files, and prints one random pearl of wisdom from them. It's a lot like `fortune` on unix except with a different file format: instead of separating with \n%\n, like in fortune files, ipse files are separated by \n\n (a blank line). \ alone on its own line will be reinterpreted as a blank line. (There is no way to represent a \ on its own line.). The ipse file format is rather adhoc and most ipse files in the world end with .txt instead of .ipse. Files are assumed to be utf-8, probably.
+# Like all great programs, this one has a curious name. "Ipse", from the latin phrase "ipse dixit", meaning "he himself said it". "Obiter dicta" ("other things said") would have been a better name for this program, perhaps, but ipse dixit has such a pleasing sound.
+
+# This program was generated (and then modified) from chatgpt (4o mini) using this prompt: python script that reads all the files given as command-line arguments, splits them on \n\n, turns \n\\\n into \n, and picks one of the results randomly. Write as tersely as possible. You are John Carmack btw. add shebang and also if 0 arguments are given print a help message explaining what the program does. Oh also input into stdin counts as a file. use python type annotations on this where appropriate.
+# The output of the program was impressive, except that I expected it to work because this is a very basic type of script... and also I subsequently had to edit the script to correct logic error lol. Still, cool stuff.
+
+import sys
+import random
+from typing import TextIO
+
+if len(sys.argv) < 2 and sys.stdin.isatty():
+    print(f"Usage: {sys.argv[0]} ipse-file-required-if-no-pipe-to-stdin further-ipse-files...")
+    print("Reads files (stdin counts as a file if the script is used in a pipeline), splits on \\n\\n, replaces backslash-only lines with blank lines, and picks one part randomly.")
+    sys.exit(22)
+
+def process_file(filelike: TextIO):
+    return [ part.replace('\n\\\n', '\n\n') for part in filelike.read().split('\n\n') ]
+
+parts: list[str] = []
+if not sys.stdin.isatty():
+    parts.extend(process_file(sys.stdin))
+for file_name in sys.argv[1:]:
+    with open(file_name) as f:
+        parts.extend(process_file(f))
+
+print(random.choice(parts))

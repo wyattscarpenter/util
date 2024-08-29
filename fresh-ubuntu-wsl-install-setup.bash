@@ -16,9 +16,9 @@ else
   #Non-WSL Linux, no need to do anything
 fi
 
-#Makes chmod/chown actually do something:
+#Makes chmod/chown actually do something (the windows file system won't track executable bits by itself, so you have to tell WSL to track those itself) (TODO: does that mean I should move this up into the previous if statement so it only gets run on WSL systems?).:
 #You need to be root to do these things, but it's not quite clear to me how it is to be done without interrupting itself.
-#sudo -s #this just entered a root shell and did nothing, so I guess I'll try tee
+#sudo -s #this just entered a root shell and did nothing, so I guess I'll try tee #note: I guess it worked but I don't remember.
 echo '[automount]' | sudo tee -a /etc/wsl.conf
 echo 'options = "metadata"' | sudo tee -a /etc/wsl.conf
 

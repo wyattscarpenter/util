@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo Trimming trailing whitespace...
-echo '* Note: this script DELIBERATELY treats CRLF line endings as erroneous, and corrects them to LF line endings. This should be fine for almost every application nowadays.'
+echo '* Note: this script apparently leaves CRLF line endings alone, which is more tolerant than I thought perl would be.'
 
 find . -size +0 -not \( -iname .svn -prune -o -iname .git -prune -o -iname '*.pdf' \) -type f -print0 | # Thanks to https://stackoverflow.com/questions/149057/how-to-remove-trailing-whitespace-of-all-files-recursively#comment78251151_149081, which I modified.
 perl -0 -nle 'print if -T' | # thanks to https://superuser.com/a/328483/ ; finds only text files (non-"binary" files).

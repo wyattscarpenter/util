@@ -13,18 +13,15 @@ if grep -qi microsoft /proc/version; then
     echo export DISPLAY=localhost:0.0 >>~/.bashrc
   fi
 else
-  #Non-WSL Linux, no need to do anything
+  : #Non-WSL Linux, no need to do anything. Oh, also the : is a no-op, see https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Bourne-Shell-Builtins
 fi
 
 #Makes chmod/chown actually do something (the windows file system won't track executable bits by itself, so you have to tell WSL to track those itself) (TODO: does that mean I should move this up into the previous if statement so it only gets run on WSL systems?).:
-#You need to be root to do these things, but it's not quite clear to me how it is to be done without interrupting itself.
-#sudo -s #this just entered a root shell and did nothing, so I guess I'll try tee #note: I guess it worked but I don't remember.
 echo '[automount]' | sudo tee -a /etc/wsl.conf
 echo 'options = "metadata"' | sudo tee -a /etc/wsl.conf
 
-# Ubuntu repository and software stuff:
-sudo add-apt-repository main
-sudo add-apt-repository universe
-sudo add-apt-repository restricted
-sudo add-apt-repository multiverse
+# Ubuntu repository and software stuff: (TODO: I changed the syntax on this but now I'm not sure if this still works or is the recommended way.
+sudo add-apt-repository -y main universe restricted multiverse
 sudo apt update && sudo apt upgrade && sudo apt autoremove
+sudo apt install -y apt-fast
+echo "alias get='sudo apt-fast install -y'" >> ~/.bashrc

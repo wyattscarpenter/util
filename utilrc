@@ -16,7 +16,7 @@ alias la='ls -Al'
 
 # Make bash command prompt always show the status returned by the previously-run command.
 # (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol.)
-PS1="\[\e[0;31m\]\$?⏎$PS1"
+PS1="\[\e[0;31m\]\$?\[\e[0m⏎$PS1"
 
 # Make cd-wp a command you can always do (uses the wp command from util)
 cdwp() {

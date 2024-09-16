@@ -3,6 +3,8 @@
 # My general philosophy for utilrc is to make anything that can be an independent bash program file an independent file, and only use this for things that can't be (because they have some side-effect for the current shell, like changing the working directory or changing the prompt for the session or quitting).
 # utilrc is not a dotfile because dotfiles are, generally, stupid. Don't hide the files. Make the files real.
 
+# Remember: if you mess up your original bashrc, you can (at least on ubuntu) do: cp /etc/skel/.bashrc ~/
+
 # Aliases for mistyping "cd .."
 alias cd..='cd ..'
 alias ..='cd ..'
@@ -16,7 +18,7 @@ alias la='ls -Al'
 
 # Make bash command prompt always show the status returned by the previously-run command.
 # (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol.)
-PS1="\[\e[0;31m\]\$?\[\e[0m⏎$PS1"
+PS1="\e[0;31m\$?\e[0m⏎$PS1"
 
 # Make cd-wp a command you can always do (uses the wp command from util)
 cdwp() {

@@ -31,4 +31,8 @@ mkcd() { #MaKe, and Change to, a Directory. See also https://stackoverflow.com/q
   cd "$1"
 }
 
+# Only a fool would alias REM to # so that REM lines will work on unix. Luckily, I am a fool.
+# Please note that this is case-sensitive. I have not aliased all the case variants; out of personal taste (I always write my REM lines with REM in caps, for visual distinctness), and also so that (*checks notes*) the rem command of the remind package will not conflict with this. This alias also does not end in a space, so the command after it will not be alias-expanded. This particular omission is on purpose (in the rest of the file the omissions were not carefully considered), because REM is supposed to be a comment so the less that is done in there the better.
+alias REM='#'
+
 ipse ~/.ipse # For fun, utilrc runs `ipse` (on shell startup), which is like `fortune`. It runs it on ~/.ipse, which I intend you to symlink to the actual ipse file you care about that lives somewhere else. (Notably, since ipse handles directories in a recursive manner, your .ipse file can be a directory of symlinks to other documents, or even a symlink to a directory of symlinks... etc...) You may also make .ipse an empty file to suppress this behavior.

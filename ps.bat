@@ -1,2 +1,2 @@
-REM this command lets you issue powershell command from the cmd command line, which is faster than booting up the powershell command line (is it?), although it usually still takes a minute to execute the command the first time you use it.
-powershell -command %*
+REM this command lets you issue powershell command from the cmd command line; essentially it's an alias for `powershell`. If you input commands powershell will execute them and return control to you, like powershell -command; otherwise the powershell interactive session will begin. This is just literally how `powershell` works; I don't know why I'm documenting this as well.
+powershell %*

@@ -24,7 +24,7 @@ PS1="\e[0;31m\$?\e[0m⏎$PS1"
 cdwp() {
   cd `wp "$@"`
 }
-alias cd-wp=cdwp #fun fact, I guess cd-wp is an invalid function name according to dash shell. It doesn't complain about this alias though (which I think it also technically invalid).
+alias cd-wp=cdwp #fun fact, I guess cd-wp is an invalid function name according to dash shell. It doesn't complain about this alias though (which I think is also technically invalid).
 
 mkcd() { #MaKe, and Change to, a Directory. See also https://stackoverflow.com/questions/52071348/how-to-create-folder-and-cd-into-it-with-one-command/52071437#52071437 for more information.
   mkdir -p "$1"
@@ -34,6 +34,10 @@ mkcd() { #MaKe, and Change to, a Directory. See also https://stackoverflow.com/q
 # Only a fool would alias REM to # so that REM lines will work on unix. Luckily, I am a fool.
 # Please note that this is case-sensitive. I have not aliased all the case variants; out of personal taste (I always write my REM lines with REM in caps, for visual distinctness), and also so that (*checks notes*) the rem command of the remind package will not conflict with this. This alias also does not end in a space, so the command after it will not be alias-expanded. This particular omission is on purpose (in the rest of the file the omissions were not carefully considered), because REM is supposed to be a comment so the less that is done in there the better.
 alias REM='#'
+# Effectively alias //(it's not valid as an alias name) to be a comment (perhaps we could call this a pseudo-comment). I don't think side-effects in the //-commented expressions evaluate, which is nice. Also note that // must be followed by a space. The comment-ness will be terminated by ;, &&, etc, unfortunately.
+//() {
+  :
+}
 
 # This variable is set just because I dislike typing out ~/.bashrc every time I want to look at my bashrc. (The mess of punctuation slows me down.)
 # Note that it will not intelligently track your bashrc location or anything like that.

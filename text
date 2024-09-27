@@ -1,2 +1,6 @@
 #!/bin/bash
-cat `whereis $1`
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 commands_to_print_the_text_of..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+for i in "$@" ; do
+  cat `whereis $i | cut -d ':' -f 2`
+done

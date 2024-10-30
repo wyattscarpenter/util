@@ -11,17 +11,17 @@ import sys
 import os
 import random
 from typing import TextIO, NoReturn
+import argparse
 
-def help() -> NoReturn:
-    print(f"Usage: {sys.argv[0]} [ipse-files-and/or-dirs...]")
-    print("""	Ipse reads files, splits on \\n\\n, replaces backslash-only lines with blank lines, and picks one part randomly.
+parser = argparse.ArgumentParser(
+    description="""	Ipse reads files, splits on \\n\\n, replaces backslash-only lines with blank lines, and picks one part randomly.
 	Stdin counts as a file if the script is used in a pipeline.
 	If no arguments are given (and the script is being used interactively (not in a pipeline)), ~/.ipse is used implicitly.
-	If directories are passed in as arguments, all files (and directories) within those dirs will be recursively included.""")
-    sys.exit(22)
-
-if any(x in sys.argv for x in ["-help", "--help", "-h", "--h"]):
-    help()
+	If directories are passed in as arguments, all files (and directories) within those dirs will be recursively included.""",
+)
+parser.add_argument('ipse_files_and_dirs', nargs="*")
+parser.add_argument('-n', '--number', type=int, default=1, help="The number of randomly-selected parts to display. The count of said. How many of them.")
+p_args = parser.parse_args()
 
 def process_file(filelike: TextIO):
     return [ part.replace('\n\\\n', '\n\n') for part in filelike.read().split('\n\n') ]
@@ -29,10 +29,9 @@ def process_file(filelike: TextIO):
 parts: list[str] = []
 if not sys.stdin.isatty():
     parts.extend(process_file(sys.stdin))
-args: list[str] = sys.argv[1:]
+args: list[str] = p_args.ipse_files_and_dirs
 if sys.stdin.isatty() and len(args) == 0:
     args = ["~/.ipse"]
-#print(args)
 for arg in args:
     arg = os.path.expanduser(arg)
     if os.path.isdir(arg):
@@ -44,4 +43,4 @@ for arg in args:
 if len(parts) == 0:
     help()
 
-print(random.choice(parts))
+print( ('\n'+'─'*10+'\n').join(random.sample(parts, p_args.number)) )

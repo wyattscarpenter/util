@@ -1,5 +1,10 @@
+#!/bin/bash
 # Implementation of zsh/functional-programming `repeat n (command)` function, in bash (or possibly sh?).
 # Somewhat lackluster.
+
+set -euo pipefail #bash strict mode
+[ "$#" -lt 2 ] && echo USAGE: "$0 n (command...)" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
 n="$1"
 shift
 for i in `seq "$n"`; do "$@"; done

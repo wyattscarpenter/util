@@ -43,4 +43,4 @@ for arg in args:
 if len(parts) == 0:
     help()
 
-print( ('\n'+'─'*10+'\n').join(random.sample(parts, p_args.number)) )
+print( ('─'*10).join(['\n'*2]*2).join(random.sample(parts, p_args.number)) )

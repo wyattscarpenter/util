@@ -19,6 +19,8 @@ parser = argparse.ArgumentParser(
 	If no arguments are given (and the script is being used interactively (not in a pipeline)), ~/.ipse is used implicitly.
 	If directories are passed in as arguments, all files (and directories) within those dirs will be recursively included.""",
 )
+#todo: maybe just let the use pass in a [0-9]* as an argument to select a number of output, without a flag?
+#todo: maybe let the splitter of the ipse file be determined by the character before an alphabetical character in a file?
 parser.add_argument('ipse_files_and_dirs', nargs="*")
 parser.add_argument('-n', '--number', type=int, default=1, help="The number of randomly-selected parts to display. The count of said. How many of them.")
 p_args = parser.parse_args()

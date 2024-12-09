@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 pathadder="PATH=\$PATH:$PWD"
-echo "$pathadder" >> ~/.profile && source ~/.profile
-echo "$pathadder" >> ~/.bashrc && source ~/.bashrc
+echo "$pathadder" >> ~/.profile && . ~/.profile #note that these lines get sourced
+echo "$pathadder" >> ~/.bashrc && . ~/.bashrc

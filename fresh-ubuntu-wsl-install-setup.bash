@@ -23,4 +23,9 @@ echo 'options = "metadata"' | sudo tee -a /etc/wsl.conf
 # Ubuntu repository and software stuff: (TODO: I changed the syntax on this but now I'm not sure if this still works or is the recommended way.
 sudo add-apt-repository -y main universe restricted multiverse ppa:apt-fast/stable
 sudo apt update && sudo apt upgrade && sudo apt autoremove
-sudo apt install -y apt-fast
+sudo apt install -y apt-fast git-extras
+
+# This gets gyatt for you, and installs it
+git clone https://github.com/wyattscarpenter/gyatt ../
+cd ../gyatt
+. install_pwd_to_git.sh

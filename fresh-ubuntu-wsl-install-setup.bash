@@ -25,7 +25,5 @@ sudo add-apt-repository -y main universe restricted multiverse ppa:apt-fast/stab
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 sudo apt install -y apt-fast git-extras
 
-# This gets gyatt for you, and installs it
-git clone https://github.com/wyattscarpenter/gyatt ../
-cd ../gyatt
-. install_pwd_to_git.sh
+# This gets gyatt for you, and installs it (uses && so that we can bail out if the folder already exists and therefore we've already done it.
+git clone https://github.com/wyattscarpenter/gyatt ../ && cd ../gyatt && . install_pwd_to_git.sh

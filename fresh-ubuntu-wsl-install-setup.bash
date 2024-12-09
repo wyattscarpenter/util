@@ -21,7 +21,7 @@ echo '[automount]' | sudo tee -a /etc/wsl.conf
 echo 'options = "metadata"' | sudo tee -a /etc/wsl.conf
 
 # Ubuntu repository and software stuff: (TODO: I changed the syntax on this but now I'm not sure if this still works or is the recommended way.
-sudo add-apt-repository -y main universe restricted multiverse
+sudo add-apt-repository -y main universe restricted multiverse ppa:apt-fast/stable
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 sudo apt install -y apt-fast
 echo "alias get='sudo apt-fast install -y'" >> ~/.bashrc

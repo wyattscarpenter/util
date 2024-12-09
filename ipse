@@ -34,7 +34,11 @@ if not sys.stdin.isatty():
     parts.extend(process_file(sys.stdin))
 args: list[str] = p_args.ipse_files_and_dirs
 if sys.stdin.isatty() and len(args) == 0:
-    args = ["~/.ipse"]
+    ipse_default_path = "~/.ipse"
+    if os.path.exists(ipse_default_path):
+        args = [ipse_default_path]
+    else:
+        exit(f"Ipse was invoked but there were no arguments and {ipse_default_path}, the default location, does not exist.")
 for arg in args:
     arg = os.path.expanduser(arg)
     if os.path.isdir(arg):

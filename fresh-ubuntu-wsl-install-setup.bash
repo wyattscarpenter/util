@@ -24,4 +24,3 @@ echo 'options = "metadata"' | sudo tee -a /etc/wsl.conf
 sudo add-apt-repository -y main universe restricted multiverse ppa:apt-fast/stable
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 sudo apt install -y apt-fast
-echo "alias get='sudo apt-fast install -y'" >> ~/.bashrc

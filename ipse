@@ -34,7 +34,7 @@ if not sys.stdin.isatty():
     parts.extend(process_file(sys.stdin))
 args: list[str] = p_args.ipse_files_and_dirs
 if sys.stdin.isatty() and len(args) == 0:
-    ipse_default_path = "~/.ipse"
+    ipse_default_path = os.path.expanduser("~/.ipse")
     if os.path.exists(ipse_default_path):
         args = [ipse_default_path]
     else:

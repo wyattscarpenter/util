@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 image_files_left_to_right..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 #automatically find biggest height
 max_height=0

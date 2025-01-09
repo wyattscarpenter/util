@@ -16,6 +16,9 @@ alias q=exit
 # This alias is borrowed (with modification), from the .bashrc on Ubuntu (and maybe other bashrcs; who can say).
 alias la='ls -Al'
 
+#alias for `huh` so that echo $? still works, instead of mysteriously printing 0 all the time (probably for some shell-internal reason).
+alias huh='echo $?'
+
 # Make bash command prompt always show the status returned by the previously-run command.
 # (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol.)
 PS1="\e[0;31m\$?\e[0m⏎$PS1"

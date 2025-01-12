@@ -2,7 +2,7 @@
 
 # As far as I am aware, this is currently the best software in the world for rehosting twitch videos to youtube.
 # (Except, of course, for the built-in setting in Twitch to do the same thing.)
-# twitch-rehost-incremental some-username will automatically rehost the most recent some number (this number is limited by various APIs out of my control) of twitch VODs from some-username's channel onto a youtube channel (you will be prompted (by youtubeuploader, a program this script calls) to select a youtube channel on first run, logging in via a web browser to get a request.token), and will also not try to upload duplicates by tracking successfully rehosted video URLs in a text file.
+# twitch-rehost-incremental some-username will automatically rehost the most recent some number (this number is limited by various APIs out of my control) of twitch VODs from some-username's channel onto a youtube channel (you will be prompted (by youtubeuploader, a program this script calls) to select a youtube channel on first run, logging in via a web browser to get a request.token), and will also not try to upload duplicates by tracking successfully rehosted video URLs in a local text file.
 # However, it's also somewhat difficult to get this script working, so I should explain some things:
 # Firstly, this is a Bash script, so you will need to have a modern unix command line. If you're on Windows, you should figure out how to install WSL, or other unix command line recreations like Cygwin or MinGW.
 # Secondly, this script relies on several other scripts in the wyattscarpenter/util collection, so you'll need those. Luckily, you can just download the entire folder and put it on your PATH, as described in the readme. However, when this script calls other scripts that call other scripts, you may have to check those other scripts to figure out what they depend upon.
@@ -31,7 +31,8 @@ for i in "$@"; do
       echo Already have rehosted "$url"
     else
       #if we, say, exceed quota so twitch-rehost fails, we don't want to record success
-      twitch-rehost "$url" && echo "$url" >>"$i".txt
+      { echo "XXXXXXXX $url" twitch-rehost "$url" && echo "$url" >>"$i".txt } & # The ampersand at the end kicks off this job in the background, thus parallelizing the program. This is important because my internet is much faster than the speed at which youtube accepts upload data in a connection (afaict).
+      sleep 5 # My *hunch* is that this sleep statement will make it easier to track what's going on, when monitoring the command-line output. That's also the reason for the Xs echo above.
     fi
   done
 done

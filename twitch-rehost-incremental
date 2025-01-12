@@ -31,7 +31,7 @@ for i in "$@"; do
       echo Already have rehosted "$url"
     else
       #if we, say, exceed quota so twitch-rehost fails, we don't want to record success
-      { echo "XXXXXXXX $url" twitch-rehost "$url" && echo "$url" >>"$i".txt } & # The ampersand at the end kicks off this job in the background, thus parallelizing the program. This is important because my internet is much faster than the speed at which youtube accepts upload data in a connection (afaict).
+      { echo "XXXXXXXX $url" && twitch-rehost "$url" && echo "$url" >>"$i".txt; } & # The ampersand at the end kicks off this job in the background, thus parallelizing the program. This is important because my internet is much faster than the speed at which youtube accepts upload data in a connection (afaict).
       sleep 5 # My *hunch* is that this sleep statement will make it easier to track what's going on, when monitoring the command-line output. That's also the reason for the Xs echo above.
     fi
   done

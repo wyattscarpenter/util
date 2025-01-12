@@ -1,3 +1,5 @@
 [ "$#" -ne 1 ] && echo USAGE: "$0 command" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
-cd `dirname "$(whereis "$1" | cut -d ' ' -f2- -s)"`
-e . #turns out I always want to do this (open in file browser).
+target_dir=`dirname "$(whereis "$1" | cut -d ' ' -f2- -s)"`
+cd "$target_dir" #since the cd happens in this script, it doesn't affect the calling script unless you source this script (ie, use the . command)
+e #turns out I always want to do this (open in file browser).
+# I suppose if e didn't have the problem in WSL that Windows File Explorer can't open linux file paths (it doesn't understand them), then we would just pass the target_dir to e directly. But I'm not going to sweat that.

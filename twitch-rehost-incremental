@@ -31,8 +31,10 @@ for i in "$@"; do
       echo Already have rehosted "$url"
     else
       #if we, say, exceed quota so twitch-rehost fails, we don't want to record success
-      { echo "XXXXXXXX $url" && twitch-rehost "$url" && echo "$url" >>"$i".txt; } & # The ampersand at the end kicks off this job in the background, thus parallelizing the program. This is important because my internet is much faster than the speed at which youtube accepts upload data in a connection (afaict).
-      sleep 5 # My *hunch* is that this sleep statement will make it easier to track what's going on, when monitoring the command-line output. That's also the reason for the Xs echo above.
+      twitch-rehost "$url" && echo "$url" >>"$i".txt
+      # That's the end of the else clause! The rest of this is from a time when I parallelized this script a little. It worked well, but I think the fragment files that youtube-dl were creating were clobbering each other. TODO: if I ever pivot this script family to using yt-dlp, or if youtube-dl gets an update ever, maybe try this again? Beware: it does seem to create a fair amount of clutter in the channel that you then have to sort through.
+      # { echo "XXXXXXXX $url" && twitch-rehost "$url" && echo "$url" >>"$i".txt; } & # The ampersand at the end kicks off this job in the background, thus parallelizing the program. This is important because my internet is much faster than the speed at which youtube accepts upload data in a connection (afaict).
+      # sleep 5 # My *hunch* is that this sleep statement will make it easier to track what's going on, when monitoring the command-line output. That's also the reason for the Xs echo above.
     fi
   done
 done

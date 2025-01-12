@@ -1,3 +1,3 @@
 [ "$#" -ne 1 ] && echo USAGE: "$0 command" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
 cd `dirname "$(whereis "$1" | cut -d ' ' -f2- -s)"`
-explorer.exe . #turns out I always want to do this. If you aren't on WSL and explorer isn't a command on your system, I'm sorry.
+e . #turns out I always want to do this. If you aren't on WSL and explorer isn't a command on your system, I'm sorry.

@@ -1,3 +1,4 @@
+@echo off
 if "%*"=="" (
   explorer.exe .
 ) else (

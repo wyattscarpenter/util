@@ -2,10 +2,11 @@
 set -euo pipefail #bash strict mode
 [ "$#" -eq 0 ] && echo USAGE: "$0 commands_to_print_the_text_of..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 for i in "$@" ; do
-  target=`whereis $i | cut -d ':' -f 2 | sed -e 's/^[[:space:]]*//'` #this removes lreading whitespace
-  if [ -z "$target" ] ; then
-    echo "$i not found by whereis" 1>&2
-  else
+  target=`whereis $i | cut -d ' ' -f 2-`
+  if [ -f "$target" ] ; then
+    echo $target 1>&2
     cat "$target"
+  else
+    echo "$i not found by whereis" 1>&2
   fi
 done

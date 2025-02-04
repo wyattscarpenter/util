@@ -24,6 +24,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('ipse_files_and_dirs', nargs="*")
 parser.add_argument('-n', '--number', type=int, default=1, help="The number of randomly-selected parts to display. The count of said. How many of them.")
 parser.add_argument('-f', '--filter', type=str, default="", help="If provided, ipse will only return parts that contain the given string as a substring.")
+parser.add_argument('-i', '--interactive', action='store_true', help="Interactively view ipses.")
 p_args = parser.parse_args()
 
 def process_file(filelike: TextIO):
@@ -47,7 +48,18 @@ for arg in args:
       with open(arg) as f:
           parts.extend(process_file(f))
 
+def ipse_per_se():
+  print( ('─'*10).join(['\n'*2]*2).join(random.sample(parts, p_args.number)) )
+
 if len(parts) == 0:
     help()
-
-print( ('─'*10).join(['\n'*2]*2).join(random.sample(parts, p_args.number)) )
+if not p_args.interactive:
+  ipse_per_se()
+else:
+  while True:
+    print("\033[2J")
+    ipse_per_se()
+    print()
+    inp = input("q to quit, enter for more> ").lower()
+    if inp == 'q':
+      break

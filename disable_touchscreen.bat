@@ -1,4 +1,5 @@
 REM this script must be run as admin (or whatever, however windows permissions work). I usually call it from the windows menu, so crtl+shift+enter there will launch with the required permissions. You can also right-click, run as administrator on the file.
+REM TODO: this script (& its brother) should ideally print an error message & helpful info if it fails, and "touch any key to continue". I haven't done this so far due to time (and so I probably never will).
 pnputil /disable-device "HID\VID_03EB&PID_8A92&MI_01\7&17e068b7&0&0000"
 REM If that doesn't work, your touchscreen might have a different ID than mine.
 REM I found mine using pnputil /enum-devices | wsl grep "touch" --context 5

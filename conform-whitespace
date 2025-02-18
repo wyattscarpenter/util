@@ -1,15 +1,15 @@
 #!/bin/bash
 
-echo Trimming trailing whitespace...
+echo Trimming trailing whitespace... "(ignores hidden files (dotfiles))"
 echo '* Note: this script apparently leaves CRLF line endings alone, which is more tolerant than I thought perl would be.'
 
-find . -size +0 -not \( -iname .svn -prune -o -iname .git -prune -o -iname '*.pdf' \) -type f -print0 | # Thanks to https://stackoverflow.com/questions/149057/how-to-remove-trailing-whitespace-of-all-files-recursively#comment78251151_149081, which I modified.
+find . -size +0 -not \( -iname .svn -prune -o -iname .git -prune -o -iname '*.pdf' \) -not -path '*/.*' -type f -print0 | # Thanks to https://stackoverflow.com/questions/149057/how-to-remove-trailing-whitespace-of-all-files-recursively#comment78251151_149081, which I modified.
 perl -0 -nle 'print if -T' | # thanks to https://superuser.com/a/328483/ ; finds only text files (non-"binary" files).
 xargs -0 -P 16 perl -pi -e 's/[^\S\v]+$//' # [^\S\n] is \s but without \n (the actual newline). Thanks to https://stackoverflow.com/a/3469155 for this. #actually it occurred to me that I would like to allow for vertical tab as well, so I use \v, which covers all vertical whitespace (incl newline).
 
-echo Enforcing the existence of exactly a single trailing newline...
+echo Enforcing the existence of exactly a single trailing newline... "(ignores hidden files (dotfiles))"
 echo "* This program is very slow, because it reads all the files into memory, even though it just has to read the last bytes and see if there are any \ns there. Well, that said, I'm tired of writing the program now, so whatever..."
 
-find . -size +0 -not \( -iname .svn -prune -o -iname .git -prune -o -iname '*.pdf' \) -type f -print0 |
+find . -size +0 -not \( -iname .svn -prune -o -iname .git -prune -o -iname '*.pdf' \) -not -path '*/.*' -type f -print0 |
 perl -0 -nle 'print if -T' | # thanks to https://superuser.com/a/328483/ ; finds only text files (non-"binary" files).
 xargs -0 -P 16 perl -i -0777 -wpe 's/\n*$/\n/' # Thanks to https://stackoverflow.com/a/39540892 for this general idea.

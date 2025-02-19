@@ -30,7 +30,7 @@ parser.add_argument('-i', '--interactive', action='store_true', help="Interactiv
 p_args = parser.parse_args()
 
 def process_file(filelike: TextIO):
-    return [ part.replace('\n\\\n', '\n\n') for part in filelike.read().split('\n\n') if part and not part.isspace() if p_args.filter in part ]
+    return [ part.replace('\n\\\n', '\n\n').strip() for part in filelike.read().split('\n\n') if part and not part.isspace() if p_args.filter in part ]
 
 parts: list[str] = []
 if not sys.stdin.isatty():

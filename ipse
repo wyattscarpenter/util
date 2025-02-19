@@ -60,7 +60,7 @@ def erase_lines(old_text: str|None) -> None:
     return
   # Calculate physical lines for old text
   term_width = shutil.get_terminal_size().columns
-  old_line_count = sum((len(line.strip('\b')) + term_width - 1) // term_width for line in old_text.splitlines()) + 1
+  old_line_count = sum((len(line) + term_width - 1) // term_width for line in old_text.splitlines()) + 1
   # Move cursor up and clear old text
   print(f"\033[{old_line_count}A\033[0J", end='', flush=True)
 
@@ -73,7 +73,7 @@ else:
   old_text: str | None = None
   while True:
     erase_lines(old_text)
-    t = ipse_text() + "\n\nq to quit, enter for more> \b" #this garbage at the end makes it display right and fixes a subtle bug.
+    t = ipse_text() + "\n\nq to quit, enter for more>" #this garbage at the end makes it display right and fixes a subtle bug.
     inp = input(t).lower()
     old_text = t
     if inp == 'q':

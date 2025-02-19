@@ -12,6 +12,8 @@ import os
 import random
 from typing import TextIO
 import argparse
+import shutil
+
 
 parser = argparse.ArgumentParser(
     description="""	Ipse reads files, splits on \\n\\n, replaces backslash-only lines with blank lines, and picks one part randomly.
@@ -48,18 +50,31 @@ for arg in args:
       with open(arg) as f:
           parts.extend(process_file(f))
 
-def ipse_per_se():
-  print( ('─'*10).join(['\n'*2]*2).join(random.sample(parts, p_args.number)) )
+def ipse_text() -> str:
+  return ('─'*10).join(['\n'*2]*2).join(random.sample(parts, p_args.number))
+
+#There is a bug where if the user adjusts the window enough to displace the cursor backwards then the prompt line prints, the wrong number of lines will be erased (sometimes +/- 1, usually, maybe more idk). How do I fix that? I've already tried using ' \b' instead of just letting the cursor lie at the end of the line. Oh well. It might be a windows terminal bug or something. Not worth fixing. (unless maybe if the arithmetic, which I've lost track of, is wrong.
+
+def erase_lines(old_text: str|None) -> None:
+  if old_text is None:
+    return
+  # Calculate physical lines for old text
+  term_width = shutil.get_terminal_size().columns
+  old_line_count = sum((len(line.strip('\b')) + term_width - 1) // term_width for line in old_text.splitlines()) + 1
+  # Move cursor up and clear old text
+  print(f"\033[{old_line_count}A\033[0J", end='', flush=True)
 
 if len(parts) == 0:
-    help()
+  exit("Ipse was invoked, with some places it could look, but there are no parts in any of them!")
+
 if not p_args.interactive:
-  ipse_per_se()
+  print(ipse_text())
 else:
+  old_text: str | None = None
   while True:
-    print("\033[2J")
-    ipse_per_se()
-    print()
-    inp = input("q to quit, enter for more> ").lower()
+    erase_lines(old_text)
+    t = ipse_text() + "\n\nq to quit, enter for more> \b" #this garbage at the end makes it display right and fixes a subtle bug.
+    inp = input(t).lower()
+    old_text = t
     if inp == 'q':
       break

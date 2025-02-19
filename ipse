@@ -70,11 +70,29 @@ if len(parts) == 0:
 if not p_args.interactive:
   print(ipse_text())
 else:
-  old_text: str | None = None
+  history: list[str] = []
+  index: int | None = None
+  current_display: str | None = None
   while True:
-    erase_lines(old_text)
-    t = ipse_text() + "\n\nq to quit, enter for more>" #this garbage at the end makes it display right and fixes a subtle bug.
+    erase_lines(current_display)
+    if index is None:
+      t = ipse_text()
+      history.append(t)
+      index = len(history) - 1
+    else:
+      t = history[index]
+    t += "\n\nq to quit, (p|b|a) for (previous|back|left), (n|f|d) for (next|forward|right), enter for more>"
     inp = input(t).lower()
-    old_text = t
+    current_display = t
     if inp == 'q':
       break
+    elif inp in ('p', 'b', 'a'):
+      if index is None:
+        index = len(history) - 1
+      if index > 0:
+        index -= 1
+    elif inp in ('n', 'f', 'd'):
+      if index is not None and index < len(history) - 1:
+        index += 1
+    else:
+      index = None

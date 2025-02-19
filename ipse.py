@@ -71,6 +71,7 @@ if len(parts) == 0:
 if not p_args.interactive:
   print(ipse_text())
 else:
+  os.system("") #enables ansi codes on windows cmd
   history: list[str] = []
   index: int | None = None
   current_display: str | None = None

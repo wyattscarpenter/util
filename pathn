@@ -1,0 +1,2 @@
+# Print the path, separating each item by newlines instead of colons.
+echo "$PATH" | tr : '\n'

@@ -1,1 +1,2 @@
-apt-fast "$*"
+echo WARNING: you are using the command 'fast-apt', which is just an idiosyncratic alias to apt-fast, which is the actual command. (the -y flag is also applied)
+apt-fast -y "$@"

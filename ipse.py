@@ -55,7 +55,7 @@ def ipse_text() -> str:
 
 def erase_lines(old_text: str|None) -> None:
   """We basically have to do it this way if we want it to behave exactly the way I want.
-    There is a bug where if the user adjusts the window enough to displace the cursor backwards then the prompt line prints, the wrong number of lines will be erased (sometimes +/- 1, usually, maybe more idk). How do I fix that? I've already tried using ' \b' instead of just letting the cursor lie at the end of the line. Oh well. It might be a windows terminal bug or something. Not worth fixing. (unless maybe if the arithmetic, which I've lost track of, is wrong.
+    There is a bug where if the user adjusts the window enough to displace the cursor backwards then the prompt line prints, the wrong number of lines will be erased (sometimes +/- 1, usually, maybe more idk). How do I fix that? I've already tried using ' \b' instead of just letting the cursor lie at the end of the line. Oh well. It might be a windows terminal bug or something. Not worth fixing. (unless maybe if the arithmetic, which I've lost track of, is wrong.) UPDATE: actually, other apps get wrong cursor behavior sort of like this all the time, so maybe the cmd window is just wrong.
   """
   if old_text is None:
     return

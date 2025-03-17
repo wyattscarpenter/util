@@ -5,6 +5,7 @@ echo >>~/.bashrc
 echo \#Stuff from the script collection Util: >>~/.bashrc
 echo . utilrc >>~/.bashrc
 
+#TODO: theoretically, this could install of the prereqs for various util scripts, like imagemagick and ffmpeg. At the moment I don't bother.
 # Ubuntu repository and software stuff:
 sudo add-apt-repository -y main universe restricted multiverse
 sudo add-apt-repository -y ppa:apt-fast/stable # For whatever reason, this has to be on its own line.

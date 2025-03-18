@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+sudo apt-fast purge -y "$@" && apt-fast autopurge -y

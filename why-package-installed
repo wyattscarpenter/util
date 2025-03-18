@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of argument
+# We just forward to aptitude; you may also use the flag --show-summary to show only the final requiring package (although in my limited experience this often omits the package that is the reason, due to said package only "recommending" the installed package). We forward all the arguments but unforunately it seems like only the last one is honored by aptitude why.
+apt-fast install -y aptitude >/dev/null && aptitude why "$@"

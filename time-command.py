@@ -8,7 +8,7 @@ from typing import NoReturn
 #!/usr/bin/env python3
 
 help_flags: set[str] = {"-h", "--help", "/?", "-help", "--h"}
-no_args_err: int = 2
+no_args_err: int = 22
 
 def main() -> NoReturn:
     if len(sys.argv) < 2 or sys.argv[1] in help_flags:

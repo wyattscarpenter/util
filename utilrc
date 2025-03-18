@@ -24,8 +24,9 @@ alias huh='echo $?'
 PS1="\e[0;31m\$?\e[0m⏎$PS1"
 
 # Make cd-wp a command you can always do (uses the wp command from util)
+# Surprisingly, this quoting style does work.
 cdwp() {
-  cd `wp "$@"`
+  cd "`wp "$@"`"
 }
 alias cd-wp=cdwp #fun fact, I guess cd-wp is an invalid function name according to dash shell. It doesn't complain about this alias though (which I think is also technically invalid).
 

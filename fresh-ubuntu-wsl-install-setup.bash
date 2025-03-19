@@ -23,9 +23,9 @@ if grep -qi microsoft /proc/version; then
   echo 'options = "metadata"' | sudo tee -a /etc/wsl.conf
 
   if [ -d /mnt/wslg/ ] ; then
-    echo \#  Furhtermore, When the script to modify this bashrc was run, I detected the existence of /mnt/wslg/, from which I deduce this is a system with WSLg, ie WSL2, ergo I did not need to modify the DISPLAY variable. >>~/.bashrc
+    echo \#  Furthermore, When the script to modify this bashrc was run, I detected the existence of /mnt/wslg/, from which I deduce this is a system with WSLg, ie WSL2, ergo I did not need to modify the DISPLAY variable. >>~/.bashrc
   else
-    echo \# This next line lets WSL project to an X server running as a Windows application: >>~/.bashrc
+    echo \# Since I detect no /mnt/wslg/, we are on a system without WSLg, ie WSL1. This next line lets WSL project to an X server running as a Windows application: >>~/.bashrc
     echo export DISPLAY=localhost:0.0 >>~/.bashrc
   fi
 else

@@ -11,7 +11,8 @@ sudo add-apt-repository -y main universe restricted multiverse
 sudo add-apt-repository -y ppa:apt-fast/stable # For whatever reason, this has to be on its own line.
 sudo apt install -y apt-fast # do this first to go faster :rollsafe:
 sudo apt-fast update && sudo apt-fast upgrade -y && sudo apt-fast autoremove -y
-sudo apt-fast install -y git-extras make python-is-python3 python3-pip
+# All these goodies:
+sudo apt-fast install -y git-extras make python-is-python3 python3-pip ripgrep
 sudo snap install --classic astral-uv # Instead of this you could do pip install --break-system-packages uv
 
 if grep -qi microsoft /proc/version; then

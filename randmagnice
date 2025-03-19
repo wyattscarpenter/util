@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -ne 1 ] && echo USAGE: "$0 order_of_magnitude" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+python -c "from random import randrange as r; print(f'{r(10**$1):,}')"

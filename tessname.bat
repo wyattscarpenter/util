@@ -1,0 +1,2 @@
+tessname.py %*
+

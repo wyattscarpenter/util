@@ -28,9 +28,11 @@ set -euo pipefail #bash strict mode
 
 The usage message from which shall (hopefully) conform to the POSIX Utility Argument Syntax format ( see here: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html )
 
+Sometimes I think about automating the argument validation, and then I remember that other people have written fully-featured libraries/functions that do this, that I chose not to use just because I found them slightly unwieldy. If I were to automate validation, though, I think I would want to pass in a posix utility argument syntax format string (plus executable name and actual arguments) and have that other script either crash or proceed me. Of course, then you start thinking about how to provide the help messages...
+
 It seems like EINVAL ("Invalid argument") is a useful return value for exit to pass in this case, and EINVAL is 22 on my system, but empirically other programs like whereis and printf return random error codes like 1 or 2. Also, I am extremely inconsistent in whether I have actually harmonized any of this stuff.
 
-Of course, some scripts take 0 arguments and operate on the current directory. This inconsistency bothers me as it's hard (for me) to remember, so I may fix it some day.
+Typically you can find out what a script does by typing it with no arguments. However, this is technically unsafe, in that it doesn't always work, so you should actually use the text command to print the text of the command instead. Some scripts, for example pathn, just don't need any arguments! Additionally, some scripts take 0 arguments and operate on the current directory, which is probably a bad idea so I may fix them some day. (Todo: have I gotten all these? I mean, of course, except add-pwd-to-path
 
 The way I currently think about it, if a script takes any arguments, it should have the header, and when run with no arguments should print out its help message. However, some scripts take no arguments and are best thought of as shortcuts invoking longer scripts. You must use the `text` command from this collection to see their interiors, as running them without arguments will just run them. There should be as few of those latter as possible, but some definitely still strike me as requiring that form factor (unless I just required the user to pass in a flag to confirm they know what they're doing? Hmm...). Also, some scripts are missing the header just because I haven't put it in yet haha.
 

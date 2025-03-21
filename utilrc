@@ -12,10 +12,6 @@ alias ..='cd ..'
 # Alias that lets you exit the shell with the pseudo-command "q"
 alias q=exit
 
-# ll alias in case you don't have it already (See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html for description of flags.)
-# This alias is borrowed (without modification), from the .bashrc on Ubuntu (and maybe other bashrcs; who can say).
-alias ll='ls -alF'
-
 #alias for `huh` so that echo $? still works, instead of mysteriously printing 0 all the time (probably for some shell-internal reason).
 alias huh='echo $?'
 

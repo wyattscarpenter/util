@@ -45,9 +45,4 @@ alias REM='#'
   :
 }
 
-# This variable is set just because I dislike typing out ~/.bashrc every time I want to look at my bashrc. (The mess of punctuation slows me down.)
-# Note that it will not intelligently track your bashrc location or anything like that.
-# The echo thing is because tilde expansion won't happen otherwise anywhere in the chain if you try to type `cat $bashrc`; so we have to pre-expand it here.
-bashrc=`echo ~/.bashrc`
-
 ipse # For fun, utilrc runs `ipse` (on shell startup), which is like `fortune`. It runs it on ~/.ipse, which I intend you to symlink to the actual ipse file you care about that lives somewhere else. (Notably, since ipse handles directories in a recursive manner, your .ipse file can be a directory of symlinks to other documents, or even a symlink to a directory of symlinks... etc...) You may also make .ipse an empty file to suppress this behavior.

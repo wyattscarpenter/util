@@ -16,8 +16,8 @@ sudo apt-fast install -y git-extras make python-is-python3 python3-pip ripgrep x
 # sudo apt-fast install -y git-delta
 # git config --global core.pager delta # Actually I didn't really like delta.
 # Instead of pip installing uv you could do snap install --classic astral-uv , but as snapd doesn't work on wsl1 sometimes pip is a better default.
-# Youtube-dl is still (as of 2025-03-20) used in some of my scripts, like twitch-rehost, because it continues to work there, presumably because twitch just hasn't changed its website format very often (ie in the last 4 years, bc the last youtube-dl version is from 2021). Changing those scripts to yt-dlp didn't seem worth the effort (it wasn't trivial (at least at that time); I got some error messages I didn't want to spend the time to sort out). However, some scripts also need the majesty of the actually-working yt-dlp (I've put that in pip instead of apt installation because pip will update it more frequently, so it will actually work).
-sudo pip install --break-system-packages uv youtube-dl yt-dlp
+# I've put yt-dlp in pip instead of apt installation because pip will update it more frequently, so it will actually work.
+sudo pip install --break-system-packages uv yt-dlp
 gyatt-bless # If you have gyatt already, activate it.
 
 if grep -qi microsoft /proc/version; then

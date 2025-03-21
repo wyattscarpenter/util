@@ -1,0 +1,6 @@
+#!/bin/bash
+# Calls yt-upload in parallel on any number of command line arguments (urls).
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 urls..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+echo "$@" | xargs -P 0 -n 1 yt-upload

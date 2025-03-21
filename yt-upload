@@ -2,7 +2,7 @@
 set -euo pipefail
 [ "$#" -eq 0 ] && echo USAGE: "$0 url" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
-# This command just glues together youtube-dl and youtubeuploader to download videos and pipe them into youtube upload.
+# This command just glues together yt-dlp and youtubeuploader to download videos and pipe them into youtube upload.
 # Note that the video will be public, and copy the title and description from the source.
 # This script will use a meta.json file for video details if one is provided.
 # It will also use a cookies.txt file if given to download videos that require a login.
@@ -12,17 +12,17 @@ set -euo pipefail
 # This command assumes that youtubeuploader is on the path, but it can easily be replaced by ./youtubeuploader.exe or youtubeuploader.exe or ./youtubeuploader or what-have-you
 
 # It's kind of a pain to extract the date, but it's worth it.
-json=$(youtube-dl --cookies cookies.txt --skip-download "$1" -j)
+json=$(yt-dlp --cookies cookies.txt --skip-download "$1" -j)
 echo json get
 timestamp_etc=${json##*timestamp\"\:\ }
 timestamp=${timestamp_etc%%\,*}
 date_string=$(TZ='America/Los_Angeles' date -d @"$timestamp" "+%F %T(UTC%-:::z)") #the time format is the same as %Y-%m-%d %H:%M:%S(timezone) #timezone is given as Pacific Time, due to my own personal formatting desires.
 
-title=$(youtube-dl --cookies cookies.txt --skip-download --get-title "$1")
-description=$(youtube-dl --cookies cookies.txt --skip-download --get-description "$1")
+title=$(yt-dlp --cookies cookies.txt --skip-download --get-title "$1")
+description=$(yt-dlp --cookies cookies.txt --skip-download --get-description "$1")
 
 nn=$'\n\n' #for use in formatting description
 
 #Note: the title has to be truncated if greater than youtube's limit of 100 characters.
 echo youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$1 $title $date_string $description$nn$(cat disclaimer.txt)"
-youtube-dl --cookies cookies.txt "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$1 $title $date_string $description$nn$(cat disclaimer.txt)"
+yt-dlp --cookies cookies.txt "$@" -o - | youtubeuploader -filename - $(if [ -f meta.json ]; then echo "-metaJSON meta.json"; fi) -privacy "public" -title "${title:0:100}" -description "$1 $title $date_string $description$nn$(cat disclaimer.txt)"

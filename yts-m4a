@@ -1,0 +1,4 @@
+#!/bin/bash
+# Calls yt-dlp in parallel on any number of command line arguments (urls), requesting the m4a format of each.
+[ "$#" -eq 0 ] && echo USAGE: "$0 urls..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
+echo "$@" | xargs -P 0 -n 1 yt-dlp -f m4a

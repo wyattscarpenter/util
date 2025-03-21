@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail #bash strict mode
+[ "$#" -eq 0 ] && echo USAGE: "$0 arguments..." && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+
+# Rip music from playlist like a sane person might, with sensible defaults instead of garbage ones.
+# Takes one url as an argument, you have to quote it (bash eats ampersands).
+# If you like, you can also insert your own flags to y-dlp on the end.
+
+yt-song -o "%(autonumber)s %(title)s %(display_id)s (youtube rip).%(ext)s" "$@"

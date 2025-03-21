@@ -13,7 +13,12 @@ sudo apt install -y apt-fast # do this first to go faster :rollsafe:
 sudo apt-fast update && sudo apt-fast upgrade -y && sudo apt-fast autoremove -y
 # All these goodies:
 sudo apt-fast install -y git-extras make python-is-python3 python3-pip ripgrep x11-apps #x11-apps we use just for the traditional xeyes test of x server capability
-sudo pip install --break-system-packages uv # Instead of this you could do snap install --classic astral-uv , but as snapd doesn't work on wsl1 sometimes pip is a better default.
+# sudo apt-fast install -y git-delta
+# git config --global core.pager delta # Actually I didn't really like delta.
+# Instead of pip installing uv you could do snap install --classic astral-uv , but as snapd doesn't work on wsl1 sometimes pip is a better default.
+# Youtube-dl is still (as of 2025-03-20) used in some of my scripts, like twitch-rehost, because it continues to work there, presumably because twitch just hasn't changed its website format very often (ie in the last 4 years, bc the last youtube-dl version is from 2021). Changing those scripts to yt-dlp didn't seem worth the effort (it wasn't trivial (at least at that time); I got some error messages I didn't want to spend the time to sort out). However, some scripts also need the majesty of the actually-working yt-dlp (I've put that in pip instead of apt installation because pip will update it more frequently, so it will actually work).
+sudo pip install --break-system-packages uv youtube-dl yt-dlp
+gyatt-bless # If you have gyatt already, activate it.
 
 if grep -qi microsoft /proc/version; then
   echo \#  When the script to modify this bashrc was run, I detected the existence of \"Microsoft\", case-insensitive, in the /proc/version, from which I deduce this is a WSL system. >>~/.bashrc

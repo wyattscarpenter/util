@@ -18,4 +18,4 @@ inputs=""
 for url in $(yt-dlp -g "$target_url") ; do
   inputs="$inputs -ss $starting_timestamp -i $url $optional_to_param"
 done
-ffmpeg $inputs -c copy -copyts -movflags +frag_keyframe "${b##*=}.youtube-dl-part.mp4" "$@"
+ffmpeg $inputs -c copy -copyts -movflags +frag_keyframe "${b##*=}.yt-part.mp4" "$@"

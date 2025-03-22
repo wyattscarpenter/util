@@ -1,1 +1,1 @@
-sudo apt-fast install -y "$@"
+apt-fast install -y "$@"

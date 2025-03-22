@@ -41,3 +41,5 @@ Some linting tools you can run on these files, at least the bash/sh scripts: she
 Currently, all of my scripts (although, see again the caveat about how harmonization is inconsistent) have the executable bit set, because you're supposed to be able to execute all of them. However, I've never been sure if you're supposed to set that bit for, eg, a Windows batch file. After all, Unix can't execute that file — which is perhaps what the execute bit is supposed to indicate — and Windows doesn't honor the bit anyway. I couldn't really figure out the canonical answer to this question, except that in practice most people ignore the executable bit anyway unless it makes problems for them in trying to execute scripts/executables after clone.
 
 Many of the scripts in here are often untested, especially the yt* scripts.
+
+The yts scripts are like the yt scripts, but parallelized. (Yts is plural of yt, you see.)

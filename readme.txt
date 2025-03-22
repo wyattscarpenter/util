@@ -2,7 +2,7 @@ This is a collection of small shell scripts I have found useful. Some of them ar
 
 Each script is documented by comments in the script itself.
 
-This collection pairs well with the wnix collection: https://github.com/wyattscarpenter/wnix/ (Todo: I should probably just move the wnix collection into a folder in util, huh? maybe then I could also document it alongside dubious math, obsolete, and maybe even audible crack benchmark)
+This collection pairs well with the wnix collection: https://github.com/wyattscarpenter/wnix/ (Todo: I should probably just move the wnix collection into a folder in util, huh? maybe then I could also document it alongside dubious math, obsolete, and maybe even audible crack benchmark. (TODO: actually I think it's fine having wnix live on its own, but I should document dubious math))
 
 Some of these scripts have external dependencies; if the script gives you some error about some command not being found, you probably need to go install a dependency. Some common dependencies are imagemagick and ffmpeg.
 

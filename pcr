@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 #PCR: PERL COMPATIBLE REPLACE
 #applies regexes... the way I think it should be done
 #apologies:
@@ -13,3 +13,5 @@ perl -0777 -pe "s/$1/$2/gis" < "$3"
 
 #here's an easy loop you can use:
 # for i in * ; do echo "$i" pcr '' '' "$i" | sponge "$i" ; done
+
+#TODO: this entire name and concept is maybe bad and I might want to redo the entire UX of this, and also name it something better.

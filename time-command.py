@@ -18,7 +18,7 @@ def main() -> NoReturn:
         sys.exit(no_args_err)
 
     start_time = time.time()
-    s = subprocess.run(sys.argv[1:], check=True)
+    s = subprocess.run(sys.argv[1:])
     end_time = time.time()
     elapsed = end_time - start_time
     print(f"\nTime elapsed for {sys.argv[1]} (exited with code {s.returncode}): {elapsed} seconds", file=sys.stderr)

@@ -12,13 +12,13 @@ sudo add-apt-repository -y ppa:apt-fast/stable # For whatever reason, this has t
 sudo apt install -y apt-fast # do this first to go faster :rollsafe:
 sudo apt-fast update && sudo apt-fast upgrade -y && sudo apt-fast autoremove -y
 # All these goodies:
-sudo apt-fast install -y dos2unix git-extras make python-is-python3 python3-pip ripgrep x11-apps #x11-apps we use just for the traditional xeyes test of x server capability
+sudo apt-fast install -y dos2unix git-extras make python-is-python3 python3-pip ripgrep cmatrix cowsay fortune-mod bsdgames nethack-console sl duplicity oathtool x11-apps #x11-apps we use just for the traditional xeyes test of x server capability
 # sudo apt-fast install -y git-delta
 # git config --global core.pager delta # Actually I didn't really like delta.
 # Instead of pip installing uv you could do snap install --classic astral-uv , but as snapd doesn't work on wsl1 sometimes pip is a better default.
 # I've put yt-dlp in pip instead of apt installation because pip will update it more frequently, so it will actually work.
 # fortune-mod includes fortune, bsdgames includes hack, nethack-console includes nethack
-sudo pip install --break-system-packages uv yt-dlp cmatrix cowsay fortune-mod bsdgames nethack-console sl
+sudo pip install --break-system-packages uv yt-dlp
 gyatt-bless # If you have gyatt already, activate it.
 
 if grep -qi microsoft /proc/version; then

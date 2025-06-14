@@ -8,4 +8,7 @@ del "%USERPROFILE%\.lesshst"
 del "%USERPROFILE%\.python_history"
 REM This occasionally has video captures in it but is normally just annoyingly emptily created:
 rmdir "%USERPROFILE%\Videos"
+del "%USERPROFILE%\.streamlit\credentials.toml"
+rmdir "%USERPROFILE%\.streamlit"
+
 pause

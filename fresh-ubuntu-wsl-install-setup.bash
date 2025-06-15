@@ -5,14 +5,14 @@ echo >>~/.bashrc
 echo \#Stuff from the script collection Util: >>~/.bashrc
 echo . utilrc >>~/.bashrc
 
-# Theoretically, this could install of the prereqs for various util scripts, like imagemagick and ffmpeg. At the moment I don't bother. And I probably won't until I'm reminded later.
+# Theoretically, this installs the prereqs for various util scripts, like imagemagick and ffmpeg. It makes a good effort at that, but I don't strenuously check so there might be oversights.
 # Ubuntu repository and software stuff:
 sudo add-apt-repository -y main universe restricted multiverse
 sudo add-apt-repository -y ppa:apt-fast/stable # For whatever reason, this has to be on its own line.
 sudo apt install -y apt-fast # do this first to go faster :rollsafe:
 sudo apt-fast update && sudo apt-fast upgrade -y && sudo apt-fast autoremove -y
 # All these goodies:
-sudo apt-fast install -y dos2unix git-extras make python-is-python3 python3-pip ripgrep cmatrix cowsay fortune-mod bsdgames nethack-console sl duplicity oathtool x11-apps #x11-apps we use just for the traditional xeyes test of x server capability
+sudo apt-fast install -y dos2unix git-extras make python-is-python3 python3-pip ripgrep cmatrix cowsay fortune-mod bsdgames nethack-console sl duplicity oathtool imagemagick ffmpeg x11-apps #x11-apps we use just for the traditional xeyes test of x server capability
 # sudo apt-fast install -y git-delta
 # git config --global core.pager delta # Actually I didn't really like delta.
 # Instead of pip installing uv you could do snap install --classic astral-uv , but as snapd doesn't work on wsl1 sometimes pip is a better default.

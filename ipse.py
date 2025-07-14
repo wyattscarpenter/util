@@ -24,12 +24,12 @@ parser = argparse.ArgumentParser(
 #todo: maybe just let the use pass in a [0-9]* as an argument to select a number of output, without a flag?
 #todo: maybe let the splitter of the ipse file be determined by the character before an alphabetical character in a file?
 parser.add_argument('ipse_files_and_dirs', nargs="*")
-parser.add_argument('-n', '--number', type=int, default=1, help="The number of randomly-selected parts to display. The count of said. How many of them.")
+parser.add_argument('-n', '--number', type=int, default=1, help="The number of randomly-selected parts to display. The count of said. How many of them. If negative, an unlimited number will be given, all at once. (Default: 1)")
 parser.add_argument('-f', '--filter', type=str, default="", help="If provided, ipse will only return parts that contain the given string as a substring.")
 parser.add_argument('-i', '--interactive', action='store_true', help="Interactively view ipses.")
 p_args = parser.parse_args()
 
-def process_file(filelike: TextIO):
+def process_file(filelike: TextIO) -> list[str]:
     return [ part.replace('\n\\\n', '\n\n').strip() for part in filelike.read().split('\n\n') if part and not part.isspace() if p_args.filter in part ]
 
 parts: list[str] = []
@@ -50,8 +50,11 @@ for arg in args:
       with open(arg) as f:
           parts.extend(process_file(f))
 
+def silly_sample(parts, number):
+  return random.sample(parts, number) if number > 0 else parts
+
 def ipse_text() -> str:
-  return ('─'*10).join(['\n'*2]*2).join(random.sample(parts, p_args.number))
+  return ('─'*10).join(['\n'*2]*2).join(silly_sample(parts, p_args.number))
 
 def erase_lines(old_text: str|None) -> None:
   """We basically have to do it this way if we want it to behave exactly the way I want.

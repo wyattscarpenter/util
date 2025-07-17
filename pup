@@ -1,0 +1,1 @@
+pip install -U --break-system-packages $* # The way I use pup, I almost always want it to be able to break system packages, hence the flag.

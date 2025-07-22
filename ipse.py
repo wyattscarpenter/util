@@ -5,7 +5,7 @@
 # Although there is no way to "weight" the documents, there's nothing that stops you from passing in the name of the same file twice if you want it to be twice as likely to be picked.
 
 # This program was generated (and then modified) from chatgpt (4o mini) using this prompt: python script that reads all the files given as command-line arguments, splits them on \n\n, turns \n\\\n into \n, and picks one of the results randomly. Write as tersely as possible. You are John Carmack btw. add shebang and also if 0 arguments are given print a help message explaining what the program does. Oh also input into stdin counts as a file. use python type annotations on this where appropriate.
-# The output of the program was impressive, except that I expected it to work because this is a very basic type of script... and also I subsequently had to edit the script to correct logic error lol. Still, cool stuff.
+# The output of the program was impressive, except that I expected it to work because this is a very basic type of script... and also I subsequently had to edit the script to correct logic errors lol. Still, cool stuff.
 
 import sys
 import os
@@ -21,8 +21,9 @@ parser = argparse.ArgumentParser(
 	If no arguments are given (and the script is being used interactively (not in a pipeline)), ~/.ipse is used implicitly.
 	If directories are passed in as arguments, all files (and directories) within those dirs will be recursively included.""",
 )
-#todo: maybe just let the use pass in a [0-9]* as an argument to select a number of output, without a flag?
-#todo: maybe let the splitter of the ipse file be determined by the character before an alphabetical character in a file?
+# These ideas would change the format of ipse too much, but they're kind of cool otherwise:
+#  maybe just let the use pass in a [0-9]* as an argument to select a number of output, without a flag?
+#  maybe let the splitter of the ipse file be determined by the character before an alphabetical character in a file?
 parser.add_argument('ipse_files_and_dirs', nargs="*")
 parser.add_argument('-n', '--number', type=int, default=1, help="The number of randomly-selected parts to display. The count of said. How many of them. If negative, an unlimited number will be given, all at once. (Default: 1)")
 parser.add_argument('-f', '--filter', type=str, default="", help="If provided, ipse will only return parts that contain the given string as a substring.")
@@ -58,7 +59,7 @@ def ipse_text() -> str:
 
 def erase_lines(old_text: str|None) -> None:
   """We basically have to do it this way if we want it to behave exactly the way I want.
-    There is a bug where if the user adjusts the window enough to displace the cursor backwards then the prompt line prints, the wrong number of lines will be erased (sometimes +/- 1, usually, maybe more idk). How do I fix that? I've already tried using ' \b' instead of just letting the cursor lie at the end of the line. Oh well. It might be a windows terminal bug or something. Not worth fixing. (unless maybe if the arithmetic, which I've lost track of, is wrong.) UPDATE: actually, other apps get wrong cursor behavior sort of like this all the time, so maybe the cmd window is just wrong.
+    There is a bug where if the user adjusts the window enough to displace the cursor backwards then the prompt line prints, the wrong number of lines will be erased (sometimes +/- 1, usually, maybe more idk). How do I fix that? I've already tried using ' \b' instead of just letting the cursor lie at the end of the line. Oh well. It might be a windows terminal bug or something. Not worth fixing. (unless maybe if the arithmetic, which I've lost track of, is wrong.) UPDATE: actually, other apps get wrong cursor behavior sort of like this all the time, so maybe the cmd window is just wrong. Eventually, I will drop "support" for that, I suppose, and remove this comment.
   """
   if old_text is None:
     return
@@ -86,7 +87,7 @@ else:
       index = len(history) - 1
     else:
       t = history[index]
-    t += "\n\nq to quit, (p|b|a) for (previous|back|left), (n|f|d) for (next|forward|right), enter for more>"
+    t += "\n\nq to quit, (p|b|a) for (previous|back|left), (n|f|d) for (next|forward|right), l to list sources, enter for more>"
     inp = input(t).lower()
     current_display = t
     if inp == 'q':
@@ -99,5 +100,10 @@ else:
     elif inp in ('n', 'f', 'd'):
       if index is not None and index < len(history) - 1:
         index += 1
+    elif inp in ('l',):
+      for arg in args:
+        print(f"{arg}: { 'directory\n' if os.path.isdir(arg) else open(arg).readline()}")
+      print("Having successfully printed all the sources and their incipits, I will now exit, to avoid display issues...")
+      exit()
     else:
       index = None

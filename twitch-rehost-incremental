@@ -2,7 +2,7 @@
 
 # As far as I am aware, this is currently the best software in the world for rehosting twitch videos to youtube.
 # (Except, of course, for the built-in setting in Twitch to do the same thing.)
-# twitch-rehost-incremental some-username will automatically rehost the most recent some number (this number is limited by various APIs out of my control) of twitch VODs from some-username's channel onto a youtube channel (you will be prompted (by youtubeuploader, a program this script calls) to select a youtube channel on first run, logging in via a web browser to get a request.token), and will also not try to upload duplicates by tracking successfully rehosted video URLs in a local text file.
+# twitch-rehost-incremental some-username will automatically rehost the most-recent some-number (this number is limited by various APIs out of my control) of twitch VODs from some-username's channel onto a youtube channel (you will be prompted (by youtubeuploader, a program this script calls) to select a youtube channel on first run, logging in via a web browser to get a request.token), and will also not try to upload duplicates by tracking successfully rehosted video URLs in a local text file.
 # However, it's also somewhat difficult to get this script working, so I should explain some things:
 # Firstly, this is a Bash script, so you will need to have a modern unix command line. If you're on Windows, you should figure out how to install WSL, or other unix command line recreations like Cygwin or MinGW.
 # Secondly, this script relies on several other scripts in the wyattscarpenter/util collection, so you'll need those. Luckily, you can just download the entire folder and put it on your PATH, as described in the readme. However, when this script calls other scripts that call other scripts, you may have to check those other scripts to figure out what they depend upon.
@@ -12,17 +12,19 @@
 
 set -euo pipefail
 
-[ "$#" -eq 0 ] && echo USAGE: "$0 [usernames...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
+[ "$#" -eq 0 ] && echo USAGE: "$0 username [username...]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit #usage message for invalid number of arguments
 
 for i in "$@"; do
   echo Contacting "https://twitchrss.appspot.com/vodonly/$i" ...
-  # This pulls the current rss file from the service, and uses a grep regex to capture all the urls, keeping only those that appear before a <category>archive</category> (not counting ones that first appear before a <category>highlight</category>), as that means they are VODs (ie this filters out the items containing '<category>highlight</category>' which are actually highlights not vods (https://github.com/lzeke0/TwitchRSS/issues/30)) AND NOT before the string "404_processing", which indicates the item is missing a thumbnail and thus is currently live (which we don't want to scrape yet, as it is incomplete).
+  # This pulls the current rss file from the service, and uses a grep regex to capture all the urls, keeping only those that appear before a <category>archive</category> (not counting ones that first appear before a <category>highlight</category>), as that means they are VODs (ie this filters out the items containing '<category>highlight</category>' which are actually highlights not vods ( https://github.com/lzeke0/TwitchRSS/issues/30 )) AND NOT before the string "404_processing", which indicates the item is missing a thumbnail and thus is currently live (which we don't want to scrape yet, as it is incomplete).
     # Code brittleness that would worry me more if this whole system wasn't jury-rigged to this particular rss service anyway:
     #   1. The category element doesn't have to appear after the description, yet I require it to in the regex. (Same for the thumbnail.)
     #   2. (For some reason I use the href of the html link in the description and not the <link> element. Maybe I should change that in the future.)
     #   3. There's no reason the 404 url has to stay the same. They've changed it before!
     # A solution would be to actually parse the rss, at which point I would not keep this program as a bash script!
+  iterations=0
   for url in `wget -S -q -O- "https://twitchrss.appspot.com/vodonly/$i" | grep -Po '(?<=href=")[^"]*?(?="(?!.*404_processing)(?:(?!<category>highlight<\/category>).)*?(?=<category>archive<\/category>))'`; do
+    iterations=$((iterations+1))
     echo "$url"
     # Maintain a file for this user.
     touch "$i".txt
@@ -37,4 +39,8 @@ for i in "$@"; do
       # sleep 5 # My *hunch* is that this sleep statement will make it easier to track what's going on, when monitoring the command-line output. That's also the reason for the Xs echo above.
     fi
   done
+  if [ "$iterations" -eq 0 ]; then
+    echo "No iterations (not even null ones) ran for https://twitchrss.appspot.com/vodonly/$i, which usually indicates a networking error; perhaps DNS resolution problems!!!" # When I got this problem myself it was a symptom of this: https://askubuntu.com/questions/1364984/dns-not-working-on-wsl ; I was unable to fix it and eventually just removed my WSL1 installation.
+    exit 42
+  fi
 done

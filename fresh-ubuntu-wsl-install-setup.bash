@@ -5,6 +5,8 @@ echo >>~/.bashrc
 echo \#Stuff from the script collection Util: >>~/.bashrc
 echo . utilrc >>~/.bashrc
 
+if [ "$(basename "$PWD")" = util ]; then . ./add-pwd-to-path; fi
+
 # Theoretically, this installs the prereqs for various util scripts, like imagemagick and ffmpeg. It makes a good effort at that, but I don't strenuously check so there might be oversights.
 # Ubuntu repository and software stuff:
 sudo add-apt-repository -y main universe restricted multiverse

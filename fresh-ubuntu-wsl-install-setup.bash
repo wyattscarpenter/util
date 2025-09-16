@@ -38,5 +38,5 @@ else
   : #Non-WSL Linux, no need to do anything related to WSL. Oh, also the : is a no-op, see https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Bourne-Shell-Builtins
   echo Non-WSL Ubuntu? Let me install gyatt for you
   # This gets gyatt for you, and installs it (uses && so that we can bail out if the folder already exists and therefore we've already done it.
-  git clone https://github.com/wyattscarpenter/gyatt ../ && cd ../gyatt && . install_pwd_to_git.sh
+  git clone https://github.com/wyattscarpenter/gyatt ../gyatt && cd ../gyatt && . install_pwd_to_git.sh
 fi

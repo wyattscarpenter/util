@@ -1,6 +1,9 @@
 # This script is especially likely to have bugs, be unoptimized, etc, since I only run it about once a year or whatever. And it interacts with so many incompatible bits of infrastructure.
 
+# Note for Termux (and similar system) users: you should probably `alias sudo=''` and `alias apt-fast='apt'` and then this script will work.
+
 #bashrc stuff
+# TODO: maybe make this idempotent
 echo >>~/.bashrc
 echo \#Stuff from the script collection Util: >>~/.bashrc
 echo . utilrc >>~/.bashrc
@@ -22,6 +25,8 @@ sudo apt-fast install -y dos2unix git-extras make python-is-python3 python3-pip 
 # fortune-mod includes fortune, bsdgames includes hack, nethack-console includes nethack
 sudo pip install --break-system-packages uv yt-dlp
 gyatt-bless # If you have gyatt already, activate it.
+
+# TODO: should I just put these in utilrc instead? Seems fine to run them every time and not pollute the bashrc further.
 
 if grep -qi microsoft /proc/version; then
   echo \#  When the script to modify this bashrc was run, I detected the existence of \"Microsoft\", case-insensitive, in the /proc/version, from which I deduce this is a WSL system. >>~/.bashrc

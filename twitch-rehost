@@ -10,7 +10,7 @@ for i in "$@"; do
   json=$(yt-dlp --cookies cookies.txt --skip-download "$i" -j)
   echo "$json" | head -c 150 && echo "..."
   timestamp_etc=${json##*timestamp\"\:\ }
-  timestamp=${timestamp_etc%%\,*}
+  timestamp=${timestamp_etc%%\,*} #sometimes the json is like ..."timestamp": null... so you get a twitch-rehost: line 14: null: unbound variable error. Not sure what that means. Possibly a bug I'll have to fix. Optimistically, it might indicate that something isn't done processing, or something.
   let timestamp+=5184000 #60*60*24*60 = 60 days (two months) in seconds.
   date_string=$(date -d @"$timestamp" -u --iso-8601=seconds) #the time format is eg 2021-05-24T23:54:54+00:00, which youtubeuploader accepts.
   echo "{\"privacyStatus\": \"private\", \"publishAt\": \"$date_string\"}" >meta.json

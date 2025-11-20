@@ -13,6 +13,7 @@ del "%USERPROFILE%\.python_history"
 del "%USERPROFILE%\.idlerc\recent-files.lst"
 del "%USERPROFILE%\.idlerc\breakpoints.lst"
 rmdir "%USERPROFILE%\.idlerc\"
+rmdir "%USERPROFILE%\Videos\NVIDIA\"
 rmdir "%USERPROFILE%\Videos\Captures\"
 rmdir "%USERPROFILE%\Videos\"
 

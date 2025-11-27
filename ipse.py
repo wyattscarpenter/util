@@ -102,7 +102,8 @@ else:
         index += 1
     elif inp in ('l',):
       for arg in args:
-        print(f"{arg}: { 'directory\n' if os.path.isdir(arg) else open(arg).readline()}")
+        nl = '\n' # Somehow, a newer python is giving me "SyntaxError: f-string expression part cannot include a backslash" even though it worked perfectly fine before.
+        print(f"{arg}: { ('directory'+nl) if os.path.isdir(arg) else open(arg).readline()}")
       print("Having successfully printed all the sources and their incipits, I will now exit, to avoid display issues...")
       exit()
     else:

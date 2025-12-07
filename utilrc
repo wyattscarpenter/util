@@ -16,8 +16,9 @@ alias q=exit
 alias huh='echo $?'
 
 # Make bash command prompt always show the status returned by the previously-run command.
-# (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol.)
-PS1="\e[0;31m\$?\e[0m⏎$PS1"
+# (The ⏎ doesn't display right in any text editor or terminal I have, but it's the unicode return symbol U+23CE.)
+#PS1="\e[0;31m\$?\e[0m⏎$PS1"
+# Sadly, the above extremely useful feature seems to break linewrapping somehow, randomly, in bash. Therefore I have commented it out instead.
 
 # Make cd-wp a command you can always do (uses the wp command from util)
 # Surprisingly, this quoting style does work.

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Discord Kill Time
 // @namespace    https://github.com/wyattscarpenter/util
-// @version      7
+// @version      8
 // @author       wyattscarpenter
 // @description  Discord text formatting don't be annoying challenge
 // @match        *://discordapp.com/*
@@ -16,6 +16,7 @@
 function killTime(){ //should work for both compact and cozy.
   document.querySelectorAll('[class^="latin24CompactTimeStamp"]').forEach(element => element.style.userSelect = "none") //compact mode timestamp
   document.querySelectorAll('[class^="timestamp"]').forEach(element => element.style.userSelect = "none") //cozy mode timestamp
+  document.querySelectorAll('[class^="copyOnlyText"]').forEach(element => element.style.userSelect = "none") //clan tag, at least in compact mode (haven't checked the other one)
   document.querySelectorAll('[class^="separator"]').forEach(element => element.remove()) //since separator location differs between cozy and compact, it's best just to not use it.
   //Since I still want a copyable colon in cozy mode, we add one:
   //(We also change the class as a lazy way of preventing an infinite colon-adding loop.)

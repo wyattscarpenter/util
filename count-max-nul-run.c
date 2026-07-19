@@ -2,10 +2,10 @@
 //Next prompt: oh yeah, it also has to work on windows.
 //I later edited the program further. Largely to add the incremental progress indicator. Note that the line clearing on that will not work unless the terminal is the right length, although possibly this is implementation-defined.
 //For whatever, reason, >results.txt indirection won't work if you cancel the process midway through, EVEN THOUGH I call fflush on stdout, which I shouldn't even have to do.
+//I also cannot for the life of me get the MiB number to increment smoothly. I assume that just means sometimes, in bursts, it processes multiple megabytes and prints everything faster than the human eye can perceive. Maybe. Or maybe it's just broken. (#WindowsLOLs)
+//I note that this script does not work on some file names, like fullwidth :, fullwidth ", and fullwidth |. I didn't bother to fix this.
 
 //ChatGPT notes (not in a comment for some reason): It follows neither POSIX symbolic links (lstat) nor Windows reparse points, so it won't recurse indefinitely through symlink loops. On Windows, reparse points are treated as regular non-directory entries by this code; if you specifically want to ignore all reparse points, you can additionally check FILE_ATTRIBUTE_REPARSE_POINT before descending.
-
-//I note that this script does not work on some file names, like fullwidth :, fullwidth ", and fullwidth |. I didn't bother to fix this.
 
 /*
  * maxzero.c
@@ -114,11 +114,13 @@ static void scan_file(const char *path)
 
     for(;;){
         if (memory_read_so_far > 1000*1024*1024) {
+          //TODO: somehow this is broken? Like, the return value??
           intermediate_status_length = fprintf(stderr, "\r...Scanning... %.2f GiB... %s", (double)memory_read_so_far / 1024 / 1024 / 1024, path);
         } else {
           intermediate_status_length = fprintf(stderr, "\r...Scanning... %llu MiB... %s", memory_read_so_far / 1024 / 1024, path);
         }
         size_t n=fread(buf,1,BUFFER_SIZE,fp);
+        fflush(stderr);
         memory_read_so_far += n;
         for(size_t i=0;i<n;i++){
             if(buf[i]==0){
@@ -135,13 +137,9 @@ static void scan_file(const char *path)
             break;
         }
     }
-    //clear the line
-    //This is convoluted but it's the best way I've found in practice. (I also want to support cmd.) //Although, actually, it still doesn't support things as well as I was hoping. So maybe I should have stayed with fprintf(stderr, "\r%.*s\r", intermediate_status_length, "") or whatever.
-    fprintf(stderr, "\r");
-    while(intermediate_status_length--){
-      fprintf(stderr, " ");
-    }
-    fprintf(stderr, "\r");
+    //clear the line. This is slightly convoluted but it's the best way I've found in practice. (I also want to support cmd)
+    fprintf(stderr, "\r%.*s\r", (int)intermediate_status_length, ""); //the cast just shuts up a warning, it doesn't help anything.
+    fflush(stderr);
 
     printf("%llu\t%s\n", max, path);
     fflush(stdout);

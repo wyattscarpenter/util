@@ -114,7 +114,6 @@ static void scan_file(const char *path)
 
     for(;;){
         if (memory_read_so_far > 1000*1024*1024) {
-          //TODO: somehow this is broken? Like, the return value??
           intermediate_status_length = fprintf(stderr, "\r...Scanning... %.2f GiB... %s", (double)memory_read_so_far / 1024 / 1024 / 1024, path);
         } else {
           intermediate_status_length = fprintf(stderr, "\r...Scanning... %llu MiB... %s", memory_read_so_far / 1024 / 1024, path);
@@ -137,8 +136,13 @@ static void scan_file(const char *path)
             break;
         }
     }
-    //clear the line. This is slightly convoluted but it's the best way I've found in practice. (I also want to support cmd)
-    fprintf(stderr, "\r%.*s\r", (int)intermediate_status_length, ""); //the cast just shuts up a warning, it doesn't help anything.
+    //clear the line
+    //This is convoluted but it's the best way I've found in practice. (I also want to support cmd.)
+    fprintf(stderr, "\r");
+    while(intermediate_status_length--){
+      fprintf(stderr, " ");
+    }
+    fprintf(stderr, "\r");
     fflush(stderr);
 
     printf("%llu\t%s\n", max, path);

@@ -14,7 +14,7 @@
  *   - Windows (MSVC, MinGW, TinyCC for Windows)
  *
  * Memory usage:
- *   - 1 MiB read buffer
+ *   - 100 MiB read buffer
  *   - Directory stack grows as needed but is tiny compared to 1 GiB.
  */
 
@@ -46,7 +46,7 @@
 #define MAX_PATH 4096
 #endif
 
-#define BUFFER_SIZE (1024*1024)
+#define BUFFER_SIZE (1024*1024*100)
 
 typedef struct {
     char **items;
@@ -108,7 +108,7 @@ static void scan_file(const char *path)
     unsigned char *buf=(unsigned char*)malloc(BUFFER_SIZE);
     if(!buf) die("out of memory");
 
-    uint64_t cur=0,max=0;
+    uint64_t cur=0, max=0;
 
     for(;;){
         size_t n=fread(buf,1,BUFFER_SIZE,fp);
@@ -174,10 +174,9 @@ static void walk(const char *root)
 
         do{
 
-            if(strcmp(fd.cFileName,".")==0 ||
-               strcmp(fd.cFileName,"..")==0)
+            if(strcmp(fd.cFileName,".")==0 || strcmp(fd.cFileName,"..")==0){
                 continue;
-
+            }
             char child[MAX_PATH];
             join_path(child,sizeof(child),dir,fd.cFileName);
 

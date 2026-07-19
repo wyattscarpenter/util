@@ -1,11 +1,8 @@
-#!/usr/bin/tcc -run
-
 //A bad (normal style) C program I got ChatGPT to write me using the prompt: count max number of consecutive 0 bytes in a file, c program. It should work recursively on every file in every directory specified in the command line arguments. It should also print a help message. It should begin with the tcc shebang. It should never reserve more than a gigabyte of memory.
 //Next prompt: oh yeah, it also has to work on windows.
 
 //ChatGPT notes (not in a comment for some reason): It follows neither POSIX symbolic links (lstat) nor Windows reparse points, so it won't recurse indefinitely through symlink loops. On Windows, reparse points are treated as regular non-directory entries by this code; if you specifically want to ignore all reparse points, you can additionally check FILE_ATTRIBUTE_REPARSE_POINT before descending.
 
-#!/usr/bin/tcc -run
 /*
  * maxzero.c
  *

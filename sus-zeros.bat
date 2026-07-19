@@ -1,1 +1,1 @@
-git grep --no-index -Pal '\x00{513}' %*
+git grep --no-index -Pal '\x00{512}' %*

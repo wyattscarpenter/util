@@ -7,10 +7,7 @@
 
 //ChatGPT notes (not in a comment for some reason): It follows neither POSIX symbolic links (lstat) nor Windows reparse points, so it won't recurse indefinitely through symlink loops. On Windows, reparse points are treated as regular non-directory entries by this code; if you specifically want to ignore all reparse points, you can additionally check FILE_ATTRIBUTE_REPARSE_POINT before descending.
 
-/*
- * maxzero.c
- *
- * Recursively scan every regular file under the paths given on the command
+/* Recursively scan every regular file under the paths given on the command
  * line and print the maximum run of consecutive 0x00 bytes found.
  *
  * Portable:
@@ -314,6 +311,9 @@ int main(int argc,char **argv)
         help(argv[0]);
         return EXIT_FAILURE;
     }
+
+    char *guidance = "GUIDANCE: Since binary files in specific formats often have a small bunch of null bytes together by design, I find it usually isn't worth worrying about until you have about 10,000 nul bytes in a row. Obviously, this could lead to false positives, since a corrupted sector could be 512 bytes (or whatever); but nothing in life is perfect. Also, if it's just, eg, in the middle of video data then you'll probably get some nonsensical frames but mostly be alright.";
+    fprintf(stderr, "%s\n", guidance);
 
     for(int i=first;i<argc;i++)
         walk(argv[i]);

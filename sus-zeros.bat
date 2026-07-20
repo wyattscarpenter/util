@@ -1,1 +1,3 @@
-git grep --no-index -Pal '\x00{512}' %*
+REM Since binary files in specific formats often have a small bunch of null bytes together by design, I find it usually isn't worth worrying about until you have about 10,000 nul bytes in a row. Obviously, this could lead to false positives, since a corrupted sector could be 512 bytes (or whatever); but nothing in life is perfect. Also, if it's just, eg, in the middle of video data then you'll probably get some nonsensical frames but mostly be alright.
+REM note that this script will often fail on large binary files, since it tries to allocate too much memory (word on the street is it's still trying to search by line — and there are no lines. Or at least not enough.) See count-max-nul-run for a more scalable solution.
+git grep --no-index -Pal '\x00{10000}' %*

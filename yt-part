@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail #bash strict mode
-[ "$#" -lt 2 ] && echo USAGE: "$0 target-url starting-timestamp [ending-timestamp [additional_arguments...]]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
+[ "$#" -lt 2 ] && echo USAGE: "$0 target-url starting-timestamp [ending-timestamp [additional_arguments_to_ffmpeg...]]" && echo && echo "IMPLEMENTATION:" && cat "$0" && echo && exit 22 #usage message for invalid number of arguments
 
 target_url="$1"
 starting_timestamp="$2"
@@ -15,7 +15,9 @@ fi
 
 # Sometimes we get one url, and sometimes two (video and then audio). This should handle both. NB: It's actually important that you *don't* quote the $() expression here.
 inputs=""
-for url in $(yt-dlp -g "$target_url") ; do
+for url in $(yt -g "$target_url") ; do
   inputs="$inputs -ss $starting_timestamp -i $url $optional_to_param"
 done
 ffmpeg $inputs -c copy -copyts -movflags +frag_keyframe "${b##*=}.yt-part.mp4" "$@"
+
+#TODO: it seems like this takes more video than I intended, and also might be re-encoding? Maybe sort that out whenever I finally get around to fixing all my scripts that were having problems like that.

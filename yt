@@ -1,4 +1,4 @@
 # A simple alias for yt-dlp (or youtube-dl or any other project carrying the mantle — opaquely to the caller).
 # Things got complicated enough with cookies and js runtimes that I've just specified those here.
 
-yt-dlp --js-runtime node --remote-components ejs:github -f 'bv[format_note!*=AI-upscaled]+ba' "$@" # No --cookies-from-browser firefox here since I don't have that set up on my machine at time of writing.
+yt-dlp --js-runtime node --remote-components ejs:github -f 'bv*[format_note!*=?AI-upscaled]+ba[format_note!*=?AI-upscaled]' "$@" # No --cookies-from-browser firefox here since I don't have that set up on my machine at time of writing.

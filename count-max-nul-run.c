@@ -312,7 +312,7 @@ int main(int argc,char **argv)
         return EXIT_FAILURE;
     }
 
-    char *guidance = "GUIDANCE: Since binary files in specific formats often have a small bunch of null bytes together by design, I find it usually isn't worth worrying about until you have about 10,000 nul bytes in a row. Obviously, this could lead to false positives, since a corrupted sector could be 512 bytes (or whatever); but nothing in life is perfect. Also, if it's just, eg, in the middle of video data then you'll probably get some nonsensical frames but mostly be alright.";
+    char *guidance = "GUIDANCE: Since binary files in specific formats often have a small bunch of null bytes together by design, I find it usually isn't worth worrying about until you have about 10,000 nul bytes in a row. Obviously, this could lead to false negatives, since a corrupted sector could be 512 bytes (or whatever); but nothing in life is perfect. Also, if it's just, eg, in the middle of video data then you'll probably get some nonsensical frames but mostly be alright. Also, I have some audio files that legitimately have over 10,000 nul bytes in a row in them for some reason, so there are still false positives with that threshold...";
     fprintf(stderr, "%s\n", guidance);
 
     for(int i=first;i<argc;i++)
